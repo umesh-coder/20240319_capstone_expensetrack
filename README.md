@@ -1,1 +1,1 @@
-# 20240319_capstone_expensetrack
+# 20240319_capstone_spendwise
