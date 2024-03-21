@@ -1,5 +1,3 @@
-# 20240319_capstone_spendwise
-
 # SpendWise: Expense Tracker
 
 ## Overview
