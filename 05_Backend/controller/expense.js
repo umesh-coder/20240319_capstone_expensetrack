@@ -21,6 +21,13 @@ module.exports = {
         // Extract data from the request body
         const { name, amount, expense_date, expense_category, payment, comment, userid } = req.body;
 
+        const id = userid
+        const tempboolean = checkparamsidwithheaderid(req, res, id)
+
+        if (tempboolean) {
+            return res.status(401).json({ message: "User ID in token does not match user ID in headers1" });
+        }
+
         // Create a new expense instance
         const newExpense = new CreateExpense({
             name,
@@ -143,7 +150,7 @@ module.exports = {
             }
 
 
-            console.log("body of update "+req.body.amount);
+            console.log("body of update " + req.body.amount);
 
             const updatedUser = await UserModel.findOneAndUpdate(
                 { _id: req.params.userId, 'expenses._id': req.params.id },
@@ -154,7 +161,7 @@ module.exports = {
                         'expenses.$.expense_date': req.body.expense_date,
                         'expenses.$.expense_category': req.body.expense_category,
                         'expenses.$.payment': req.body.payment,
-                        'expenses.$.comment':req.body.comment
+                        'expenses.$.comment': req.body.comment
                     }
                 },
                 { new: true }//new:true ko false kiya
@@ -426,12 +433,12 @@ module.exports = {
         const userId = req.params.id;
         const { username, name } = req.body;
 
-        console.log("id" + userId);
+        console.log("id:-" + userId);
 
         try {
             // Find and update the user profile
             const updatedUser = await UserModel.findOneAndUpdate(
-                { _id: userId, 'userdata.userid': userId },
+                {  'userdata._id': userId },
                 {
                     $set: {
                         'userdata.$.username': username,

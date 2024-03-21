@@ -6,7 +6,7 @@ const routes = express.Router();
 // const { signup, login, deleteaccount } = require("../controller/user")
 const { createexpense, getallexpenses, getsingleexpense, updateexpense, deleteexpense, savedata, getsavedata, updatesavedata, getcategory, savecategory, updateprofile, updatename } = require("../controller/expense")
 const { ensureauth } = require("../middleware/middleware")
-const { validateCreateExpense,saveDataValidator } = require("../utils/validator")
+const { validateCreateExpense, saveDataValidator, updatesavedataValidator, saveCategoryValidator, updateProfileValidator } = require("../utils/validator")
 
 //create expense
 routes.post("/createexpense", validateCreateExpense, ensureauth, createexpense)
@@ -24,27 +24,25 @@ routes.patch("/updateexpense/:userId/:id", validateCreateExpense, ensureauth, up
 routes.delete("/deleteexepense/:userId/:id", ensureauth, deleteexpense)
 
 //sava data
-routes.post("/savedata",saveDataValidator, savedata)
+routes.post("/savedata", saveDataValidator, savedata)
 
 //get save data
 routes.get("/getsavedata/:id", getsavedata)
 
 //update save data
-routes.post("/updatesavedata/:id", updatesavedata)
+routes.post("/updatesavedata/:id", updatesavedataValidator, updatesavedata)
 
 //get category
 routes.get("/getcategory/:id", getcategory)
 
 //save category
-routes.post('/savecategory/:id', savecategory);
-
+routes.post('/savecategory/:id', saveCategoryValidator, savecategory);
 
 //update profile
-routes.post('/updateprofile/:id', updateprofile)
-
+routes.post('/updateuserdataprofile/:id', updateProfileValidator, updateprofile)
 
 //update name
-routes.post('/updatename/:id', updatename)
+routes.post('/updatename/:id',updateProfileValidator, updatename)
 
 //exporting Route
 module.exports = routes;

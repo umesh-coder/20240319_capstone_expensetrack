@@ -1,0 +1,295 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "SpendWise",
+    "dateExported": "2024-03-21T18:11:05.727Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1001d6b3-fabc-4c4a-adbe-d819b96b49fa",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "sign Up",
+            "url": "http://localhost:2000/auth/signup",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-03-21T12:10:31.515Z",
+            "modified": "2024-03-21T12:10:31.515Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"hello\",\n    \"username\": \"dd111\",\n    \"email\": \"umesh1@dj.com\",\n    \"password\": \"Umesh@123\",\n    \"userfirstsignupdate\": \"2024-03-20\",\n    \"category\": [\"sports\", \"technology\"]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "10f6bdb1-c977-4c4e-8f99-0b2e0fbc7b17",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "login",
+            "url": "http://localhost:2000/auth/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-03-21T12:11:38.833Z",
+            "modified": "2024-03-21T12:11:38.833Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"umesh1@dj.com\",\n  \"password\":\"Umesh@123\"\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "83e51e24-e84b-48f7-97de-f3dfac0436dc",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "create expense",
+            "url": "http://localhost:2000/expense/createexpense",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-03-21T12:15:10.494Z",
+            "modified": "2024-03-21T16:31:42.187Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Groceries\",\n  \"amount\": 1,\n  \"expense_date\": \"2024-03-25\",\n  \"expense_category\": \"Food\",\n  \"payment\": \"Credit Card\",\n  \"comment\": \"Purchased groceries for the week\",\n  \"userid\": \"65fbc1caec3602104a650bf1\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmM0MDc3NzkxZGNiNjFiN2UwMDE2IiwiaWF0IjoxNzExMDM4MzE4LCJleHAiOjE3MTEwNDE5MTh9.dB1kWSdJhv5J0oIgE3pJYzcEv8ngyUv41V9V7szAl78"
+            },
+            "tests": []
+        },
+        {
+            "_id": "73004ba1-37cd-472e-a279-e735b18f151e",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "update expense",
+            "url": "http://localhost:2000/expense/updateexpense/65fbc1caec3602104a650bf1/65fbc264ec3602104a650bfb",
+            "method": "PATCH",
+            "sortNum": 40000,
+            "created": "2024-03-21T12:15:58.054Z",
+            "modified": "2024-03-21T12:15:58.054Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Groceries\",\n  \"amount\": 10,\n  \"expense_date\": \"2024-03-25\",\n  \"expense_category\": \"Food\",\n  \"payment\": \"Credit Card\",\n  \"comment\": \"Purchased groceries for the week\",\n  \"userid\": \"65fbc264ec3602104a650bfb\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVtZXNoMTJAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmMxY2FlYzM2MDIxMDRhNjUwYmYxIiwiaWF0IjoxNzExMDIwNDI4LCJleHAiOjE3MTEwMjQwMjh9.MFReKnCeN_yaGDFQ97AYPa8gphKTexTzWDgCog6-T8I"
+            },
+            "tests": []
+        },
+        {
+            "_id": "b7a1aa02-af62-4f24-9ef8-b44fd6adc7bf",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "get all expense",
+            "url": "http://localhost:2000/expense/getallexpense/65fbc1caec3602104a650bf1",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-03-21T12:18:02.836Z",
+            "modified": "2024-03-21T12:18:02.836Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVtZXNoMTJAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmMxY2FlYzM2MDIxMDRhNjUwYmYxIiwiaWF0IjoxNzExMDIzMjA4LCJleHAiOjE3MTEwMjY4MDh9.jrdlzxcIgIRYqUv4APzv8Tnr_LpeTHDJWyWP2aOXUio"
+            },
+            "tests": []
+        },
+        {
+            "_id": "018d8ca4-f0d6-427d-919f-b32ecbc1eaeb",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "delete account by id",
+            "url": "http://localhost:2000/auth/delete/65fbc9bc53e50fe8a52dc10b",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2024-03-21T12:25:46.272Z",
+            "modified": "2024-03-21T12:25:46.272Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRAZGouY29tIiwidXNlcklkIjoiNjVmYmM5YmM1M2U1MGZlOGE1MmRjMTBiIiwiaWF0IjoxNzExMDIzOTEwLCJleHAiOjE3MTEwMjc1MTB9.vO3Y6lgL9aaUfptix7yEJcqz1oLeQSsiKUljWrSSqsI"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5020ef0f-61f1-43a0-9f2b-00535d980ff3",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "get single expense by user id and expense id",
+            "url": "http://localhost:2000/expense/getsingleexpense/65fbc4077791dcb61b7e0016/65fc604d5c9aad5a0581337b",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-03-21T16:34:05.922Z",
+            "modified": "2024-03-21T16:34:05.922Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmM0MDc3NzkxZGNiNjFiN2UwMDE2IiwiaWF0IjoxNzExMDM4MzE4LCJleHAiOjE3MTEwNDE5MTh9.dB1kWSdJhv5J0oIgE3pJYzcEv8ngyUv41V9V7szAl78"
+            },
+            "tests": []
+        },
+        {
+            "_id": "1030bd31-eff3-4e17-a650-be6e8ccb9735",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "delete exepense by user id and expense id",
+            "url": "http://localhost:2000/expense/deleteexepense/65fbc4077791dcb61b7e0016/65fc604d5c9aad5a0581337b",
+            "method": "DELETE",
+            "sortNum": 80000,
+            "created": "2024-03-21T16:37:00.530Z",
+            "modified": "2024-03-21T16:37:00.530Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmM0MDc3NzkxZGNiNjFiN2UwMDE2IiwiaWF0IjoxNzExMDM4MzE4LCJleHAiOjE3MTEwNDE5MTh9.dB1kWSdJhv5J0oIgE3pJYzcEv8ngyUv41V9V7szAl78"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d68ca68b-68a8-4980-930b-d33a2cbd94e2",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "save userdata ",
+            "url": "http://localhost:2000/expense/savedata/",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2024-03-21T16:45:27.808Z",
+            "modified": "2024-03-21T16:45:27.808Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"testuser\",\n  \"name\": \"test user\",\n  \"firstlogindate\": \"2022-01-01\",\n  \"lastlogindate\": \"2022-01-05\",\n  \"expenselogged\": 1,\n  \"userid\": \"65fbc4077791dcb61b7e0016\"\n}\n",
+                "form": []
+            },
+            "reqType": "post",
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwidXNlcklkIjoiNjVmYmM0MDc3NzkxZGNiNjFiN2UwMDE2IiwiaWF0IjoxNzExMDM5MjM1LCJleHAiOjE3MTEwNDI4MzV9.x1Q6yTUsP0PX_VJUAnwQdciejJsiZ2c9iReXs_1aGVM"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d1eeb3dd-058c-44c3-88ae-02bf2c0290b7",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "get user saved data by userid  ",
+            "url": "http://localhost:2000/expense/getsavedata/65fbc4077791dcb61b7e0016",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-03-21T16:48:34.855Z",
+            "modified": "2024-03-21T16:48:34.855Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "493b3823-0a0c-4ceb-a32f-56eac93056e7",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "savecategory by userid",
+            "url": "http://localhost:2000/expense/savecategory/65fbc4077791dcb61b7e0016",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-03-21T17:34:35.245Z",
+            "modified": "2024-03-21T17:34:35.245Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"categories\": [\n    \"Category\",\n    \"Category\",\n    \"Category C\"\n  ]\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "af5e532c-2c54-4e49-865e-6a3fedc9cef4",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "get category by user id",
+            "url": "http://localhost:2000/expense/getcategory/65fbc4077791dcb61b7e0016",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-03-21T17:35:53.069Z",
+            "modified": "2024-03-21T17:35:53.069Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "dfca8da2-c74a-4cde-8d22-2341acee756d",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "update profile name",
+            "url": "http://localhost:2000/expense/updatename/65fac85a0dd4827891f0a6b6",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2024-03-21T17:47:17.481Z",
+            "modified": "2024-03-21T17:47:17.481Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"umesh12\",\n  \"name\": \"umesh Dev\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a26a8109-ad9f-46ac-8614-97218f54180d",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "update user data profile by id",
+            "url": "http://localhost:2000/expense/updateuserdataprofile/65fb33757bf5c0509f8d43fd",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-03-21T18:03:43.406Z",
+            "modified": "2024-03-21T18:03:43.406Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"umeshtested\",\n  \"name\": \"umesh Dev\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "27a0f14f-b251-4e2d-9725-cc9dfe1e13b0",
+            "colId": "1f0a46b7-8997-4dea-b906-1b428ab1ea00",
+            "containerId": "",
+            "name": "update save user data by id",
+            "url": "http://localhost:2000/expense/updatesavedata/65fbc4077791dcb61b7e0016",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2024-03-21T18:10:05.556Z",
+            "modified": "2024-03-21T18:10:05.556Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"lastlogindate\": \"2022-01-05\",\n  \"expenselogged\": 1\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        }
+    ]
+}
