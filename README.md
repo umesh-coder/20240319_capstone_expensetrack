@@ -31,9 +31,9 @@ To begin using SpendWise, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Install dependencies using `npm install`.
-3. Set up MongoDB and configure the connection settings in `config/database.js`.
-4. Run the server using `node server.js`.
-5. Access the application in your browser at `http://localhost:3000`.
+3. Set up MongoDB and configure the connection settings in `config/db.js`.
+4. Run the server using `npm run start`.
+5. Access the application in your browser at `http://localhost:2000`.
 
 ## Contributors
 
