@@ -3,12 +3,13 @@ const express = require("express");
 const routes = express.Router();
 
 //internal dependencies
-const { signup, login, deleteaccount } = require("../controller/user")
-const { createexpense, getallexpenses, getsingleexpense, updateexpense, deleteexpense, savedata, getsavedata, updatesavedata, getcategory, savecategory ,updateprofile,updatename } = require("../controller/expense")
+// const { signup, login, deleteaccount } = require("../controller/user")
+const { createexpense, getallexpenses, getsingleexpense, updateexpense, deleteexpense, savedata, getsavedata, updatesavedata, getcategory, savecategory, updateprofile, updatename } = require("../controller/expense")
 const { ensureauth } = require("../middleware/middleware")
+const { validateCreateExpense,saveDataValidator } = require("../utils/validator")
 
 //create expense
-routes.post("/createexpense", ensureauth, createexpense)
+routes.post("/createexpense", validateCreateExpense, ensureauth, createexpense)
 
 //get all expenses
 routes.get("/getallexpense/:id", ensureauth, getallexpenses)
@@ -17,13 +18,13 @@ routes.get("/getallexpense/:id", ensureauth, getallexpenses)
 routes.get("/getsingleexpense/:userId/:id", ensureauth, getsingleexpense)
 
 //update expense
-routes.patch("/updateexpense/:userId/:id", ensureauth, updateexpense)
+routes.patch("/updateexpense/:userId/:id", validateCreateExpense, ensureauth, updateexpense)
 
 //delete expense
 routes.delete("/deleteexepense/:userId/:id", ensureauth, deleteexpense)
 
 //sava data
-routes.post("/savedata", savedata)
+routes.post("/savedata",saveDataValidator, savedata)
 
 //get save data
 routes.get("/getsavedata/:id", getsavedata)
@@ -39,14 +40,11 @@ routes.post('/savecategory/:id', savecategory);
 
 
 //update profile
-routes.post('/updateprofile/:id',updateprofile)
+routes.post('/updateprofile/:id', updateprofile)
 
 
 //update name
 routes.post('/updatename/:id', updatename)
-
-
-
 
 //exporting Route
 module.exports = routes;

@@ -6,8 +6,6 @@ const user = require("./routes/user");
 const expense= require("./routes/expense")
 
 
-
-
 //internal dependecies
 require("dotenv").config();
 require("./config/db");

@@ -1,19 +1,25 @@
-//Internal Dependencies
-const UserModel = require("../models/userModel");
+
 
 //External Dependencies
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
+//Internal Dependencies
+const UserModel = require("../models/userModel");
+const { checkparamsidwithheaderid } = require('../utils/checkparamsidwithheaderid')
+
+
 //exports module
 module.exports = {
+    
     /**
   * @method signup
   * @param {*} req 
   * @param {*} res 
   * @returns User Creation & error if found
   * signup User POST Method to Create New User
+  * validation of data is done
   */
 
     signup: async (req, res, next) => {
@@ -128,7 +134,14 @@ module.exports = {
 
     deleteaccount: async (req, res, next) => {
         try {
-       
+
+            const id = req.params.id
+            const tempboolean = checkparamsidwithheaderid(req, res, id)
+
+            if (tempboolean) {
+                return res.status(401).json({ message: "User ID in token does not match user ID in headers1" });
+            }
+
             // Find the user in the database by their ID and delete them
             const result = await UserModel.findOneAndDelete({ _id: req.params.id });
 
@@ -155,10 +168,5 @@ module.exports = {
             });
         }
     }
-
-
-
-
-
 
 }

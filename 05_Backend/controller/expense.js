@@ -1,9 +1,4 @@
 
-
-//External Dependencies
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
 //interal dependencies
 const CreateExpense = require("../models/createExpense");
 const SaveData = require('../models/saveData');
@@ -12,6 +7,13 @@ const { checkparamsidwithheaderid } = require('../utils/checkparamsidwithheaderi
 
 //exports module
 module.exports = {
+
+    /**
+     * @method createExpense
+     * @param {*} req 
+     * @param {*} res 
+     * this method is used to create the expense
+     */
 
     // POST endpoint to create a new expense
     createexpense: async (req, res) => {
@@ -46,6 +48,13 @@ module.exports = {
         });
     },
 
+    /**
+     * @method getallexpenses
+     * @param {*} req 
+     * @param {*} res 
+     * @returns all  the expenses by id
+     */
+
     getallexpenses: async (req, res) => {
         try {
             const id = req.params.id
@@ -75,6 +84,13 @@ module.exports = {
             });
         }
     },
+
+    /**
+     * @method getsingleexpense
+     * @param {*} req 
+     * @param {*} res 
+     * @returns return single expense
+     */
 
     getsingleexpense: async (req, res) => {
         try {
@@ -108,6 +124,14 @@ module.exports = {
         }
     },
 
+    /**
+     * @method update
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * update the exepense by id
+     */
+
     updateexpense: async (req, res, next) => {
         try {
 
@@ -115,13 +139,25 @@ module.exports = {
             const tempboolean = checkparamsidwithheaderid(req, res, id)
 
             if (tempboolean) {
-                return res.status(401).json({ message: "User ID in token does not match user ID in headers1" });
+                return res.status(401).json({ message: "User ID in token does not match user ID in headers" });
             }
+
+
+            console.log("body of update "+req.body.amount);
 
             const updatedUser = await UserModel.findOneAndUpdate(
                 { _id: req.params.userId, 'expenses._id': req.params.id },
-                { $set: { 'expenses.$': req.body } },
-                { new: true }
+                {
+                    $set: {
+                        'expenses.$.name': req.body.name,
+                        'expenses.$.amount': req.body.amount,
+                        'expenses.$.expense_date': req.body.expense_date,
+                        'expenses.$.expense_category': req.body.expense_category,
+                        'expenses.$.payment': req.body.payment,
+                        'expenses.$.comment':req.body.comment
+                    }
+                },
+                { new: true }//new:true ko false kiya
             );
 
             if (!updatedUser) {
@@ -144,6 +180,14 @@ module.exports = {
             });
         }
     },
+
+    /**
+     * @method deleteexpense
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * delete the expense by id
+     */
 
     deleteexpense: async (req, res, next) => {
         try {
@@ -184,6 +228,13 @@ module.exports = {
 
     //POST endpoint to crate user login data
 
+    /**
+     * @method savedata
+     * @param {*} req 
+     * @param {*} res 
+     * use to save user data
+     */
+
     savedata: async (req, res) => {
 
         // Extract data from the request body
@@ -217,6 +268,14 @@ module.exports = {
 
     },
 
+    /**
+     * @method getsavedata
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns user data
+     */
+
     getsavedata: async (req, res, next) => {
         try {
             console.log(req.params.id);
@@ -241,6 +300,13 @@ module.exports = {
         }
     },
 
+    /**
+     * @method updatesavedata
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * update savedata
+     */
 
     updatesavedata: async (req, res, next) => {
         try {
@@ -275,6 +341,14 @@ module.exports = {
         }
     },
 
+    /**
+     * @method getcategory
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns all category by using user id
+     */
+
     getcategory: async (req, res, next) => {
         try {
             const user = await UserModel.findOne({ _id: req.params.id });
@@ -297,6 +371,14 @@ module.exports = {
             });
         }
     },
+
+    /**
+     * @method savecategory
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * use to save the category
+     */
 
     savecategory: async (req, res, next) => {
         const userId = req.params.id;
@@ -332,11 +414,19 @@ module.exports = {
         }
     },
 
+    /**
+     * @method updateprofile
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * update save data of profile data
+     */
+
     updateprofile: async (req, res, next) => {
         const userId = req.params.id;
         const { username, name } = req.body;
 
-        console.log("id"+userId);
+        console.log("id" + userId);
 
         try {
             // Find and update the user profile
@@ -373,6 +463,14 @@ module.exports = {
             });
         }
     },
+
+    /**
+     * @method updatename
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * update name and username of user data
+     */
 
     updatename: async (req, res, next) => {
         const userId = req.params.id;

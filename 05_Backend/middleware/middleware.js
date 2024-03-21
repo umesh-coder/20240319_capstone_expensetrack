@@ -29,8 +29,6 @@ const ensureauth = async (req, res, next) => {
         //display user id
         // console.log("id:-" + decoded.userId);
 
-
-
         // Find the user based on the email extracted from the decoded token
         const user = await UserModel.findOne({ email: decoded.email });
 
