@@ -4,9 +4,12 @@ const routes = express.Router();
 
 //internal dependencies
 // const { signup, login, deleteaccount } = require("../controller/user")
-const { createexpense, getallexpenses, getsingleexpense, updateexpense, deleteexpense, savedata, getsavedata, updatesavedata, getcategory, savecategory, updateprofile, updatename } = require("../controller/expense")
+const { createexpense, getallexpenses, getsingleexpense, updateexpense } = require("../controller/expense")
+const { deleteexpense, savedata, getsavedata, updatesavedata, getcategory, savecategory } = require("../controller/expense")
+const { updateprofile, updatename } = require("../controller/expense")
 const { ensureauth } = require("../middleware/middleware")
-const { validateCreateExpense, saveDataValidator, updatesavedataValidator, saveCategoryValidator, updateProfileValidator } = require("../utils/validator")
+const { validateCreateExpense, saveDataValidator, updatesavedataValidator } = require("../utils/validator")
+const { saveCategoryValidator, updateProfileValidator } = require("../utils/validator")
 
 //create expense
 routes.post("/createexpense", validateCreateExpense, ensureauth, createexpense)
@@ -42,7 +45,7 @@ routes.post('/savecategory/:id', saveCategoryValidator, savecategory);
 routes.post('/updateuserdataprofile/:id', updateProfileValidator, updateprofile)
 
 //update name
-routes.post('/updatename/:id',updateProfileValidator, updatename)
+routes.post('/updatename/:id', updateProfileValidator, updatename)
 
 //exporting Route
 module.exports = routes;

@@ -12,15 +12,60 @@ const { checkparamsidwithheaderid } = require('../utils/checkparamsidwithheaderi
 
 //exports module
 module.exports = {
-    
+
     /**
-  * @method signup
-  * @param {*} req 
-  * @param {*} res 
-  * @returns User Creation & error if found
-  * signup User POST Method to Create New User
-  * validation of data is done
-  */
+   * @method signup
+   * @param {*} req - The request object containing parameters for user signup.
+   * @param {*} res - The response object used to send the response back to the client.
+   * @param {*} next - The next middleware function in the Express middleware chain (optional).
+   * @description This method is used to register a new user.
+   * It expects the following parameters in the request body:
+   * - name: Name of the user.
+   * - username: Username chosen by the user.
+   * - email: Email address of the user.
+   * - password: Password chosen by the user.
+   * - userfirstsignupdate: Date of the user's first sign-up.
+   * - category: Categories associated with the user (optional).
+   * @returns {Object} Returns a JSON object with the following structure:
+   * {
+   *    message: String, // Describes the outcome of the operation.
+   *    token: String, // JWT token for authentication.
+   *    userId: String, // ID of the newly created user.
+   * }
+   * If successful, it returns:
+   * {
+   *    message: "User created successfully",
+   *    token: "JWT token",
+   *    userId: "ID of the newly created user",
+   * }
+   * If there's an error during the operation, it returns an appropriate error message, along with the HTTP status code:
+   * - 500: Internal Server Error - When there's an unexpected error or failure during the operation.
+   * @example
+   * // Sample request URL: POST /api/signup
+   * // Sample request body:
+   * {
+   *    "name": "John Doe",
+   *    "username": "john_doe",
+   *    "email": "john@example.com",
+   *    "password": "password123",
+   *    "userfirstsignupdate": "2024-03-22",
+   *    "category": ["Food", "Transportation"]
+   * }
+   * @example
+   * // Sample response for successful operation:
+   * {
+   *    "message": "User created successfully",
+   *    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJpYXQiOjE2NDk2MzE5NzUsImV4cCI6MTY0OTYzNTU3NX0.zwEAlaJ2ukEhTmH9RcJq4a8QRBev_YpFZq1_9w_fGcI",
+   *    "userId": "6091d4a399f4d3001f2a228b"
+   * }
+   * @example
+   * // Sample response for unsuccessful operation:
+   * {
+   *    "message": "Failed to create user",
+   *    "error": "Error message"
+   * }
+   */
+
 
     signup: async (req, res, next) => {
 
@@ -66,12 +111,66 @@ module.exports = {
     },
 
     /**
-   * @method login
-   * @param {*} req 
-   * @param {*} res 
-   * @returns user information is Valid & Token Creation & error if found
-   * generate Token & Auth The User
-   */
+    * @method login
+    * @param {*} req - The request object containing parameters for user login.
+    * @param {*} res - The response object used to send the response back to the client.
+    * @param {*} next - The next middleware function in the Express middleware chain (optional).
+    * @description This method is used to authenticate a user during login.
+    * It expects the following parameters in the request body:
+    * - email: Email address of the user.
+    * - password: Password provided by the user.
+    * @returns {Object} Returns a JSON object with the following structure:
+    * {
+    *    message: String, // Describes the outcome of the operation.
+    *    data: Object, // Contains additional data such as token, latest login date, user ID, and token expiration time.
+    *    status: Boolean, // Indicates the success or failure of the operation.
+    * }
+    * If successful, it returns:
+    * {
+    *    message: "Login Successfully!",
+    *    data: {
+    *        token: "JWT token",
+    *        latestLoginDate: "Date and time of the latest login",
+    *        userId: "ID of the user",
+    *        expiredToken: "Token expiration time in seconds"
+    *    },
+    *    status: true,
+    * }
+    * If the provided email address or password is invalid, it returns:
+    * {
+    *    message: "Invalid Email Address or Password",
+    *    status: false,
+    * }
+    * If there's an error during the operation, it returns an appropriate error message and sets the status to false, along with the HTTP status code:
+    * - 401: Unauthorized - When the provided email address is invalid.
+    * - 500: Internal Server Error - When there's an unexpected error or failure during the operation.
+    * @example
+    * // Sample request URL: POST /api/login
+    * // Sample request body:
+    * {
+    *    "email": "john@example.com",
+    *    "password": "password123"
+    * }
+    * @example
+    * // Sample response for successful operation:
+    * {
+    *    "message": "Login Successfully!",
+    *    "data": {
+    *        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJ1c2VySWQiOiI2MDkxZDRhMzk5ZjRkMzAwMWYyYTIyOGIiLCJpYXQiOjE2NDk2MzQ0OTQsImV4cCI6MTY0OTYzODA5NH0.5Vak-MXTrdI5jsJbbltCHNfO-QmS7qCJ0rWoxUzExAc",
+    *        "latestLoginDate": "2024-03-23T08:03:14.000Z",
+    *        "userId": "6091d4a399f4d3001f2a228b",
+    *        "expiredToken": 3600
+    *    },
+    *    "status": true
+    * }
+    * @example
+    * // Sample response for unsuccessful operation:
+    * {
+    *    "message": "Invalid Email Address or Password",
+    *    "status": false
+    * }
+    */
+
 
     login: async (req, res, next) => {
         try {
@@ -127,10 +226,47 @@ module.exports = {
 
     /**
   * @method deleteaccount
-  * @param {*} req 
-  * @param {*} res 
-  * @returns delete the Account if user is authorize
+  * @param {*} req - The request object containing parameters for deleting a user account.
+  * @param {*} res - The response object used to send the response back to the client.
+  * @param {*} next - The next middleware function in the Express middleware chain (optional).
+  * @description This method is used to delete a user account from the system.
+  * It expects the following parameter in the request:
+  * - id: ID of the user whose account will be deleted (passed as a route parameter).
+  * @returns {Object} Returns a JSON object with the following structure:
+  * {
+  *    message: String, // Describes the outcome of the operation.
+  *    status: Boolean, // Indicates the success or failure of the operation.
+  * }
+  * If successful, it returns:
+  * {
+  *    message: "Successfully deleted account",
+  *    status: true,
+  * }
+  * If the specified user is not found, it returns:
+  * {
+  *    message: "User not found",
+  *    status: false,
+  * }
+  * If there's an error during the operation, it returns an appropriate error message and sets the status to false, along with the HTTP status code:
+  * - 401: Unauthorized - When the user ID in the token does not match the user ID in the headers.
+  * - 404: Not Found - When the specified user is not found.
+  * - 500: Internal Server Error - When there's an unexpected error or failure during the operation.
+  * @example
+  * // Sample request URL: DELETE /api/deleteaccount/user/1234567890
+  * @example
+  * // Sample response for successful operation:
+  * {
+  *    "message": "Successfully deleted account",
+  *    "status": true
+  * }
+  * @example
+  * // Sample response for unsuccessful operation (user not found):
+  * {
+  *    "message": "User not found",
+  *    "status": false
+  * }
   */
+
 
     deleteaccount: async (req, res, next) => {
         try {
