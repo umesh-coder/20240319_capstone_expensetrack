@@ -20,7 +20,7 @@ export class BusinessDataService {
   keywords: any;
   data: any;
   apiUrl = environment.apiUrl;
-  userId: any;
+  userid: any;
   appVersion: any;
   constructor(private route: Router, public http: HttpClient) {
   }
@@ -33,8 +33,9 @@ export class BusinessDataService {
   }
 
   onGetAllExpense(id: any) {
-    this.userId = id;
-    return this.http.get(this.apiUrl + 'GET_ALL_EXPENSE/' + id);
+    this.userid = id;
+    
+    return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid);
   }
 
   onCreateExpense(values: any, date: any) {
@@ -71,15 +72,15 @@ export class BusinessDataService {
 
 
   onCreateCategory(body: any) {
-    return this.http.post(this.apiUrl + 'SAVE_CATEGORY/' + this.userId, body);
+    return this.http.post(this.apiUrl + 'SAVE_CATEGORY/' + this.userid, body);
   }
 
   onDeleteExpense(id: string) {
-    return this.http.delete(this.apiUrl + 'DELETE_EXPENSE/' + this.userId + '/' + id);
+    return this.http.delete(this.apiUrl + 'DELETE_EXPENSE/' + this.userid + '/' + id);
   }
 
   onGetSingleExpense(id: string) {
-    return this.http.get(this.apiUrl + 'GET_SINGLE_EXPENSE/' + this.userId + '/' + id);
+    return this.http.get(this.apiUrl + 'GET_SINGLE_EXPENSE/' + this.userid + '/' + id);
   }
 
   onUpdateExpense(id: string, values: any) {
@@ -92,14 +93,14 @@ export class BusinessDataService {
       expense_category: values.expense_category,
       payment: values.payment,
       comment: values.comment,
-      creater: this.userId,
+      creater: this.userid,
     }
-    return this.http.patch(this.apiUrl + 'UPDATE_EXPENSE/' + this.userId + '/' + id, body);
+    return this.http.patch(this.apiUrl + 'UPDATE_EXPENSE/' + this.userid + '/' + id, body);
   }
 
   onGetAllCategory() {
-    this.userId = sessionStorage.getItem('Id')?.split(' ')[1];
-    return this.http.get(this.apiUrl + 'GET_CATEGORY/' + this.userId);
+    this.userid = sessionStorage.getItem('Id')?.split(' ')[1];
+    return this.http.get(this.apiUrl + 'GET_CATEGORY/' + this.userid);
   }
   onGithub() {
     const link = document.createElement('a');

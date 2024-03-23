@@ -21,13 +21,13 @@
                 <div>
                     <mat-form-field appearance="outline">
                         <mat-label>Enter Registered Email</mat-label>
-                        <input matInput placeholder="abc@gmail.com" type="email" formControlName="gmail">
-                        <mat-error *ngIf="loginForm.get('gmail')?.errors &&
+                        <input matInput placeholder="abc@gmail.com" type="email" formControlName="email">
+                        <mat-error *ngIf="loginForm.get('email')?.errors &&
             loginForm.get('gmail')?.hasError('required') && loginForm.get('gmail')?.touched" style="color: red;">
                             Email Address is required
                         </mat-error>
-                        <mat-error *ngIf="loginForm.get('gmail')?.errors &&
-            loginForm.get('gmail')?.hasError('email') && loginForm.get('gmail')?.touched" style="color: red;">
+                        <mat-error *ngIf="loginForm.get('email')?.errors &&
+            loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" style="color: red;">
                             Email Address is invalid
                         </mat-error>
                     </mat-form-field>

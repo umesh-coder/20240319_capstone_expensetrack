@@ -524,8 +524,9 @@ module.exports = {
             name,
             firstlogindate,
             lastlogindate,
-            expenselogged,
-            userid
+            userid,
+            expenselogged
+
         });
 
         UserModel.updateOne({ _id: userid }, {

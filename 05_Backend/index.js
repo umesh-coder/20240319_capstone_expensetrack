@@ -4,7 +4,9 @@
  * @type {express}
  */
 const express = require("express");
+const cors = require('cors');
 const app = express();
+app.use(cors());
 
 /**
  * Middleware for parsing JSON bodies.
@@ -49,6 +51,20 @@ const Port = process.env.Port || 2000;
  */
 app.use(bodyParser.json());
 
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin,X-Requested-With,Content-Type,Accept,authentication",
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,DELETE,PATCH,OPTIONS"
+    );
+    next();
+});
+
 /**
  * User authentication routes.
  */
@@ -90,6 +106,9 @@ app.use((err, req, res, next) => {
  * Starts the server and listens on the specified port after the database connection is successful.
  * Handles errors that occur when the server starts listening.
  */
+
+
+
 
 // Start the server after the database connection is successful
 dbConnection.then((connected) => {

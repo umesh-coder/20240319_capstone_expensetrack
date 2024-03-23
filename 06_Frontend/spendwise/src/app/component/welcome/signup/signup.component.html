@@ -35,13 +35,13 @@
                 <div class="inputs">
                     <mat-form-field appearance="outline">
                         <mat-label>Enter Your Gmail</mat-label>
-                        <input matInput type="email" placeholder="abc@gmail.com" formControlName="gmail" />
-                        <mat-error *ngIf="signUpForm.get('gmail')?.errors &&
-            signUpForm.get('gmail')?.hasError('required') && signUpForm.get('gmail')?.touched">
+                        <input matInput type="email" placeholder="abc@gmail.com" formControlName="email" />
+                        <mat-error *ngIf="signUpForm.get('email')?.errors &&
+            signUpForm.get('email')?.hasError('required') && signUpForm.get('email')?.touched">
                             Email Address is required
                         </mat-error>
-                        <mat-error *ngIf="signUpForm.get('gmail')?.errors &&
-            signUpForm.get('gmail')?.hasError('email') && signUpForm.get('gmail')?.touched">
+                        <mat-error *ngIf="signUpForm.get('email')?.errors &&
+            signUpForm.get('email')?.hasError('email') && signUpForm.get('email')?.touched">
                             Email Address is invalid
                         </mat-error>
                     </mat-form-field>

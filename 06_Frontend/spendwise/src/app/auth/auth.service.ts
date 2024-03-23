@@ -11,7 +11,7 @@ export class AuthService {
   private isAuth: boolean = false;
   private token!: any;
   private expireTokenTime: any;
-  private userId: any;
+  private userid: any;
   constructor(
     public http: HttpClient,
     public _snackBar: MatSnackBar,
@@ -30,20 +30,32 @@ export class AuthService {
     return this.isAuth;
   }
   getUSerId() {
-    return this.userId;
+    return this.userid;
   }
 
   onSignUp(values: any): Promise<boolean> {
+    console.log(values);
     return new Promise<boolean>((resolve, reject) => {
+
+      const date = new Date()
+
+      const strdate = (date.toString()).substring(0,16)
+
+      // console.log("date:-" + strdate);
+
+      // console.log("date type " + typeof (strdate));
+
       let body = {
         name: values.name,
         username: values.username,
-        gmail: values.gmail,
+        email: values.email,
         password: values.password,
-        userFirstSignUp: new Date(),
+        // userfirstsignup: new Date(),
+        userfirstsignupdate: strdate,
         category: ['Transportation', 'Groceries'],
       };
-      this.http.post(this.apiUrl + 'USER/SIGN_UP', body).subscribe(
+
+      this.http.post('http://localhost:2000/auth/signup', body).subscribe(
         (res: any) => {
           if (res) {
             this._snackBar.open(
@@ -52,21 +64,23 @@ export class AuthService {
               { duration: 4000 }
             );
             this.token = res.data.token;
-            this.userId = res.data.userId;
+            this.userid = res.data.userid;
+            console.log("new id"+this.userid);
+            
             let body = {
-              firstLoginDate: res.data.UserSince,
+              firstlogindate: res.data.UserSince,
               username: res.data.username,
               name: res.data.name,
-              lastLoginDate: res.data.UserSince,
-              userId: res.data.userId,
-              expenseLogged: 0,
+              lastlogindate: res.data.UserSince,
+              userid: res.data.userid,
+              expenselogged: 0,
             };
             this.saveAllData(body);
             this.expireTokenTime = setTimeout(() => {
               this.onLogout();
             }, res.data.expiredToken * 1000);
             this.isAuth = true;
-            this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userId);
+            this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
             this.route.navigate(['dashboard']);
             resolve(true);
           }
@@ -84,8 +98,10 @@ export class AuthService {
   }
 
   onLogin(body: any): Promise<boolean> {
+    console.log("body:" + body.email);
+
     return new Promise<boolean>((resolve, reject) => {
-      this.http.post(this.apiUrl + 'USER/LOGIN', body).subscribe(
+      this.http.post('http://localhost:2000/auth/login', body).subscribe(
         (res: any) => {
           this._snackBar.open(res.message, '', { duration: 3000 });
           this.token = res.data.token;
@@ -93,11 +109,11 @@ export class AuthService {
           this.expireTokenTime = setTimeout(() => {
             this.onLogout();
           }, res.data.expiredToken * 1000);
-          this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userId);
+          this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
           let updateData = {
             lastLoginDate: res.data.latestLoginDate,
           }
-          this.updateUserData(res.data.userId, updateData);
+          this.updateUserData(res.data.userid, updateData);
           this.route.navigate(['dashboard']);
           resolve(true);
         },
@@ -120,19 +136,20 @@ export class AuthService {
     localStorage.removeItem('Id');
   }
 
-  private saveAuthDataonLocalStorage(time: any, userId: any) {
-    userId = "954854384ubbbfhf9489r34r34fnnn " + userId + " id";
+  private saveAuthDataonLocalStorage(time: any, userid: any) {
+    userid = "954854384ubbbfhf9489r34r34fnnn " + userid + "id";
     sessionStorage.setItem('LEAD_ID', this.token);
-    sessionStorage.setItem('Id', userId);
+    sessionStorage.setItem('Id', userid);
     localStorage.setItem('LEAD_ID', this.token);
-    localStorage.setItem('Id', userId);
+    localStorage.setItem('Id', userid);
     setTimeout(() => {
       this.onLogout();
     }, time * 1000);
   }
 
   saveAllData(body: any) {
-    this.http.post(this.apiUrl + 'SAVE_DATA', body).subscribe((res: any) => {
+
+    this.http.post('http://localhost:2000/expense/savedata', body).subscribe((res: any) => {
       this._snackBar.open('Expense Tracker Account Created SuccessFully', '', { duration: 2000 });
     })
   }
