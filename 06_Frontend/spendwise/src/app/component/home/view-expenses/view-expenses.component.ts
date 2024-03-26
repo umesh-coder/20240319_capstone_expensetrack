@@ -122,7 +122,7 @@ export class ViewExpensesComponent implements OnInit {
 
     if (data) {
 
-      console.log("data:-" + data[4].amount);
+      // console.log("data:-" + data[4].amount);
 
       this.businessData.onGetAllCategory().subscribe((res: any) => {
 
@@ -137,8 +137,7 @@ export class ViewExpensesComponent implements OnInit {
         for (let i = 0; i < data.length; i++) {
 
           this.hashMap[data[i].expense_category] += data[i].amount;
-          console.log(this.hashMap[data[i].expense_category]);
-          console.log(data[i].amount);
+
         }
 
         for (let key in this.hashMap) {
@@ -146,11 +145,11 @@ export class ViewExpensesComponent implements OnInit {
             this.businessData.pieLabels.push(key);
             this.businessData.piedata.push(this.hashMap[key]);
             this.count += this.hashMap[key];
-            console.log(this.hashMap[key]);
+
           }
         }
 
-        // console.log("amount " + data.amount);
+
 
         // this.count = 200
 

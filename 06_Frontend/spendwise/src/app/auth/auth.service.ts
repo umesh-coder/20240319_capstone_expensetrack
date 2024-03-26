@@ -55,18 +55,19 @@ export class AuthService {
         category: ['Transportation', 'Groceries'],
       };
 
+      console.log("body" + body.userfirstsignupdate);
+
       this.http.post('http://localhost:2000/auth/signup', body).subscribe(
         (res: any) => {
           if (res) {
             this._snackBar.open(
-              'Expense Tracker Account Created SuccessFully',
+              'Spend wise Account Created SuccessFully',
               '',
               { duration: 4000 }
             );
             this.token = res.data.token;
             this.userid = res.data.userid;
-            console.log("new id" + this.userid);
-
+            // console.log("new id" + this.userid);
             let body = {
               firstlogindate: res.data.UserSince,
               username: res.data.username,
@@ -75,12 +76,13 @@ export class AuthService {
               userid: res.data.userid,
               expenselogged: 0,
             };
+
             this.saveAllData(body);
-            this.expireTokenTime = setTimeout(() => {
-              this.onLogout();
-            }, res.data.expiredToken * 1000);
+            // this.expireTokenTime = setTimeout(() => {
+            //   this.onLogout();
+            // }, res.data.expiredToken * 1000);
             this.isAuth = true;
-            this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
+            // this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
             this.route.navigate(['dashboard']);
             resolve(true);
           }
@@ -111,7 +113,6 @@ export class AuthService {
             this.onLogout();
           }, res.data.expiredToken * 1000);
           this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
-
 
           let updateData = {
 
@@ -153,20 +154,21 @@ export class AuthService {
   }
 
   saveAllData(body: any) {
-    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+
+    console.log("sav data token :- " + this.token);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${this.token}`
     });
 
-    this.http.post('http://localhost:2000/expense/savedata', body, { headers: headers }).subscribe((res: any) => {
-      this._snackBar.open('Expense Tracker Account Created SuccessFully', '', { duration: 2000 });
+    this.http.post('http://localhost:2000/expense/savedata', body, { headers }).subscribe((res: any) => {
+      this._snackBar.open('Spend Wise Account Created SuccessFully', '', { duration: 125000 });
     })
+
   }
 
   getAllSaveData() {
-    // return this.http.get('http://localhost:2000/expense/getsavedata/' + sessionStorage.getItem('Id')?.split(' ')[1]);
-
     const userId = localStorage.getItem('Id')?.split(' ')[1];
     return this.http.get('http://localhost:2000/expense/getsavedata/' + userId);
   }
@@ -181,13 +183,17 @@ export class AuthService {
   }
 
   updateProfile(body: any) {
-    let id = sessionStorage.getItem('Id')?.split(' ')[1];
-    return this.http.post(this.apiUrl + 'UPDATE_PROFILE/' + id, body);
+    let id = sessionStorage.getItem('updateid')
+    console.log("profile id" + id);
+
+
+
+    return this.http.post('http://localhost:2000/expense/updateuserdataprofile/' + id, body);
   }
 
   updateWholeInfo(body: any) {
-    let id = sessionStorage.getItem('Id')?.split(' ')[1];
-    return this.http.post(this.apiUrl + 'UPDATE_NAME/' + id, body);
+    let id = sessionStorage.getItem('updateid')
+    return this.http.post('http://localhost:2000/expense/updateuserdataprofile/' + id, body);
   }
 
   deleteUserAccount() {

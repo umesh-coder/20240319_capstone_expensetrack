@@ -26,6 +26,12 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.isProcess = true;
     this.authService.getAllSaveData().subscribe((res: any) => {
+
+      console.log("updateid" + res.data._id);
+
+      const updatenameid = res.data._id
+      sessionStorage.setItem('updateid', updatenameid);
+
       setTimeout(() => {
         this.isProcess = false;
         this.editable = true;

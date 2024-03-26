@@ -35,12 +35,17 @@ export class BusinessDataService {
   onGetAllExpense(id: any) {
     this.userid = id;
     console.log("user id:-" + this.userid);
+
+
     const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+ 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    console.log("user id" + this.userid);
+
+    console.log("signup local token:-"+token);
+    
 
     return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid, { headers });
   }
@@ -129,10 +134,11 @@ export class BusinessDataService {
 
   onGetAllCategory() {
     this.userid = sessionStorage.getItem('Id')?.split(' ')[1];
-    console.log("category user id "+this.userid);
-    
+    console.log("category user id " + this.userid);
+
     return this.http.get('http://localhost:2000/expense/getcategory/' + this.userid);
   }
+
   onGithub() {
     const link = document.createElement('a');
     link.href = "https://github.com/umesh-coder";
