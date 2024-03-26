@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { AddExpenseComponent } from './component/header/add-expense/add-expense.component';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,9 @@ const routes: Routes = [
     loadChildren: () => import("./component/home/home.module").then((m) => m.HomeModule),
   },
 
-  { path: '**', redirectTo: 'welcome' },
+  { path: '**', component:PageNotFoundComponent },
+
+
 ];
 
 @NgModule({

@@ -191,10 +191,10 @@ module.exports = {
 
     saveCategoryValidator: [
         // Validate that categories is an array
-        body('categories').isArray().withMessage('Categories must be an array'),
+        // body('categories').isArray().withMessage('Categories must be an array'),
 
         // Validate each element in the categories array as a string
-        body('categories.*').isString().withMessage('Each category must be a string').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
+        // body('categories.*').isString().withMessage('Each category must be a string').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
 
         async (req, res, next) => {
             const errors = validationResult(req);

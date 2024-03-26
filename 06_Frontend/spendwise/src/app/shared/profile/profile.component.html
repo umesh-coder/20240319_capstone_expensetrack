@@ -15,17 +15,20 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 col-xs-6 names" *ngIf="!isEdit">
-                    <p>Name: {{name}}</p>
+                    <p><b>Name:- </b></p>
+                    <p>{{name}}</p>
                 </div>
                 <div class="col-sm-6 col-xs-6 names" *ngIf="isEdit">
-                    <p>Name:</p>
+                    <p><b>Name:- </b></p>
+
                     <input type="text" [value]="name" [(ngModel)]="newName">
                 </div>
                 <div class="col-sm-6 col-xs-6 names" *ngIf="!isEdit">
-                    <p>UserName: {{user_name}}</p>
+                    <p><b>UserName:- </b></p>
+                    <p>{{user_name}}</p>
                 </div>
                 <div class="col-sm-6 col-xs-6 names" *ngIf="isEdit">
-                    <p>UserName:</p>
+                    <p><b>UserName:- </b></p>
                     <input type="text" [value]="name" [(ngModel)]="newUsername" width="50%">
                 </div>
             </div>

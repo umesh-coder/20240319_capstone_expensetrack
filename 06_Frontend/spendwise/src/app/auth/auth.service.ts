@@ -198,7 +198,18 @@ export class AuthService {
 
   deleteUserAccount() {
     let id = sessionStorage.getItem('Id')?.split(' ')[1];
-    return this.http.delete(this.apiUrl + 'USER/DELETE_ACCOUNT/' + id);
+
+
+    console.log("sav data token :- " + this.token);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    
+    console.log("delete id" + id);
+
+    return this.http.delete('http://localhost:2000/auth/delete/' + id, { headers });
   }
 
 }

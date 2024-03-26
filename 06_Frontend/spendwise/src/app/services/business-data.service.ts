@@ -38,14 +38,14 @@ export class BusinessDataService {
 
 
     const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
- 
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
 
-    console.log("signup local token:-"+token);
-    
+    console.log("signup local token:-" + token);
+
 
     return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid, { headers });
   }
@@ -96,7 +96,17 @@ export class BusinessDataService {
 
 
   onCreateCategory(body: any) {
-    return this.http.post(this.apiUrl + 'SAVE_CATEGORY/' + this.userid, body);
+    console.log("body Category:-" + body);
+    const data = {
+      "categories":[body]
+    }
+    
+
+    console.log("yes="+data);
+    
+
+
+    return this.http.post('http://localhost:2000/expense/savecategory/' + this.userid, data);
 
   }
 

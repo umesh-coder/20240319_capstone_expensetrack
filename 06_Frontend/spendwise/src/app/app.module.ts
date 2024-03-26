@@ -45,10 +45,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     CommonModule,
     BrowserModule,
