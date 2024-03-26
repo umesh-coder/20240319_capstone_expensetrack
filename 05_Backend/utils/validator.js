@@ -88,9 +88,9 @@ module.exports = {
             .isNumeric().withMessage('Amount must be a number')
             .isLength({ min: 1, max: 10 })
             .isFloat({ gt: 0 }).withMessage('Amount must be greater than zero'),
-        body('expense_date')
-            .notEmpty().withMessage('Expense date is required')
-            .isLength({ min: 10, max: 10 }).withMessage('First sign-up date must be in the format YYYY-MM-DD'),
+        // body('expense_date')
+        //     .notEmpty().withMessage('Expense date is required')
+        //     .isLength({ min: 10, max: 10 }).withMessage('First sign-up date must be in the format YYYY-MM-DD'),
         body('expense_category')
             .notEmpty().withMessage('Expense category is required')
             .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic')
@@ -166,7 +166,7 @@ module.exports = {
     updatesavedataValidator: [
 
         // body('lastlogindate').notEmpty().withMessage('last login date is required').isLength({ min: 10, max: 10 }).withMessage('last login-date date must be in the format YYYY-MM-DD'),
-        body('expenselogged').isNumeric().withMessage('Expense logged must be a number').isLength({ min: 1, max: 5 }).isFloat({ gt: 0 }).withMessage('Expense logged must be greater than zero'),
+        // body('expenselogged').isNumeric().withMessage('Expense logged must be a number').isLength({ min: 1, max: 5 }).isFloat({ gt: 0 }).withMessage('Expense logged must be greater than zero'),
 
         (req, res, next) => {
             const errors = validationResult(req);

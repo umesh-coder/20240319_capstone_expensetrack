@@ -22,15 +22,13 @@ const UserModel = require("../models/userModel");
  */
 
 const ensureauth = async (req, res, next) => {
-    console.log("hello");
+    console.log("hello middleware");
     const token = req.headers["authorization"];
-    console.log("token:" + token);
+        // req.userData = { id: localStorage.getItem('Id').split(' ')[1] };
+    console.log("middleWare token:" + token);
     if (!token) {
         return res.status(403).json({ message: "Token is Required" });
     }
-
-
-
     try {
         const decoded = jwt.verify(
             req.headers["authorization"].split(' ')[1],

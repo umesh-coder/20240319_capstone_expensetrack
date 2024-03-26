@@ -9,6 +9,7 @@ const { ensureauth } = require("../middleware/middleware")
 const { validateSignup, validateLogin } = require('../utils/validator'); // Adjust the path as necessary
 
 
+
 //signup Route
 routes.post("/signup", validateSignup, signup);
 

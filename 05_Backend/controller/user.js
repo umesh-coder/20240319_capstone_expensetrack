@@ -220,7 +220,7 @@ module.exports = {
 
 
     login: async (req, res, next) => {
-        console.log("hello");
+        console.log("login hello");
         try {
             // Find the user in the database by their email
             const user = await UserModel.findOne({ email: req.body.email });
@@ -251,17 +251,22 @@ module.exports = {
                 { expiresIn: '1h' } // Token expires in 1 hour
             );
 
+            
+            console.log("login token"+token);
             // Respond with success message, token, and user ID
             res.status(200).json({
                 message: "Login Successfully!",
                 data: {
                     token: token,
                     latestLoginDate: new Date(),
-                    userId: user._id,
+                    userid: user._id,
                     expiredToken: 3600,
                 },
+                
                 status: true,
             });
+
+           
         } catch (error) {
             // Handle errors
             console.error(error);

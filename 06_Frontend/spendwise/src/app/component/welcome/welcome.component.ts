@@ -11,8 +11,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../../auth/auth.service'; 
-import { BusinessDataService } from '../../services/business-data.service'; 
+import { AuthService } from '../../auth/auth.service';
+import { BusinessDataService } from '../../services/business-data.service';
 
 @Component({
   selector: 'app-welcome',
@@ -31,17 +31,17 @@ export class WelcomeComponent implements OnInit {
       this.isLogging = true;
       this._snackBar.open('You have Logout Successfully', '', { duration: 3000 });
     }
-    if (!sessionStorage.getItem('Version')) {
-      this.businessData.onGetAppVersion().subscribe((res: any) => {
-        console.log(res);
-        this.businessData.appVersion = res.version;
-        this.appVersion = res.version;
-        sessionStorage.setItem('Version', this.appVersion);
-      });
-    }
-    else {
-      this.appVersion = sessionStorage.getItem('Version');
-    }
+    // if (!sessionStorage.getItem('Version')) {
+    //   this.businessData.onGetAppVersion().subscribe((res: any) => {
+    //     console.log(res);
+    //     this.businessData.appVersion = res.version;
+    //     this.appVersion = res.version;
+    //     sessionStorage.setItem('Version', this.appVersion);
+    //   });
+    // }
+    // else {
+    //   this.appVersion = sessionStorage.getItem('Version');
+    // }
   }
   onSignUp() {
     this.isLogging = false;

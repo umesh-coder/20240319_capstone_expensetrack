@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -39,7 +39,7 @@ export class AuthService {
 
       const date = new Date()
 
-      const strdate = (date.toString()).substring(0,16)
+      const strdate = (date.toString()).substring(0, 16)
 
       // console.log("date:-" + strdate);
 
@@ -65,8 +65,8 @@ export class AuthService {
             );
             this.token = res.data.token;
             this.userid = res.data.userid;
-            console.log("new id"+this.userid);
-            
+            console.log("new id" + this.userid);
+
             let body = {
               firstlogindate: res.data.UserSince,
               username: res.data.username,
@@ -106,13 +106,18 @@ export class AuthService {
           this._snackBar.open(res.message, '', { duration: 3000 });
           this.token = res.data.token;
           this.isAuth = true;
+          console.log("store token:-" + this.token);
           this.expireTokenTime = setTimeout(() => {
             this.onLogout();
           }, res.data.expiredToken * 1000);
           this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
+
+
           let updateData = {
-            lastLoginDate: res.data.latestLoginDate,
+
+            lastlogindate: res.data.latestLoginDate,
           }
+          // console.log("last lastlogin date-" + updateData.lastlogindate);
           this.updateUserData(res.data.userid, updateData);
           this.route.navigate(['dashboard']);
           resolve(true);
@@ -137,7 +142,7 @@ export class AuthService {
   }
 
   private saveAuthDataonLocalStorage(time: any, userid: any) {
-    userid = "954854384ubbbfhf9489r34r34fnnn " + userid + "id";
+    userid = "954854384ubbbfhf9489r34r34fnnn " + userid;
     sessionStorage.setItem('LEAD_ID', this.token);
     sessionStorage.setItem('Id', userid);
     localStorage.setItem('LEAD_ID', this.token);
@@ -148,20 +153,30 @@ export class AuthService {
   }
 
   saveAllData(body: any) {
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
 
-    this.http.post('http://localhost:2000/expense/savedata', body).subscribe((res: any) => {
+    this.http.post('http://localhost:2000/expense/savedata', body, { headers: headers }).subscribe((res: any) => {
       this._snackBar.open('Expense Tracker Account Created SuccessFully', '', { duration: 2000 });
     })
   }
 
   getAllSaveData() {
-    return this.http.get(this.apiUrl + 'GET_SAVE_DATA/' + sessionStorage.getItem('Id')?.split(' ')[1]);
+    // return this.http.get('http://localhost:2000/expense/getsavedata/' + sessionStorage.getItem('Id')?.split(' ')[1]);
+
+    const userId = localStorage.getItem('Id')?.split(' ')[1];
+    return this.http.get('http://localhost:2000/expense/getsavedata/' + userId);
   }
 
   updateUserData(id: string, body: any) {
     // let userid=localStorage.getItem('Id')?.split(' ')[1];
-    this.http.post(this.apiUrl + 'UPDATE_SAVE_DATA/' + id, body).subscribe((result) => {
-      // console.log(result);
+    console.log("body:-" + body);
+
+    this.http.post('http://localhost:2000/expense/updatesavedata/' + id, body).subscribe((result) => {
+      console.log(result);
     })
   }
 

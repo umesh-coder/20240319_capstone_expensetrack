@@ -57,11 +57,15 @@ export class ViewExpensesComponent implements OnInit {
     let body = {
       expenseLogged: (this.businessData.expensesLogged) ? this.businessData.expensesLogged : 0,
     }
+    console.log("update expense" + this.userId, body);
+
     this.authServ.updateUserData(this.userId, body);
   }
 
   public getAllExpense(id: any) {
     this.businessData.onGetAllExpense(id).subscribe((res: any) => {
+
+      // console.log("aa gya" + res.data[0].expense_date);
       this.ELEMENT_DATA = res.data;
       this.dataSource = new MatTableDataSource<ExpenseContent>(
         this.ELEMENT_DATA
@@ -91,6 +95,8 @@ export class ViewExpensesComponent implements OnInit {
       ];
       this.allexpense = len;
       this.businessData.expensesLogged = this.allexpense;
+
+
       this.updateExpene();
       this.pieChartData(res.data);
       this.onBarChartEdit(res.data);
@@ -112,15 +118,27 @@ export class ViewExpensesComponent implements OnInit {
     this.businessData.piedata = [];
     this.hashMap = {};
     this.count = 0;
+
+
     if (data) {
+
+      console.log("data:-" + data[4].amount);
+
       this.businessData.onGetAllCategory().subscribe((res: any) => {
+
+
         this.cate = res.data;
 
         for (let i = 0; i < this.cate.length; i++) {
           this.hashMap[this.cate[i]] = 0;
+
+
         }
         for (let i = 0; i < data.length; i++) {
+
           this.hashMap[data[i].expense_category] += data[i].amount;
+          console.log(this.hashMap[data[i].expense_category]);
+          console.log(data[i].amount);
         }
 
         for (let key in this.hashMap) {
@@ -128,8 +146,14 @@ export class ViewExpensesComponent implements OnInit {
             this.businessData.pieLabels.push(key);
             this.businessData.piedata.push(this.hashMap[key]);
             this.count += this.hashMap[key];
+            console.log(this.hashMap[key]);
           }
         }
+
+        // console.log("amount " + data.amount);
+
+        // this.count = 200
+
         this.cards[3].content = '₹' + this.count;
 
       })
@@ -160,7 +184,7 @@ export class ViewExpensesComponent implements OnInit {
       hashmap[date[3]].push([date[1], data[i].amount]);
     }
     this.businessData.hashmap = hashmap;
-    // console.log(hashmap);
+    console.log(hashmap);
   }
 
   openBarChart() {
@@ -181,6 +205,7 @@ export class ViewExpensesComponent implements OnInit {
     };
     this.businessData.data = body;
   }
+
   openDialog(): void {
     let dialogRef = this.dialog.open(Confirm, {
       width: '300px',

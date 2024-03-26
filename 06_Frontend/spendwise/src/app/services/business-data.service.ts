@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../enviroments/environment.development';
@@ -34,22 +34,41 @@ export class BusinessDataService {
 
   onGetAllExpense(id: any) {
     this.userid = id;
-    
-    return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid);
+    console.log("user id:-" + this.userid);
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    console.log("user id" + this.userid);
+
+    return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid, { headers });
   }
 
   onCreateExpense(values: any, date: any) {
     let id = sessionStorage.getItem('Id')?.split(' ')[1];
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
     let body = {
       name: values.name,
       amount: values.amount,
-      expense_date: (date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3]),
+      expense_date: (date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3]).toString(),
       expense_category: values.expense_category,
       payment: values.payment,
       comment: values.comment,
-      creater: id,
+      userid: id,
     }
-    return this.http.post(this.apiUrl + 'CREATE_EXPENSE', body);
+
+    console.log("expense user id:" + id);
+
+
+    console.log("expense body:-" + body.expense_category);
+
+    return this.http.post('http://localhost:2000/expense/createexpense', body, { headers });
   }
 
 
@@ -73,14 +92,24 @@ export class BusinessDataService {
 
   onCreateCategory(body: any) {
     return this.http.post(this.apiUrl + 'SAVE_CATEGORY/' + this.userid, body);
+
   }
 
   onDeleteExpense(id: string) {
+
     return this.http.delete(this.apiUrl + 'DELETE_EXPENSE/' + this.userid + '/' + id);
   }
 
   onGetSingleExpense(id: string) {
-    return this.http.get(this.apiUrl + 'GET_SINGLE_EXPENSE/' + this.userid + '/' + id);
+    // return this.http.get(this.apiUrl + 'GET_SINGLE_EXPENSE/' + this.userid + '/' + id);
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get('http://localhost:2000/expense/getsingleexpense/' + this.userid + '/' + id, { headers });
+
   }
 
   onUpdateExpense(id: string, values: any) {
@@ -100,16 +129,18 @@ export class BusinessDataService {
 
   onGetAllCategory() {
     this.userid = sessionStorage.getItem('Id')?.split(' ')[1];
-    return this.http.get(this.apiUrl + 'GET_CATEGORY/' + this.userid);
+    console.log("category user id "+this.userid);
+    
+    return this.http.get('http://localhost:2000/expense/getcategory/' + this.userid);
   }
   onGithub() {
     const link = document.createElement('a');
-    link.href = "https://github.com/grraghav120";
+    link.href = "https://github.com/umesh-coder";
     link.click();
   }
   onLinkedin() {
     const link = document.createElement('a');
-    link.href = "https://www.linkedin.com/in/raghavgarg2002/";
+    link.href = "https://www.linkedin.com/in/umeshs09/";
     link.click();
   }
 
