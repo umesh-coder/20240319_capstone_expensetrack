@@ -16,7 +16,7 @@ const routes: Routes = [
     path: '',
     component: HeaderComponent,
     canActivate: [AuthGuard],
-    title: 'Home | ExpenseTracker'
+    title: 'Home | SpendWise'
   },
 ];
 

@@ -1,1 +1,0 @@
-import{$ as s,d as a,f as o,na as n}from"./chunk-JZY52L7S.js";var m=(()=>{let t=class t{constructor(r,e){this.authService=r,this.router=e}canActivate(r,e){let c=this.authService.getIsAuth();return c||this.router.navigate(["welcome"]),c}};t.\u0275fac=function(e){return new(e||t)(o(n),o(s))},t.\u0275prov=a({token:t,factory:t.\u0275fac});let i=t;return i})();export{m as a};

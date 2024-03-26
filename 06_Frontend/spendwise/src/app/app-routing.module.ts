@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'edit/:id',
     component: AddExpenseComponent,
     canActivate: [AuthGuard],
-    title: 'Edit Expense | ExpenseTracker'
+    title: 'Edit Expense | SpendWise'
   },
 
   {

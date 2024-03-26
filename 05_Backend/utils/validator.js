@@ -102,10 +102,7 @@ module.exports = {
         body('comment')
             .optional()
             .isLength({ max: 50 }).withMessage('Comment must be less than 50 characters'),
-        body('userid')
-            .notEmpty().withMessage('User ID is required')
-            .isMongoId().withMessage('User ID must be a valid MongoDB ID'),
-
+    
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {

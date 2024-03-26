@@ -21,12 +21,11 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 const routes: Routes = [
   {
     path: '',
     component: WelcomeComponent,
-    title: 'Welcome | ExpenseTracker'
+    title: 'Welcome | SpendWise'
   },
 ];
 

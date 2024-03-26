@@ -98,12 +98,12 @@ export class BusinessDataService {
   onCreateCategory(body: any) {
     console.log("body Category:-" + body);
     const data = {
-      "categories":[body]
+      "categories": [body]
     }
-    
 
-    console.log("yes="+data);
-    
+
+    console.log("yes=" + data);
+
 
 
     return this.http.post('http://localhost:2000/expense/savecategory/' + this.userid, data);
@@ -112,7 +112,14 @@ export class BusinessDataService {
 
   onDeleteExpense(id: string) {
 
-    return this.http.delete(this.apiUrl + 'DELETE_EXPENSE/' + this.userid + '/' + id);
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+
+    return this.http.delete('http://localhost:2000/expense/deleteexepense/' + this.userid + '/' + id, { headers });
   }
 
   onGetSingleExpense(id: string) {
@@ -128,6 +135,15 @@ export class BusinessDataService {
   }
 
   onUpdateExpense(id: string, values: any) {
+
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    console.log("expense id : " + this.userid);
+
     let str = values.expense_date.toString();
     let date = str.split(' ');
     let body = {
@@ -139,7 +155,8 @@ export class BusinessDataService {
       comment: values.comment,
       creater: this.userid,
     }
-    return this.http.patch(this.apiUrl + 'UPDATE_EXPENSE/' + this.userid + '/' + id, body);
+
+    return this.http.patch('http://localhost:2000/expense/updateexpense/' + this.userid + '/' + id, body, { headers });
   }
 
   onGetAllCategory() {
