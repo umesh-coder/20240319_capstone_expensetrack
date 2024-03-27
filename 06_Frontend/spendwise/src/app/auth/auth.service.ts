@@ -192,8 +192,9 @@ export class AuthService {
   }
 
   updateWholeInfo(body: any) {
-    let id = sessionStorage.getItem('updateid')
-    return this.http.post('http://localhost:2000/expense/updateuserdataprofile/' + id, body);
+    let id = sessionStorage.getItem('Id')?.split(' ')[1];
+
+    return this.http.post('http://localhost:2000/expense/updatename/' + id, body);
   }
 
   deleteUserAccount() {
@@ -206,7 +207,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
     });
-    
+
     console.log("delete id" + id);
 
     return this.http.delete('http://localhost:2000/auth/delete/' + id, { headers });

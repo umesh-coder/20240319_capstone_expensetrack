@@ -20,6 +20,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [WelcomeComponent, SignupComponent, LoginComponent],
+  declarations: [WelcomeComponent, SignupComponent, LoginComponent,ThemeToggleComponent],
   imports: [
     CommonModule,
     SharedModule,

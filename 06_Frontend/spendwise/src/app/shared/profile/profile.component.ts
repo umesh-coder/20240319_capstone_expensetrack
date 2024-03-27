@@ -29,8 +29,8 @@ export class ProfileComponent implements OnInit {
 
       // console.log("updateid" + res.data._id);
 
-      // const updatenameid = res.data._id
-      // sessionStorage.setItem('updateid', updatenameid);
+      const updatenameid = res.data._id
+      sessionStorage.setItem('updateid', updatenameid);
 
       setTimeout(() => {
         this.isProcess = false;

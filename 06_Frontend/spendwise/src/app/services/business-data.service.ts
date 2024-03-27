@@ -78,7 +78,14 @@ export class BusinessDataService {
 
 
   onImportExpense(values: any) {
+
     let id = sessionStorage.getItem('Id')?.split(' ')[1];
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
     let date = values.expense_date.split('/');
     date = (new Date(date[2], date[1] - 1, date[0])).toString();
     date = date.split(' ');
@@ -91,7 +98,7 @@ export class BusinessDataService {
       comment: values.comment,
       creater: id,
     }
-    return this.http.post(this.apiUrl + 'CREATE_EXPENSE', body);
+    return this.http.post('http://localhost:2000/expense/createexpense', body, { headers });
   }
 
 

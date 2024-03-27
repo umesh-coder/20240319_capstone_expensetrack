@@ -113,40 +113,6 @@ module.exports = {
                     });
                 });
 
-
-            // .then((result) => {
-            //     const token = jwt.sign(
-            //         { gmail: req.gmail },
-            //         process.env.JWT_KEY,
-            //         { expiresIn: '1h' } // 1 hour
-            //     );
-            //     res.status(200).json({
-            //         message: "Account Created",
-            //         status: true,
-            //         data: {
-            //             UserSince: result.userFirstSignUp,
-            //             username: result.username,
-            //             name: result.name,
-            //             token: token,
-            //             expiredToken: 3600,
-            //             userId: result._id,
-            //         }})
-
-            //     }
-            // Generate JWT token for authentication
-            // const token = jwt.sign(
-            //     { email: savedUser.email },
-            //     process.env.JWT_KEY,
-            //     { expiresIn: '1h' } // Token expires in 1 hour
-            // );
-
-            // Respond with success message and token
-            // res.status(201).json({
-            //     message: 'User created successfully',
-            //     token: token,
-            //     userId: savedUser._id
-            // });
-
         } catch (error) {
             // Handle errors
             console.error(error);

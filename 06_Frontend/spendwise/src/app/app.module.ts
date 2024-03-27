@@ -12,11 +12,11 @@ import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
+
 
 
 @NgModule({
-  declarations: [AppComponent, PageNotFoundComponent, ThemeToggleComponent],
+  declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     CommonModule,
     BrowserModule,
