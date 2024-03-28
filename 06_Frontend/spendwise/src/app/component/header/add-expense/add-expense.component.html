@@ -135,11 +135,12 @@
             </form>
         </mat-card-content>
         <mat-card-actions align="end" *ngIf="!isEdit">
-            <button mat-raised-button (click)="onReset()">
+            <button mat-raised-button (click)="onReset()" style="border:2px solid red;">
                 <mat-icon>autorenew</mat-icon>Reset
             </button>
+            <div style="width: 10px;"></div>
             <button type="submit" *ngIf="!isSaving" mat-raised-button (click)="onSaveExpense()"
-                [disabled]="expenseForm.invalid">
+                [disabled]="expenseForm.invalid" style="border:2px solid green">
                 <mat-icon>save</mat-icon> Save
             </button>
             <button *ngIf="isSaving" class="btn btn-success" type="button" disabled>
