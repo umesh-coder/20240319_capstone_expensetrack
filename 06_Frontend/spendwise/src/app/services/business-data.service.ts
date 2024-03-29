@@ -96,8 +96,11 @@ export class BusinessDataService {
       expense_category: values.expense_category,
       payment: values.payment_type,
       comment: values.comment,
-      creater: id,
+      userid: id,
     }
+
+    console.log("inside import CSV");
+
     return this.http.post('http://localhost:2000/expense/createexpense', body, { headers });
   }
 
