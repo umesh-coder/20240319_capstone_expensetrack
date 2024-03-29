@@ -81,9 +81,9 @@ export class AuthService {
             // this.expireTokenTime = setTimeout(() => {
             //   this.onLogout();
             // }, res.data.expiredToken * 1000);
-            this.isAuth = true;
+            // this.isAuth = true;
             // this.saveAuthDataonLocalStorage(res.data.expiredToken, res.data.userid);
-            this.route.navigate(['dashboard']);
+            // this.route.navigate(['dashboard']);
             resolve(true);
           }
         },

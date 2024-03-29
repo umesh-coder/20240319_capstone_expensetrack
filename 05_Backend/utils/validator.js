@@ -20,8 +20,8 @@ module.exports = {
        *    - Validates the category to ensure it is not empty and contains alphabetic characters only.
        */
     validateSignup: [
-        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 15 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
-        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 15 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
+        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 30 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
+        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 30 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
         body('email').isEmail().matches(/^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).isLength({ min: 5, max: 255 }).withMessage('Email must be between 5 and 255 characters').withMessage('Email is not valid'),
         body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
         // body('userfirstsignupdate').notEmpty().withMessage('First sign-up date is required').isLength({ min: 10, max: 16 }).withMessage('First sign-up date must be in the format YYYY-MM-DD'),
