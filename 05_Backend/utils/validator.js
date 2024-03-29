@@ -20,8 +20,8 @@ module.exports = {
        *    - Validates the category to ensure it is not empty and contains alphabetic characters only.
        */
     validateSignup: [
-        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 15 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
-        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 15 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
+        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 30 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
+        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 30 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
         body('email').isEmail().matches(/^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).isLength({ min: 5, max: 255 }).withMessage('Email must be between 5 and 255 characters').withMessage('Email is not valid'),
         body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
         // body('userfirstsignupdate').notEmpty().withMessage('First sign-up date is required').isLength({ min: 10, max: 16 }).withMessage('First sign-up date must be in the format YYYY-MM-DD'),
@@ -102,7 +102,7 @@ module.exports = {
         body('comment')
             .optional()
             .isLength({ max: 50 }).withMessage('Comment must be less than 50 characters'),
-    
+
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -131,8 +131,8 @@ module.exports = {
      *   - Validates the user ID to ensure it is a valid MongoDB ObjectId.
      */
     saveDataValidator: [
-        body('username').not().isEmpty().withMessage('Username is required').isLength({ min: 5, max: 15 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
-        body('name').not().isEmpty().withMessage('Name is required').isLength({ min: 3, max: 15 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
+        body('username').not().isEmpty().withMessage('Username is required').isLength({ min: 5, max: 30 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
+        body('name').not().isEmpty().withMessage('Name is required').isLength({ min: 3, max: 30 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
         // body('firstlogindate').notEmpty().withMessage('First login date is required').isLength({ min: 10, max: 10 }).withMessage('First login-date date must be in the format YYYY-MM-DD'),
         // body('lastlogindate').notEmpty().withMessage('last login date is required').isLength({ min: 10, max: 10 }).withMessage('last login-date date must be in the format YYYY-MM-DD'),
         body('expenselogged').isNumeric().withMessage('Expense logged must be a number').isLength({ min: 1, max: 5 }),
@@ -217,10 +217,10 @@ module.exports = {
     */
     updateProfileValidator: [
         // Validate username
-        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 15 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
+        body('username').notEmpty().withMessage('Username is required').isLength({ min: 5, max: 30 }).withMessage('Username must have more than 5 characters and less tha 15 charcter').matches(/^[A-Za-z][A-Za-z0-9]*$/).withMessage('Username must start with an alphabet and can contain letters and numbers'),
 
         // Validate name
-        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 15 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
+        body('name').notEmpty().withMessage('Name is required').isLength({ min: 3, max: 30 }).withMessage('Name must have more than 3 characters').matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic'),
 
         async (req, res, next) => {
             const errors = validationResult(req);

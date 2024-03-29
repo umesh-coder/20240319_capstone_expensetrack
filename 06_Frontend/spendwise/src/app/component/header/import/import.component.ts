@@ -158,7 +158,7 @@ export class ImportComponent implements OnInit {
         allTextLines[i] = allTextLines[i].split(',')
       }
       this.csvRecords = allTextLines;
-      // console.log(allTextLines,headers);
+      console.log(allTextLines,headers);
     }
 
     // this.ngxCsvParser.parse(files[0], { header: this.header, delimiter: ',', encoding: 'utf8' })
