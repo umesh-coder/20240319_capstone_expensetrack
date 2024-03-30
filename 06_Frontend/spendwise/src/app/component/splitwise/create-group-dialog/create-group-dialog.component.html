@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Create Group</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Group Name" [(ngModel)]="groupName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Member Name" #memberInput>
+    <button mat-button (click)="addMember(memberInput.value); memberInput.value=''">Add Member</button>
+  </mat-form-field>
+  <ul>
+    <li *ngFor="let member of groupMembers; let i = index">{{ member }} <button mat-icon-button (click)="removeMember(i)"><mat-icon>delete</mat-icon></button></li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button (click)="createGroup()" cdkFocusInitial>Create</button>
+</div>

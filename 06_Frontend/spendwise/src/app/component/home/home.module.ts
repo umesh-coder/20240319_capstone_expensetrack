@@ -11,7 +11,8 @@ import {
 import { SharedModule } from '../../shared/shared.module';
 import { ViewSingleComponent } from './view-single/view-single.component';
 import { ShowChartComponent } from './show-chart/show-chart.component';
-
+import {MatListModule} from '@angular/material/list';
+import { GroupExpenseScreenComponent } from '../splitwise/group-expense-screen/group-expense-screen.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     title: 'Dashboard | SpendWise'
   },
+  {
+    path:'group-expense',
+    component:GroupExpenseScreenComponent
+  }
 ];
 
 @NgModule({
@@ -29,8 +34,9 @@ const routes: Routes = [
     Confirm,
     ViewSingleComponent,
     ShowChartComponent,
+    // CreateGroupDialogComponent
   ],
 
-  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes),MatListModule],
 })
 export class HomeModule { }

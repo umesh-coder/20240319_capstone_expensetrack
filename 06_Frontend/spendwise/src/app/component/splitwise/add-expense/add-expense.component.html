@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Add an Expense</h2>
+<div mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="outline" class="description-field">
+    <input matInput placeholder="Description" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="price-field">
+    <input matInput type="number" placeholder="Price" />
+  </mat-form-field>
+  <div class="form-group">
+    <mat-form-field appearance="outline" class="select-field">
+      <mat-label>Paid by</mat-label>
+      <mat-select>
+        <mat-option value="user1">User 1</mat-option>
+        <mat-option value="user2">User 2</mat-option>
+        <!-- Add more users as needed -->
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="select-field">
+      <mat-label>Split</mat-label>
+      <mat-select [(ngModel)]="splitType">
+        <mat-option value="equally">Equally</mat-option>
+        <mat-option value="unequally">Unequally</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="splitType === 'equally'">
+      <button
+        mat-raised-button
+        color="primary" style="padding: 10px;"
+        (click)="openEquallySplitDialog()"
+      >
+        Select Participants
+      </button>
+    </div>
+    <div *ngIf="splitType === 'unequally'">
+      <button
+        mat-raised-button
+        color="primary" style="padding: 10px;"
+        (click)="openUnEquallySplitDialog()"
+      >
+        Select Participants
+      </button>
+    </div>
+  </div>
+  <h2>(RS 0.00 / Person)</h2>
+  <mat-form-field appearance="outline" class="date-field">
+    <input matInput type="date" placeholder="Date" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button color="warn" (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
+</div>
