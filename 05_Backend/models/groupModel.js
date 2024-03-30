@@ -45,7 +45,6 @@ const groupschema = new mongoose.Schema({
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: "userschemas" }],
     groupcreatedat: { type: String, required: true },
     expenses: [createexpense],
-    category: [],
   });
 
   groupschema.plugin(uniqueValidator);
