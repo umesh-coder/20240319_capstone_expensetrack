@@ -82,24 +82,25 @@ const addMemberToGroup = async (req, res) => {
 
 const getGroupById = async (req, res) => {
   try {
-    console.log(req.decoded); 
-    // const userId = req.decoded.userId;
-    // Assuming userId is included in decoded token
-    const { groupId } = req.query;
+    const { userId, groupId } = req.query;
 
-    // Check if the user is a member of the group
-    const group = await groupModel.findById(groupId).populate('members');
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required in query parameters" });
+    }
+
+    const group = await groupModel.findById(groupId)
+    console.log(group);
     
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
     }
 
-    // // Check if the logged-in user is a member of the group
-    // const isMember = group.members.some(member => member.userId.toString() === userId);
+    // Check if the specified user is a member of the group
+    const isMember = group.members.some(member => member.toString() === userId);
 
-    // if (!isMember) {
-    //   return res.status(403).json({ error: "You are not a member of this group" });
-    // }
+    if (!isMember) {
+      return res.status(403).json({ error: "The specified user is not a member of this group" });
+    }
 
     res.status(200).json({
       success: true,
