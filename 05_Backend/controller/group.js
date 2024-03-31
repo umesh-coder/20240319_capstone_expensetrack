@@ -14,7 +14,6 @@ const createGroup = async (req, res) => {
         members: members,
         groupcreatedat: groupcreatedat,
         expenses: expenses,
-        category: category,
       });
 
       // Save the group to the database
@@ -81,7 +80,38 @@ const addMemberToGroup = async (req, res) => {
   }
 };
 
-  module.exports = {createGroup,addMemberToGroup}
+const getGroupById = async (req, res) => {
+  try {
+    console.log(req.decoded); 
+    // const userId = req.decoded.userId;
+    // Assuming userId is included in decoded token
+    const { groupId } = req.query;
+
+    // Check if the user is a member of the group
+    const group = await groupModel.findById(groupId).populate('members');
+    
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    // // Check if the logged-in user is a member of the group
+    // const isMember = group.members.some(member => member.userId.toString() === userId);
+
+    // if (!isMember) {
+    //   return res.status(403).json({ error: "You are not a member of this group" });
+    // }
+
+    res.status(200).json({
+      success: true,
+      group
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+  module.exports = {createGroup,addMemberToGroup,getGroupById}
 
 
   
