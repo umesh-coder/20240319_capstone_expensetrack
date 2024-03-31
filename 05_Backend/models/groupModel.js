@@ -26,9 +26,10 @@ const createexpense = mongoose.Schema({
     userid: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas", required: true },
     split_members: [{ 
         member_id: { type: mongoose.Schema.Types.ObjectId, ref: "groupschema", required: true },
-        shareamount: { type: Number, required: true }
+        shareamount: { type: Number, required: true },
+        status: {type: String,required: true}
     }],
-    status: {type: String,required: true}
+    
   });
 
 /**
