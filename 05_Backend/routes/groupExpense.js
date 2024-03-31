@@ -4,5 +4,7 @@ const groupExpense = require("../controller/groupExpense")
 
 router.put("/createExpense",groupExpense.createExpense)
 router.get("/getExpenses",groupExpense.getExpenses)
-router.put("/status",groupExpense.Status)
+router.get("/memberExpense",groupExpense.memberExpense)
+router.put("/updateExpenseStatus",groupExpense.updateExpenseStatus)
+
 module.exports = router
