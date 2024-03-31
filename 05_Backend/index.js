@@ -81,10 +81,8 @@ app.use("/expense", expense);
 app.use("/group", group)
 
 /**
- * Group management routes.
+ * GroupExpense management routes.
  */
-app.use("/group", group);
-
 app.use("/groupExpense",groupExpense)
 
 // Catch all unhandled routes
