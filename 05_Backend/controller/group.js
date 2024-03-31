@@ -112,7 +112,53 @@ const getGroupById = async (req, res) => {
   }
 };
 
-  module.exports = {createGroup,addMemberToGroup,getGroupById}
+const getallGroupsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.query;
+
+    // Find all groups where the provided userId is present in the members array
+    const groups = await groupModel.find({ members: userId });
+
+    res.status(200).json({
+      success: true,
+      groups
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const editGroupName = async (req, res) => {
+  try {
+    const { groupId } = req.query;
+    const { name } = req.body;
+
+    // Find the group by ID
+    const group = await groupModel.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    // Update the group name
+    group.name = name;
+
+    // Save the updated group
+    const updatedGroup = await group.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Group name updated successfully",
+      group: updatedGroup
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+  module.exports = {createGroup,addMemberToGroup,getGroupById,getallGroupsByUserId,editGroupName}
 
 
   
