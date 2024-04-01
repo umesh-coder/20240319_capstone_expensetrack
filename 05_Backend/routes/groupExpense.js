@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const groupExpense = require("../controller/groupExpense")
+const groupExpense = require("../controller/groupExpense");
+const { ensureauth } = require("../middleware/middleware")
 
-router.put("/createExpense",groupExpense.createExpense)
+router.put("/createExpense",ensureauth,groupExpense.createExpense)
 router.get("/getExpenses",groupExpense.getExpenses)
-router.put("/status",groupExpense.Status)
+router.get("/memberExpense",groupExpense.memberExpense)
+router.put("/updateExpenseStatus",groupExpense.updateExpenseStatus)
+
 module.exports = router
