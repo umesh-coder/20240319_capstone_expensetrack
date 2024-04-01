@@ -14,7 +14,6 @@ const groupModel = require('../models/groupModel')
       {"member_id": "60f6de8066b1c12288a86328", "shareamount": 40,"status": "Pending",},
       {"member_id": "60f6de8066b1c12288a8632a", "shareamount": 40,"status": "Pending",}
     ],
-    "userid": "60f6de8066b1c12288a86328" 
   }
   */
 
@@ -86,7 +85,7 @@ const createExpense = async (req, res) => {
 };
 
 
-//http://localhost:2000/groupExpense/getExpenses/?groupId=66081d87da5e17aaa41f0abc&userId=60f6de8066b1c12288a86328
+//http://localhost:2000/groupExpense/getExpenses/?groupId=66081d87da5e17aaa41f0abc
 //user will get expenses of group that he has created
 /**
  * Get all expenses created by a specific user within a group.
@@ -96,8 +95,10 @@ const createExpense = async (req, res) => {
  */
 const getExpenses = async (req, res) => {
     try {
+        const userData = req.decoded;
+        const userId = userData.userId;
         // Extract user ID and group ID from query parameters
-        const { userId, groupId } = req.query;
+        const { groupId } = req.query;
 
         // Find the group by its ID
         const group = await groupModel.findById(groupId);
@@ -120,7 +121,7 @@ const getExpenses = async (req, res) => {
     }
 };
 
-//http://localhost:2000/groupExpense/memberExpense?member_id=60f6de8066b1c12288a86329
+//http://localhost:2000/groupExpense/memberExpense
 //member will get expenses of group of which he is part of 
 /**
  * Controller function to handle the GET request for retrieving expenses for a member.
@@ -132,19 +133,19 @@ const getExpenses = async (req, res) => {
  */
 const memberExpense = async (req, res) => {
     try {
-        // Extract member_id from request query
-        const { member_id } = req.query;
-
+        const userData = req.decoded;
+        const userId = userData.userId;
+     
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": member_id });
+        const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
-
+        
         // Filter expenses for the member
         const memberExpenses = group.expenses.filter(expense => {
-            return expense.split_members.some(member => member.member_id.toString() === member_id);
+            return expense.split_members.some(member => member.userId.toString() === userId);
         });
 
         res.status(200).json({ memberExpenses });
@@ -154,7 +155,8 @@ const memberExpense = async (req, res) => {
     }
 };
 
-//http://localhost:2000/groupExpense/updateExpenseStatus?memberId=60f6de8066b1c12288a86328&expenseId=66094e555ce8957ccfcc96fb
+
+//http://localhost:2000/groupExpense/updateExpenseStatus?expenseId=66094e555ce8957ccfcc96fb
 //member can update  his status
 /**
  * Update the status of an expense for a specific member.
@@ -163,13 +165,15 @@ const memberExpense = async (req, res) => {
  * @param {object} res - The response object.
  * @returns {object} JSON response indicating success or failure.
  */
-const updateExpenseStatus = async (req, res) => {
+const updateStatus = async (req, res) => {
     try {
-        // Extract expense ID and member ID from query parameters
-        const { expenseId, memberId } = req.query;
+        const userData = req.decoded;
+        const userId = userData.userId;
+        // Extract expense IDfrom query parameters
+        const { expenseId } = req.query;
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": memberId });
+        const group = await groupModel.findOne({ "expenses.split_members.member_id": userId });
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
@@ -181,7 +185,7 @@ const updateExpenseStatus = async (req, res) => {
         }
 
         // Find the split member within the expense
-        const splitMember = expense.split_members.find(member => member.member_id.toString() === memberId);
+        const splitMember = expense.split_members.find(member => member.userId.toString() === userId);
         if (!splitMember) {
             return res.status(404).json({ error: "Member not found in expense" });
         }
@@ -200,5 +204,5 @@ const updateExpenseStatus = async (req, res) => {
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateExpenseStatus}
+module.exports = {createExpense,getExpenses,memberExpense,updateStatus}
 
