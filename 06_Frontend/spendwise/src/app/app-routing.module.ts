@@ -7,34 +7,35 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./component/header/header.module').then((m) => m.HeaderModule),
+    loadChildren: () =>
+      import('./component/header/header.module').then((m) => m.HeaderModule),
   },
 
   {
     path: 'welcome',
-    loadChildren: () => import('./component/welcome/welcome.module').then((m) => m.WelcomeModule),
+    loadChildren: () =>
+      import('./component/welcome/welcome.module').then((m) => m.WelcomeModule),
   },
 
   {
     path: 'edit/:id',
     component: AddExpenseComponent,
     canActivate: [AuthGuard],
-    title: 'Edit Expense | SpendWise'
+    title: 'Edit Expense | SpendWise',
   },
 
   {
     path: 'dashboard',
-    loadChildren: () => import("./component/home/home.module").then((m) => m.HomeModule),
+    loadChildren: () =>
+      import('./component/home/home.module').then((m) => m.HomeModule),
   },
 
-  { path: '**', component:PageNotFoundComponent },
-
-
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
