@@ -48,11 +48,13 @@ const ensureauth = async (req, res, next) => {
         if (!user || (user._id).toString() !== (decoded.userId).toString()) {
             return res.status(403).json({ message: "User ID in token does not match user ID in headers" });
         }
+        req.decoded = decoded
 
         return next();
     } catch (error) {
         return res.status(403).json({ message: "Token is Not Valid or Expired" });
     }
+    
 };
 
 

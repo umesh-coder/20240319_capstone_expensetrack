@@ -5,8 +5,10 @@ const groupModel = require('../models/groupModel')
 const createGroup = async (req, res) => {
     try {
 
+      const groupcreatedby = req.decoded;
+
       // Extract group details from request body
-      const { name, members, groupcreatedat, expenses, category } = req.body;
+      const { name, members, groupcreatedat, expenses} = req.body;
 
       // Create a new group using the group model
       const newGroup = new groupModel({
@@ -14,6 +16,7 @@ const createGroup = async (req, res) => {
         members: members,
         groupcreatedat: groupcreatedat,
         expenses: expenses,
+        groupcreatedby: groupcreatedby.userId,
       });
 
       // Save the group to the database
@@ -50,6 +53,8 @@ const createGroup = async (req, res) => {
 
 const addMemberToGroup = async (req, res) => {
   try {
+    const userData = req.decoded;
+    const userId = userData.userId
     // Extract group ID from query parameters
     const { groupId } = req.query;
 
@@ -61,6 +66,10 @@ const addMemberToGroup = async (req, res) => {
 
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
     }
 
     // Add new members to the group
@@ -82,14 +91,15 @@ const addMemberToGroup = async (req, res) => {
 
 const getGroupById = async (req, res) => {
   try {
-    const { userId, groupId } = req.query;
+    const userData = req.decoded;
+    const userId = userData.userId
+    const { groupId } = req.query;
 
     if (!userId) {
       return res.status(400).json({ error: "User ID is required in query parameters" });
     }
 
     const group = await groupModel.findById(groupId)
-    console.log(group);
     
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
@@ -114,7 +124,8 @@ const getGroupById = async (req, res) => {
 
 const getallGroupsByUserId = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const userData = req.decoded;
+    const userId = userData.userId
 
     // Find all groups where the provided userId is present in the members array
     const groups = await groupModel.find({ members: userId });
@@ -131,6 +142,8 @@ const getallGroupsByUserId = async (req, res) => {
 
 const editGroupName = async (req, res) => {
   try {
+    const userData = req.decoded;
+    const userId = userData.userId
     const { groupId } = req.query;
     const { name } = req.body;
 
@@ -139,6 +152,10 @@ const editGroupName = async (req, res) => {
 
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
     }
 
     // Update the group name
@@ -158,7 +175,37 @@ const editGroupName = async (req, res) => {
   }
 };
 
-  module.exports = {createGroup,addMemberToGroup,getGroupById,getallGroupsByUserId,editGroupName}
+const deleteGroup = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId
+    const { groupId } = req.query;
+
+    // Find the group by ID
+    const group = await groupModel.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
+    }
+
+    // Delete the group by ID
+    const result = await groupModel.deleteOne({ _id: groupId });
+
+    res.status(200).json({
+      success: true,
+      message: "Group deleted successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+  module.exports = {createGroup,addMemberToGroup,getGroupById,getallGroupsByUserId,editGroupName,deleteGroup}
 
 
   
