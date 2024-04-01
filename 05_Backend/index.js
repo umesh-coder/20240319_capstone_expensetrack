@@ -26,6 +26,12 @@ const user = require("./routes/user");
  */
 const expense = require("./routes/expense");
 
+/**
+ * Group routes.
+ * @type {Object}
+ */
+const group = require("./routes/group");
+
 // Internal dependencies
 /**
  * Loads environment variables from .env file.
@@ -74,6 +80,16 @@ app.use("/auth", user);
  * Expense management routes.
  */
 app.use("/expense", expense);
+
+/**
+ * Group management routes.
+ */
+app.use("/group", group)
+
+/**
+ * GroupExpense management routes.
+ */
+// app.use("/groupExpense",groupExpense)
 
 // Catch all unhandled routes
 /**
