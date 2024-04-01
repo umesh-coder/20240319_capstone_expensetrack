@@ -1,0 +1,49 @@
+<mat-toolbar style="border-bottom: 1px solid black">
+  <span>Spend Wise</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="accent" (click)="onLogout()">
+    <mat-icon>logout</mat-icon>Logout
+  </button>
+</mat-toolbar>
+
+<!-- Left side bar -->
+<div class="container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <mat-divider></mat-divider>
+    </div>
+    <ul class="menu-items">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/activity">Activity</a></li>
+    </ul>
+    <div class="content">
+      <h3>Members</h3>
+      <li>Mayuresh</li>
+      <li>ABC</li>
+      <li>XYZ</li>
+    </div>
+  </div>
+</div>
+
+<div class="group-container">
+  <div class="group-details">
+    <div
+      style="display: flex; flex-direction: row; justify-content: space-between"
+    >
+      <h2>{{ groupName }}</h2>
+      <div>
+        <button (click)="openSettleUpDialog()" mat-raised-button color="primary">Settle up</button>
+        <button (click)="openAddExpenseDialog()" mat-raised-button color="accent">Add Expense</button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div
+      style="display: flex; flex-direction: row; justify-content: flex-start"
+    >
+      <p>Total amount: ${{ totalAmount }}</p>
+      <p>You owe: ${{ amountOwed }}</p>
+      <p>You are owed: ${{ amountOwedToYou }}</p>
+    </div>
+  </div>
+</div>

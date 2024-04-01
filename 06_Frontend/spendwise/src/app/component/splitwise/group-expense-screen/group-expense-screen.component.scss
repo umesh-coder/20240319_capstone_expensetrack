@@ -1,0 +1,109 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding-left: 50px;
+  padding-right: 100px;
+  padding-top: 50px;
+}
+
+.btns {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  z-index: 100;
+}
+
+.social-btns button {
+  color: white;
+  background-color: white;
+}
+
+.side-nav-btn button:hover {
+  transform: scale(1.1);
+  transition: 0.5s;
+}
+
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+.container {
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+}
+
+.menu-items {
+  list-style-type: none;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.menu-items li {
+  margin-bottom: 10px;
+}
+
+.menu-items li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.group-details {
+  flex-grow: 2;
+  background-color: #e0e0e0;
+  padding: 20px;
+  border-radius: 5px;
+  margin-left: 20px;
+  height: auto;
+}
+
+.group-details h2 {
+  margin-top: 0;
+}
+
+.group-details div {
+  margin-top: 10px;
+}
+
+.group-details button {
+  margin-right: 10px;
+}
+
+.group-container {
+  display: flex;
+  position: relative;
+  margin-left: 200px;
+  margin-top: 40px;
+  width: 80%;
+  height: 50%;
+}
+
+p {
+  margin-right: 15px;
+}

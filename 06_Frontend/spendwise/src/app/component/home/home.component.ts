@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { BusinessDataService } from '../../services/business-data.service';
 import { AlertBoxComponent } from '../../shared/alert-box/alert-box.component';
 import { ProfileComponent } from '../../shared/profile/profile.component';
+import { CreateGroupDialogComponent } from '../splitwise/create-group-dialog/create-group-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -13,15 +14,18 @@ import { ProfileComponent } from '../../shared/profile/profile.component';
 export class HomeComponent implements OnInit {
   isLogging: any;
   app_version: any;
+  groups: any[] = [];
+
   constructor(
     public dialog: MatDialog,
     public authService: AuthService,
-    public businessData: BusinessDataService,
-  ) { }
+    public businessData: BusinessDataService
+  ) {}
   ngOnInit(): void {
     const token = sessionStorage.getItem('LEAD_ID');
     this.authService.authAfterReferesh(true, token);
     this.app_version = sessionStorage.getItem('Version');
+    console.log(this.groups)
   }
   onAdd() {
     this.businessData.onNavigate('home');
@@ -36,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
   onLogout() {
     this.dialog.open(AlertBoxComponent, {
-      data: { type: 'alert' }
+      data: { type: 'alert' },
     });
   }
   onGithub() {
@@ -45,5 +49,16 @@ export class HomeComponent implements OnInit {
   onLinkedin() {
     this.businessData.onLinkedin();
   }
-}
 
+  groupdetails(): void {
+    const dialogRef = this.dialog.open(CreateGroupDialogComponent, {
+      width: '500px',
+      disableClose: true,
+    });
+
+    dialogRef.componentInstance.groupCreated.subscribe((group: any) => {
+      console.log('Group created', group);
+      this.groups.push(group);
+    });
+  }
+}
