@@ -5,8 +5,10 @@ const groupModel = require('../models/groupModel')
 const createGroup = async (req, res) => {
     try {
 
+      const groupcreatedby = req.decoded;
+
       // Extract group details from request body
-      const { name, members, groupcreatedat, expenses, category } = req.body;
+      const { name, members, groupcreatedat, expenses} = req.body;
 
       // Create a new group using the group model
       const newGroup = new groupModel({
@@ -14,7 +16,7 @@ const createGroup = async (req, res) => {
         members: members,
         groupcreatedat: groupcreatedat,
         expenses: expenses,
-        category: category,
+        groupcreatedby: groupcreatedby.userId,
       });
 
       // Save the group to the database
@@ -51,6 +53,8 @@ const createGroup = async (req, res) => {
 
 const addMemberToGroup = async (req, res) => {
   try {
+    const userData = req.decoded;
+    const userId = userData.userId
     // Extract group ID from query parameters
     const { groupId } = req.query;
 
@@ -62,6 +66,10 @@ const addMemberToGroup = async (req, res) => {
 
     if (!group) {
       return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
     }
 
     // Add new members to the group
@@ -81,7 +89,123 @@ const addMemberToGroup = async (req, res) => {
   }
 };
 
-  module.exports = {createGroup,addMemberToGroup}
+const getGroupById = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId
+    const { groupId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required in query parameters" });
+    }
+
+    const group = await groupModel.findById(groupId)
+    
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    // Check if the specified user is a member of the group
+    const isMember = group.members.some(member => member.toString() === userId);
+
+    if (!isMember) {
+      return res.status(403).json({ error: "The specified user is not a member of this group" });
+    }
+
+    res.status(200).json({
+      success: true,
+      group
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getallGroupsByUserId = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId
+
+    // Find all groups where the provided userId is present in the members array
+    const groups = await groupModel.find({ members: userId });
+
+    res.status(200).json({
+      success: true,
+      groups
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const editGroupName = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId
+    const { groupId } = req.query;
+    const { name } = req.body;
+
+    // Find the group by ID
+    const group = await groupModel.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
+    }
+
+    // Update the group name
+    group.name = name;
+
+    // Save the updated group
+    const updatedGroup = await group.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Group name updated successfully",
+      group: updatedGroup
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteGroup = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId
+    const { groupId } = req.query;
+
+    // Find the group by ID
+    const group = await groupModel.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    if(!(userId == group.groupcreatedby)){
+      return res.status(400).json({error: "user is not the owner of the group"})
+    }
+
+    // Delete the group by ID
+    const result = await groupModel.deleteOne({ _id: groupId });
+
+    res.status(200).json({
+      success: true,
+      message: "Group deleted successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+  module.exports = {createGroup,addMemberToGroup,getGroupById,getallGroupsByUserId,editGroupName,deleteGroup}
 
 
   

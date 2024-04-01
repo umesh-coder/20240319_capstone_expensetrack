@@ -5,7 +5,11 @@ const router = express.Router();
 const group_controller = require('../controller/group')
 const { ensureauth } = require("../middleware/middleware")
 
-router.post("/creategroup", group_controller.createGroup)
-router.put("/addmembers",group_controller.addMemberToGroup)
+router.post("/creategroup",ensureauth, group_controller.createGroup)
+router.put("/addmembers",ensureauth,group_controller.addMemberToGroup)
+router.get("/groupbyid",ensureauth,group_controller.getGroupById)
+router.get("/getallgroups",ensureauth,group_controller.getallGroupsByUserId)
+router.put("/editgroupname",ensureauth,group_controller.editGroupName)
+router.delete("/deletegroup",ensureauth,group_controller.deleteGroup)
 
 module.exports = router
