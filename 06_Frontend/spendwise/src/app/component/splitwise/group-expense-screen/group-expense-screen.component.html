@@ -15,7 +15,10 @@
     </div>
     <ul class="menu-items">
       <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/activity">Activity</a></li>
+      <!-- <li><a routerLink="/activity">Activity</a></li> -->
+      <li><button routerLink="/activity">Activity</button></li>
+
+      <button pButton label="Open Dialog" icon="pi pi-external-link" (click)="openActivity()"></button>
     </ul>
     <div class="content">
       <h3>Members</h3>
@@ -28,9 +31,7 @@
 
 <div class="group-container">
   <div class="group-details">
-    <div
-      style="display: flex; flex-direction: row; justify-content: space-between"
-    >
+    <div style="display: flex; flex-direction: row; justify-content: space-between">
       <h2>{{ groupName }}</h2>
       <div>
         <button (click)="openSettleUpDialog()" mat-raised-button color="primary">Settle up</button>
@@ -38,9 +39,7 @@
       </div>
     </div>
     <mat-divider></mat-divider>
-    <div
-      style="display: flex; flex-direction: row; justify-content: flex-start"
-    >
+    <div style="display: flex; flex-direction: row; justify-content: flex-start">
       <p>Total amount: ${{ totalAmount }}</p>
       <p>You owe: ${{ amountOwed }}</p>
       <p>You are owed: ${{ amountOwedToYou }}</p>

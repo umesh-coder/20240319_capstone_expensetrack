@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertBoxComponent } from '../../../shared/alert-box/alert-box.component';
 import { SettleUpComponent } from '../settle-up/settle-up.component';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
+import { ActivityComponent } from '../activity/activity.component';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -12,8 +13,11 @@ import { AddExpenseComponent } from '../add-expense/add-expense.component';
 })
 export class GroupExpenseScreenComponent {
   @Input() groupMembers: string[] = [];
-  
-  constructor(public dialog: MatDialog) {console.log(this.groupMembers)}
+
+  showDialog: boolean = false;
+
+
+  constructor(public dialog: MatDialog) { console.log(this.groupMembers) }
   onLogout() {
     this.dialog.open(AlertBoxComponent, {
       data: { type: 'alert' },
@@ -21,11 +25,11 @@ export class GroupExpenseScreenComponent {
   }
 
   groupName: String = "Test";
-  totalAmount : Number = 5000;
-  amountOwed : Number =1000;
-  amountOwedToYou : Number = 20;
+  totalAmount: Number = 5000;
+  amountOwed: Number = 1000;
+  amountOwedToYou: Number = 20;
 
-  
+
   openSettleUpDialog(): void {
     this.dialog.open(SettleUpComponent, {
       width: '400px'
@@ -35,6 +39,12 @@ export class GroupExpenseScreenComponent {
     this.dialog.open(AddExpenseComponent, {
       width: '400px'
     });
+  }
+
+  openActivity(): void {
+
+    
+
   }
 
 }
