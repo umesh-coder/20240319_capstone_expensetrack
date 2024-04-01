@@ -20,5 +20,7 @@ router.get("/getallgroups",ensureauth,group_controller.getallGroupsByUserId)
 router.put("/editgroupname",ensureauth,group_controller.editGroupName)
 // Delete group
 router.delete("/deletegroup",ensureauth,group_controller.deleteGroup)
+// Remove members from the group
+router.put("/removemembers",ensureauth,group_controller.removeMembers)
 
 module.exports = router

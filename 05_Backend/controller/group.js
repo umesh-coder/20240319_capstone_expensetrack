@@ -252,6 +252,50 @@ const deleteGroup = async (req, res) => {
   }
 };
 
+/**
+ * @function removeMembers
+ * @param {*} req - The request object containing information for removing members from a group.
+ * @param {*} res - The response object used to send the response back to the client.
+ * @description This function removes specified members from a group based on the provided group ID and user ID (as the owner of the group).
+ */
+const removeMembers = async (req, res) => {
+  try {
+    const userData = req.decoded;
+    const userId = userData.userId;
+    const { groupId } = req.query
+    const { members } = req.body;
+
+    // Find the group by ID
+    const group = await groupModel.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    // Check if the user is the owner of the group
+    if (!(userId == group.groupcreatedby)) {
+      return res
+        .status(400)
+        .json({ error: "user is not the owner of the group" });
+    }
+
+     // Remove the specified members from the group
+     group.members = group.members.filter(member => !members.includes(member.toString()));
+
+    // Save the updated group
+    const updatedGroup = await group.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Members removed from group successfully",
+      group: updatedGroup
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createGroup,
   addMemberToGroup,
@@ -259,4 +303,5 @@ module.exports = {
   getallGroupsByUserId,
   editGroupName,
   deleteGroup,
+  removeMembers
 };
