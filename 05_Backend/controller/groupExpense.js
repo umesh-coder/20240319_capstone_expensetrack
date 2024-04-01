@@ -26,8 +26,11 @@ const groupModel = require('../models/groupModel')
  */
 const createExpense = async (req, res) => {
     try {
+        const userData = req.decoded;
+        const userId = userData.userId;
+
         // Extract expense details from the request body
-        const { name, amount, expense_date, expense_category, payment, comment, split_members, userid } = req.body;
+        const { name, amount, expense_date, expense_category, payment, comment, split_members} = req.body;
         
         // Extract groupId from the request query
         const { groupId } = req.query;
@@ -36,6 +39,13 @@ const createExpense = async (req, res) => {
         const group = await groupModel.findById(groupId);
         if (!group) {
             return res.status(404).json({ error: "Group not found" });
+        }
+
+        // Check if the user is a member of the group or the creator of the group
+        const isGroupMember = group.members.includes(userId);
+        const isGroupCreator = group.groupcreatedby.toString() === userId;
+        if (!isGroupMember && !isGroupCreator) {
+            return res.status(403).json({ error: "Unauthorized access" });
         }
         
         // Create a new expense object
@@ -46,7 +56,7 @@ const createExpense = async (req, res) => {
             expense_category,
             payment,
             comment,
-            userid
+            userid: userId // Assign the user ID
         };
         
         // Add the status to each split member
@@ -110,7 +120,6 @@ const getExpenses = async (req, res) => {
     }
 };
 
-
 //http://localhost:2000/groupExpense/memberExpense?member_id=60f6de8066b1c12288a86329
 //member will get expenses of group of which he is part of 
 /**
@@ -144,7 +153,6 @@ const memberExpense = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-
 
 //http://localhost:2000/groupExpense/updateExpenseStatus?memberId=60f6de8066b1c12288a86328&expenseId=66094e555ce8957ccfcc96fb
 //member can update  his status
@@ -192,7 +200,5 @@ const updateExpenseStatus = async (req, res) => {
     }
 };
 
-
-
-  module.exports = {createExpense,getExpenses,memberExpense,updateExpenseStatus}
+module.exports = {createExpense,getExpenses,memberExpense,updateExpenseStatus}
 

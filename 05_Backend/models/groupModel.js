@@ -29,7 +29,6 @@ const createexpense = mongoose.Schema({
         shareamount: { type: Number, required: true },
         status: {type: String}
     }],
-    
   });
 
 /**

@@ -190,5 +190,4 @@ export class BusinessDataService {
   onGetAppVersion() {
     return this.http.get(this.apiUrl + 'USER/APP_VERSION/');
   }
-
 }
