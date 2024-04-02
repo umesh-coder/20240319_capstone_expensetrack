@@ -5,6 +5,7 @@ import { BusinessDataService } from '../../services/business-data.service';
 import { AlertBoxComponent } from '../../shared/alert-box/alert-box.component';
 import { ProfileComponent } from '../../shared/profile/profile.component';
 import { CreateGroupDialogComponent } from '../splitwise/create-group-dialog/create-group-dialog.component';
+import { groupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +20,11 @@ export class HomeComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public authService: AuthService,
-    public businessData: BusinessDataService
+    public businessData: BusinessDataService,
+    public groupService : groupService
   ) {}
+
+  
   ngOnInit(): void {
     const token = sessionStorage.getItem('LEAD_ID');
     this.authService.authAfterReferesh(true, token);

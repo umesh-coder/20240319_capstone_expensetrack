@@ -11,19 +11,18 @@ const groupModel = require("../models/groupModel");
 const createGroup = async (req, res) => {
   try {
     const groupcreatedby = req.decoded;
-
     // Extract group details from request body
-    const { name, members, groupcreatedat, expenses } = req.body;
-
+    const { name, members, expenses } = req.body;
+    members.push(groupcreatedby.email);
+    
     // Create a new group using the group model
     const newGroup = new groupModel({
       name: name,
       members: members,
-      groupcreatedat: groupcreatedat,
       expenses: expenses,
       groupcreatedby: groupcreatedby.userId,
     });
-
+    console.log(members)
     // Save the group to the database
     const savedGroup = await newGroup.save();
 
@@ -156,11 +155,11 @@ const getGroupById = async (req, res) => {
 const getallGroupsByUserId = async (req, res) => {
   try {
     const userData = req.decoded;
-    const userId = userData.userId;
+    const useremail = userData.email;
 
     // Find all groups where the provided userId is present in the members array
-    const groups = await groupModel.find({ members: userId });
-
+    const groups = await groupModel.find({ members: useremail });
+    console.log(useremail)
     res.status(200).json({
       success: true,
       groups,
@@ -262,7 +261,7 @@ const removeMembers = async (req, res) => {
   try {
     const userData = req.decoded;
     const userId = userData.userId;
-    const { groupId } = req.query
+    const { groupId } = req.query;
     const { members } = req.body;
 
     // Find the group by ID
@@ -279,8 +278,10 @@ const removeMembers = async (req, res) => {
         .json({ error: "user is not the owner of the group" });
     }
 
-     // Remove the specified members from the group
-     group.members = group.members.filter(member => !members.includes(member.toString()));
+    // Remove the specified members from the group
+    group.members = group.members.filter(
+      (member) => !members.includes(member.toString())
+    );
 
     // Save the updated group
     const updatedGroup = await group.save();
@@ -288,7 +289,7 @@ const removeMembers = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Members removed from group successfully",
-      group: updatedGroup
+      group: updatedGroup,
     });
   } catch (error) {
     console.error(error);
@@ -303,5 +304,5 @@ module.exports = {
   getallGroupsByUserId,
   editGroupName,
   deleteGroup,
-  removeMembers
+  removeMembers,
 };
