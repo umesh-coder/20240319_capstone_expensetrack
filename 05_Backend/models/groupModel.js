@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const userschemas = require("./userModel")
+const userschemas = require("./userModel");
 
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require("mongoose-unique-validator");
 
 /**
  * @const createexpense
@@ -23,12 +23,22 @@ const createexpense = mongoose.Schema({
   expense_category: { type: String, required: true },
   payment: { type: String, required: true },
   comment: { type: String, required: false },
-  userid: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas", required: true },
-  split_members: [{
-    member_id: { type: mongoose.Schema.Types.ObjectId, ref: "groupschema", required: true },
-    shareamount: { type: Number, required: true },
-    status: { type: String }
-  }],
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userschemas",
+    required: true,
+  },
+  split_members: [
+    {
+      member_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "groupschema",
+        required: true,
+      },
+      shareamount: { type: Number, required: true },
+      status: { type: String },
+    },
+  ],
 });
 
 /**
@@ -43,7 +53,7 @@ const createexpense = mongoose.Schema({
 const groupschema = new mongoose.Schema({
   name: { type: String, required: true },
   members: [{ type: String }],
-  groupcreatedat: { type: String, required: true },
+  groupcreatedat: { type: Date, default: Date.now }, // Use default value to set current date
   groupcreatedby: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas" },
   expenses: [createexpense],
 });

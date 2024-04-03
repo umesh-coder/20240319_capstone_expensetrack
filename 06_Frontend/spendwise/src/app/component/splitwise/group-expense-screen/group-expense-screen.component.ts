@@ -5,6 +5,7 @@ import { AlertBoxComponent } from '../../../shared/alert-box/alert-box.component
 import { SettleUpComponent } from '../settle-up/settle-up.component';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { ActivityComponent } from '../activity/activity.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -16,14 +17,19 @@ export class GroupExpenseScreenComponent implements OnInit {
   token: string | null = localStorage.getItem('LEAD_ID');
   wordAfterSpace: string | undefined;
   groupMembers: string[] = [];
+  groupID: string = '';
 
   showDialog: boolean = false;
 
-  constructor(public dialog: MatDialog, private http: HttpClient) {
+  constructor(public dialog: MatDialog, private http: HttpClient,private route:ActivatedRoute) {
     console.log(this.groupMembers);
   }
 
   ngOnInit(): void {
+    
+    this.route.queryParams.subscribe((params) => {
+      this.groupID = params['id'];
+    });
     this.getGroupDetails();
   }
 
@@ -32,10 +38,11 @@ export class GroupExpenseScreenComponent implements OnInit {
       const tokenParts = this.userID.split(' ');
       this.wordAfterSpace = tokenParts[1]; // Assign value to wordAfterSpace property
     }
-    const groupId = '660a58a06109096b2662ca54';
+    console.log("afabojbfnsdjgnaslkfnlkas"+this.groupID);
+    
 
     this.http
-      .get<any>(`http://localhost:2000/group/groupbyid?groupId=${groupId}`, {
+      .get<any>(`http://localhost:2000/group/groupbyid?groupId=${this.groupID}`, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.token}`,

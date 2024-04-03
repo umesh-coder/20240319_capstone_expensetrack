@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -22,7 +21,6 @@ import { EqualSplitComponent } from './component/splitwise/equal-split/equal-spl
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UnequalSplitComponent } from './component/splitwise/unequal-split/unequal-split.component';
 import { ActivityComponent } from './component/splitwise/activity/activity.component';
-
 
 // Import PrimeNG modules
 import { AccordionModule } from 'primeng/accordion';
@@ -62,8 +60,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputGroupModule } from 'primeng/inputgroup'
-import { InputOtpModule } from 'primeng/inputotp'
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputOtpModule } from 'primeng/inputotp';
 import { ImageModule } from 'primeng/image';
 import { KnobModule } from 'primeng/knob';
 import { ListboxModule } from 'primeng/listbox';
@@ -123,11 +121,18 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { MessageService } from 'primeng/api';
 import { ActivityService } from './services/activity.service';
 
-
-
-
 @NgModule({
-  declarations: [AppComponent, PageNotFoundComponent, CreateGroupDialogComponent, GroupExpenseScreenComponent, SettleUpComponent, AddExpenseComponent, EqualSplitComponent, UnequalSplitComponent, ActivityComponent],
+  declarations: [
+    AppComponent,
+    PageNotFoundComponent,
+    CreateGroupDialogComponent,
+    
+    SettleUpComponent,
+    AddExpenseComponent,
+    EqualSplitComponent,
+    UnequalSplitComponent,
+    ActivityComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -139,7 +144,10 @@ import { ActivityService } from './services/activity.service';
     HttpClientModule,
     TableModule,
     MatNavList,
-    MatDividerModule, MatListItem, MatList, MatCheckboxModule,
+    MatDividerModule,
+    MatListItem,
+    MatList,
+    MatCheckboxModule,
     AccordionModule,
     AutoCompleteModule,
     BadgeModule,
@@ -233,7 +241,6 @@ import { ActivityService } from './services/activity.service';
     CardModule,
     RippleModule,
     StyleClassModule,
-
   ],
   providers: [
     HttpClientModule,
@@ -243,4 +250,4 @@ import { ActivityService } from './services/activity.service';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
