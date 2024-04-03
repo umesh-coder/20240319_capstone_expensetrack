@@ -279,9 +279,7 @@ const removeMembers = async (req, res) => {
     }
 
     // Remove the specified members from the group
-    group.members = group.members.filter(
-      (member) => !members.includes(member.toString())
-    );
+    group.members = group.members.filter(member => !members.includes(member.toString()));
 
     // Save the updated group
     const updatedGroup = await group.save();
