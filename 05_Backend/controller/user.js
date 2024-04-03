@@ -212,7 +212,7 @@ module.exports = {
             const token = jwt.sign(
                 { email: user.email, userId: user._id },
                 process.env.JWT_KEY,
-                { expiresIn: '1h' } // Token expires in 1 hour
+                { expiresIn: '23h' } // Token expires in 1 hour
             );
 
 

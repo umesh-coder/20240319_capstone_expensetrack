@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,4 +37,21 @@ export class groupService {
 //       headers,
 //     });
 //   }
+
+  getAllGroupsByUserId(): Observable<any> {
+    const token = sessionStorage.getItem('LEAD_ID');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<any>(`${this.baseUrl}/getallgroups`,{headers});
+  }
+
+  private groupNameSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  
+  setGroupName(groupName: string): void {
+    this.groupNameSubject.next(groupName);
+  }
+
+  getGroupName(): Observable<string> {
+    return this.groupNameSubject.asObservable();
+  }
 }
