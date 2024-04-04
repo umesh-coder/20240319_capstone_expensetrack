@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const userschemas = require("./userModel")
+const userschemas = require("./userModel");
 
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require("mongoose-unique-validator");
 
 /**
  * @const createexpense
@@ -17,19 +17,29 @@ const uniqueValidator = require('mongoose-unique-validator');
  */
 
 const createexpense = mongoose.Schema({
-    name: { type: String, required: true },
-    amount: { type: Number, required: true },
-    expense_date: { type: String, required: true },
-    expense_category: { type: String, required: true },
-    payment: { type: String, required: true },
-    comment: { type: String, required: false },
-    userid: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas", required: true },
-    split_members: [{ 
-        member_id: { type: mongoose.Schema.Types.ObjectId, ref: "groupschema", required: true },
-        shareamount: { type: Number, required: true },
-        status: {type: String}
-    }],
-  });
+  name: { type: String, required: true },
+  amount: { type: Number, required: true },
+  expense_date: { type: String, required: true },
+  expense_category: { type: String, required: true },
+  payment: { type: String, required: true },
+  comment: { type: String, required: false },
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userschemas",
+    required: true,
+  },
+  split_members: [
+    {
+      member_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "groupschema",
+        required: true,
+      },
+      shareamount: { type: Number, required: true },
+      status: { type: String },
+    },
+  ],
+});
 
 /**
  * @const groupschema
@@ -41,13 +51,13 @@ const createexpense = mongoose.Schema({
  */
 
 const groupschema = new mongoose.Schema({
-    name: { type: String, required: true },
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: "userschemas" }],
-    groupcreatedat: { type: String, required: true },
-    groupcreatedby: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas" },
-    expenses: [createexpense],
-  });
+  name: { type: String, required: true },
+  members: [{ type: String }],
+  groupcreatedat: { type: Date, default: Date.now }, // Use default value to set current date
+  groupcreatedby: { type: mongoose.Schema.Types.ObjectId, ref: "userschemas" },
+  expenses: [createexpense],
+});
 
-  groupschema.plugin(uniqueValidator);
+groupschema.plugin(uniqueValidator);
 
-  module.exports = mongoose.model("groupschema", groupschema);
+module.exports = mongoose.model("groupschema", groupschema);

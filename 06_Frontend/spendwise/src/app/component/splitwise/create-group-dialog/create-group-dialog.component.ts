@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { groupService } from '../../../services/group.service';
 
 @Component({
   selector: 'app-create-group-dialog',
@@ -12,7 +13,10 @@ export class CreateGroupDialogComponent {
 
   @Output() groupCreated = new EventEmitter<any>();
 
-  constructor(public dialogRef: MatDialogRef<CreateGroupDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<CreateGroupDialogComponent>,
+    public groupService: groupService
+  ) {}
 
   addMember(member: string): void {
     if (member.trim() !== '') {
@@ -26,10 +30,21 @@ export class CreateGroupDialogComponent {
 
   createGroup(): void {
     const group = {
-      groupName: this.groupName,
-      groupMembers: this.groupMembers,
+      name: this.groupName,
+      members: this.groupMembers,
+      expenses: [], // Assuming expenses is initially an empty array
     };
-    this.groupCreated.emit(group);
+
+    this.groupService.createGroup(group).subscribe({
+      next: (response) => {
+        console.log('Group created successfully:', response);
+        // Handle success, if needed
+      },
+      error: (error) => {
+        console.error('Error creating group:', error);
+        // Handle error, if needed
+      },
+    });
     this.dialogRef.close();
   }
 

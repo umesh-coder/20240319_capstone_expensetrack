@@ -204,5 +204,38 @@ const updateStatus = async (req, res) => {
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateStatus}
+
+/**
+ * @function getMembersByGroupId
+ * @param {*} req - The request object containing the group ID.
+ * @param {*} res - The response object used to send the response back to the client.
+ * @description This function retrieves all members of a group based on the provided group ID.
+ */
+const getMembers= async (req, res) => {
+    try {
+      // Extract the group ID from the request parameters
+      const { groupId } = req.query;
+  
+      // Find the group by ID
+      const group = await groupModel.findById(groupId);
+  
+      if (!group) {
+        return res.status(404).json({ error: "Group not found" });
+      }
+  
+      // Extract the list of members from the group
+      const members = group.members;
+  
+      res.status(200).json({
+        success: true,
+        members: members,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+  
+
+module.exports = {createExpense,getExpenses,memberExpense,updateStatus,getMembers}
 

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { AddExpenseComponent } from './component/header/add-expense/add-expense.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { ActivityComponent } from './component/splitwise/activity/activity.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
       import('./component/home/home.module').then((m) => m.HomeModule),
   },
 
+  {
+    path: 'activity',
+    component: ActivityComponent
+  },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -38,4 +44,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [AuthGuard],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

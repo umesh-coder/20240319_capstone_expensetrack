@@ -1,15 +1,15 @@
 <h2 mat-dialog-title>Add an Expense</h2>
 <div mat-dialog-content class="dialog-content">
   <mat-form-field appearance="outline" class="description-field">
-    <input matInput placeholder="Description" />
+    <input matInput placeholder="Description" />{{name}}
   </mat-form-field>
   <mat-form-field appearance="outline" class="price-field">
-    <input matInput type="number" placeholder="Price" />
+    <input matInput type="number" placeholder="Price" />{{price}}
   </mat-form-field>
   <div class="form-group">
     <mat-form-field appearance="outline" class="select-field">
       <mat-label>Paid by</mat-label>
-      <mat-select>
+      <mat-select *ngFor="">
         <mat-option value="user1">User 1</mat-option>
         <mat-option value="user2">User 2</mat-option>
         <!-- Add more users as needed -->

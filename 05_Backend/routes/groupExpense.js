@@ -7,5 +7,5 @@ router.put("/createExpense",ensureauth,groupExpense.createExpense)
 router.get("/getExpenses",ensureauth,groupExpense.getExpenses)
 router.get("/memberExpense",ensureauth,groupExpense.memberExpense)
 router.put("/updateStatus",ensureauth,groupExpense.updateStatus)
-
+router.get("/getMembers",groupExpense.getMembers)
 module.exports = router
