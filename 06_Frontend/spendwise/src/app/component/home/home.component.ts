@@ -43,12 +43,6 @@ export class HomeComponent implements OnInit {
       data: { type: 'alert' },
     });
   }
-  onGithub() {
-    this.businessData.onGithub();
-  }
-  onLinkedin() {
-    this.businessData.onLinkedin();
-  }
 
   groupdetails(): void {
     const dialogRef = this.dialog.open(CreateGroupDialogComponent, {

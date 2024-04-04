@@ -24,7 +24,7 @@ export class GroupExpenseScreenComponent {
     });
   }
 
-  groupName: String = "Test";
+  groupName: String = "Group Name ";
   totalAmount: Number = 5000;
   amountOwed: Number = 1000;
   amountOwedToYou: Number = 20;
@@ -43,7 +43,7 @@ export class GroupExpenseScreenComponent {
 
   openActivity(): void {
 
-    
+
 
   }
 

@@ -156,10 +156,10 @@ const getGroupById = async (req, res) => {
 const getallGroupsByUserId = async (req, res) => {
   try {
     const userData = req.decoded;
-    const userId = userData.userId;
+    const email = userData.email;
 
     // Find all groups where the provided userId is present in the members array
-    const groups = await groupModel.find({ members: userId });
+    const groups = await groupModel.find({ members: email });
 
     res.status(200).json({
       success: true,
@@ -279,8 +279,8 @@ const removeMembers = async (req, res) => {
         .json({ error: "user is not the owner of the group" });
     }
 
-     // Remove the specified members from the group
-     group.members = group.members.filter(member => !members.includes(member.toString()));
+    // Remove the specified members from the group
+    group.members = group.members.filter(member => !members.includes(member.toString()));
 
     // Save the updated group
     const updatedGroup = await group.save();
