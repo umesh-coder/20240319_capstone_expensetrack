@@ -156,7 +156,7 @@ const memberExpense = async (req, res) => {
 };
 
 
-//http://localhost:2000/groupExpense/updateExpenseStatus?expenseId=66094e555ce8957ccfcc96fb
+//http://localhost:2000/groupExpense/updateStatus?expenseId=66094e555ce8957ccfcc96fb
 //member can update  his status
 /**
  * Update the status of an expense for a specific member.
