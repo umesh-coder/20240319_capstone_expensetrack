@@ -38,7 +38,6 @@ export class GroupExpenseScreenComponent implements OnInit {
       const tokenParts = this.userID.split(' ');
       this.wordAfterSpace = tokenParts[1]; // Assign value to wordAfterSpace property
     }
-    console.log("afabojbfnsdjgnaslkfnlkas"+this.groupID);
     
 
     this.http
@@ -50,6 +49,8 @@ export class GroupExpenseScreenComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          console.log("ioaonafnokanoifaonfanoi"+JSON.stringify(response));
+          
           this.groupName = response.group.name;
           // Initialize amounts to 0
           let amountOwedToYou = 0;
@@ -57,8 +58,6 @@ export class GroupExpenseScreenComponent implements OnInit {
 
           // Iterate over expenses
           for (const expense of response.group.expenses) {
-            console.log('This is exense user id' + expense.userid);
-            console.log('This is user id' + this.wordAfterSpace);
             // Check if the current user is the one who posted the expense
             if (expense.userid == this.wordAfterSpace) {
               amountOwedToYou += expense.amount;
@@ -87,7 +86,6 @@ export class GroupExpenseScreenComponent implements OnInit {
           this.totalAmount = amountOwedToYou - amountOwed;
 
           this.groupMembers = response.group.members;
-          console.log('hihihihihhihiihihihi' + this.groupMembers);
 
           console.log(response);
         },
