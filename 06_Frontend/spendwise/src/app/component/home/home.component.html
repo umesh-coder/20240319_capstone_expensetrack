@@ -58,9 +58,12 @@
       </button>
 
       <mat-list role="list">
-        <mat-list-item routerLink="group-expense">TEST</mat-list-item>
-        <mat-list-item routerLink="group-expense" *ngFor="let group of groups" role="listitem">
-          {{ group.groupName }}
+        <mat-list-item
+          *ngFor="let group of groups"
+          role="listitem"
+          (click)="onGroupClick(group._id)"
+        >
+          {{ group.name }}
         </mat-list-item>
       </mat-list>
     </div>
