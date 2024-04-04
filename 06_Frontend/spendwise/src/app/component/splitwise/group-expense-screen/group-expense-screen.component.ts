@@ -32,6 +32,13 @@ export class GroupExpenseScreenComponent {
     });
   }
 
+  openactivity()
+  {
+    this.router.navigate(['/activity'], {
+      queryParams: { id: this.groupID },
+    });
+  }
+
   openGroupDashboard() {
     this.router.navigate(['group-dashboard'], {
       queryParams: { id: this.groupID },

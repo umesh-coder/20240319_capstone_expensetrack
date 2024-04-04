@@ -206,5 +206,42 @@ const updateStatus = async (req, res) => {
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateStatus}
+const updateExpenseStatus = async (req, res) => {
+    try {
+        // Extract expense ID and member ID from query parameters
+        const { expenseId, memberId } = req.query;
+
+        // Find the group where the member is added as a split member
+        const group = await groupModel.findOne({ "expenses.split_members.member_id": memberId });
+        if (!group) {
+            return res.status(404).json({ error: "No expenses found for the member" });
+        }
+
+        // Find the expense in the group's expenses array
+        const expense = group.expenses.find(expense => expense._id.toString() === expenseId);
+        if (!expense) {
+            return res.status(404).json({ error: "Expense not found" });
+        }
+
+        // Find the split member within the expense
+        const splitMember = expense.split_members.find(member => member.member_id.toString() === memberId);
+        if (!splitMember) {
+            return res.status(404).json({ error: "Member not found in expense" });
+        }
+
+        // Toggle the status between "Pending" and "Received"
+        splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
+
+        // Save the updated group document to the database
+        await group.save();
+
+        // Sending response
+        res.status(200).json({ success: true, message: "Expense status updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports = {createExpense,getExpenses,memberExpense,updateStatus,updateExpenseStatus}
 

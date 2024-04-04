@@ -5,10 +5,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ActivityService {
-
-
-
-
   // getData() {
   //   return [
   //     {
@@ -130,12 +126,12 @@ export class ActivityService {
 
 
 
-  private apiUrl = 'http://localhost:2000/group/getallgroups';
+  private apiUrl = 'http://localhost:2000/group/groupbyid';
 
   constructor(private http: HttpClient) { }
 
   getAllGroupsByEmail(email: string): Observable<any> {
-
+    
 
     const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
 
@@ -147,7 +143,7 @@ export class ActivityService {
     console.log("get group data by email local token:-" + token);
 
 
-    let params = new HttpParams().set('email', email);
-    return this.http.get(this.apiUrl, { headers, params });
+    
+    return this.http.get(`http://localhost:2000/group/groupbyid?groupId=${email}`, { headers });
   }
 };
