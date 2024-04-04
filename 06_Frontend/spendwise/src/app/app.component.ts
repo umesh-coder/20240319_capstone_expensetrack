@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { AlertBoxComponent } from './shared/alert-box/alert-box.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterModule, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-root',

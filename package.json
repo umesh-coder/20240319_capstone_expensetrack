@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mongoose-unique-validator": "^5.0.0"
+    "mongoose-unique-validator": "^5.0.0",
+    "primeng": "^17.12.0"
   }
 }
