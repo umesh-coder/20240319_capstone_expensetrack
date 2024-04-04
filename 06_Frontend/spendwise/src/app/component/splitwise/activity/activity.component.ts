@@ -3,6 +3,7 @@ import { Table } from 'primeng/table';
 import { ActivityService } from '../../../services/activity.service';
 import { Customer, Representative } from '../domain/activity'
 
+
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -10,7 +11,7 @@ import { Customer, Representative } from '../domain/activity'
 })
 export class ActivityComponent implements OnInit {
 
-  showDialog: boolean = false;
+  groups: any[] = [];
 
   customers!: Customer[];
 
@@ -24,40 +25,51 @@ export class ActivityComponent implements OnInit {
 
   constructor(private customerService: ActivityService) { }
 
+
   ngOnInit() {
-    this.customerService.getCustomersLarge().then((customers) => {
-      this.customers = customers;
-      this.loading = false;
+    
+    
+    this.customerService.getAllGroupsByEmail('umesh@dj.com').subscribe(
+      data => {
+        console.log(data.groups);
+        
+        this.groups = data.groups;
+      },
+      error => {
+        console.error('Error fetching groups:', error);
+      }
+    );
+    
 
-      this.customers.forEach((customer) => (customer.date = new Date(<Date>customer.date)));
-    });
+    //demo data
+    // this.customerService.getCustomersLarge().then((customers) => {
+    //   this.customers = customers;
+    //   this.loading = false;
 
-    this.representatives = [
-      { name: 'Amy Elsner', image: 'amyelsner.png' },
-      { name: 'Anna Fali', image: 'annafali.png' },
-      { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-      { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-      { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-      { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-      { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-      { name: 'Onyama Limba', image: 'onyamalimba.png' },
-      { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-      { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
-    ];
+    //   this.customers.forEach((customer) => (customer.date = new Date(<Date>customer.date)));
+    // });
 
-    this.statuses = [
-      { label: 'Unqualified', value: 'unqualified' },
-      { label: 'Qualified', value: 'qualified' },
-      { label: 'New', value: 'new' },
-      { label: 'Negotiation', value: 'negotiation' },
-      { label: 'Renewal', value: 'renewal' },
-      { label: 'Proposal', value: 'proposal' }
-    ];
-  }
+    // this.representatives = [
+    //   { name: 'Amy Elsner', image: 'amyelsner.png' },
+    //   { name: 'Anna Fali', image: 'annafali.png' },
+    //   { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
+    //   { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
+    //   { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
+    //   { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
+    //   { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
+    //   { name: 'Onyama Limba', image: 'onyamalimba.png' },
+    //   { name: 'Stephen Shaw', image: 'stephenshaw.png' },
+    //   { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
+    // ];
 
-  clear(table: Table) {
-    table.clear();
-  }
+  //   this.statuses = [
+   
+  //   ];
+  // }
+
+  // clear(table: Table) {
+  //   table.clear();
+  // }
 
 
   // getSeverity(status: string) {
@@ -79,26 +91,26 @@ export class ActivityComponent implements OnInit {
   //   }
   // }
 
-  getSeverity(status: string): "danger" | "success" | "info" | "warning" {
+  // getSeverity(status: string): "danger" | "success" | "info" | "warning" {
 
-    console.log("status:-" + status);
+  //   console.log("status:-" + status);
 
 
-    switch (status) {
-      case 'error':
-        return 'danger';
-      case 'success':
-        return 'success';
-      case 'info':
-        return 'info';
-      case 'warning':
-        return 'warning';
-      default:
-        return 'success'; // or return undefined; depending on your requirements
+  //   switch (status) {
+  //     case 'error':
+  //       return 'danger';
+  //     case 'success':
+  //       return 'success';
+  //     case 'info':
+  //       return 'info';
+  //     case 'warning':
+  //       return 'warning';
+  //     default:
+  //       return 'success'; // or return undefined; depending on your requirements
+  //   }
+  // }
+
+
     }
-  }
-
-
-
 }
 
