@@ -236,6 +236,80 @@ const getMembers= async (req, res) => {
     }
   };
   
+// Function to generate a random ID
+// Function to generate a random ObjectId-like ID
+function generateRandomId() {
+    const characters = '0123456789abcdef';
+    const length = 24; // Length of ObjectId
+    let id = '';
+    for (let i = 0; i < length; i++) {
+        id += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return id;
+}
 
-module.exports = {createExpense,getExpenses,memberExpense,updateStatus,getMembers}
+const convert = async (req, res) => {
+    try {
+        // Extract group ID from query parameters
+        const { groupId } = req.query;
+
+        // Find the group by ID
+        const group = await groupModel.findById(groupId);
+
+        if (!group) {
+            return res.status(404).json({ error: "Group not found" });
+        }
+
+        // Extract member emails from the group
+        const memberEmails = group.members;
+
+        // Find corresponding user IDs for each member email
+        const memberIds = [];
+        for (const email of memberEmails) {
+            const user = await UserModel.findOne({ email });
+            if (user) {
+                memberIds.push(user._id);
+            }
+        }
+
+        // Check if any member ID is found
+        if (memberIds.length === 0) {
+            return res.status(404).json({ error: "No member IDs found for the given emails" });
+        }
+
+        res.status(200).json({
+            success: true,
+            memberIds: memberIds,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
+const getObjectIdByEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await UserModel.findOne({ email }); // Using UserModel instead of User
+        if (!user) return res.status(404).send('User not found');
+        res.send(user._id);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+const getEmailById = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const user = await UserModel.findById(id);
+        if (!user) return res.status(404).send('User not found');
+        res.send(user.email);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+module.exports = {createExpense,getExpenses,memberExpense,updateStatus,getMembers,convert,getObjectIdByEmail,getEmailById}
 
