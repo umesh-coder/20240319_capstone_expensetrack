@@ -29,8 +29,8 @@ const createExpense = async (req, res) => {
         const userId = userData.userId;
 
         // Extract expense details from the request body
-        const { name, amount, expense_date, expense_category, payment, comment, split_members} = req.body;
-        
+        const { name, amount, expense_date, expense_category, payment, comment, split_members } = req.body;
+
         // Extract groupId from the request query
         const { groupId } = req.query;
 
@@ -46,7 +46,7 @@ const createExpense = async (req, res) => {
         if (!isGroupMember && !isGroupCreator) {
             return res.status(403).json({ error: "Unauthorized access" });
         }
-        
+
         // Create a new expense object
         const newExpense = {
             name,
@@ -57,7 +57,7 @@ const createExpense = async (req, res) => {
             comment,
             userid: userId // Assign the user ID
         };
-        
+
         // Add the status to each split member
         const splitMembersWithStatus = split_members.map(member => ({
             ...member,
@@ -66,13 +66,13 @@ const createExpense = async (req, res) => {
 
         // Add the split members to the new expense object
         newExpense.split_members = splitMembersWithStatus;
-        
+
         // Add the new expense to the group's expenses array
         group.expenses.push(newExpense);
-        
+
         // Save the updated group document to the database
         const updatedGroup = await group.save();
-        
+
         res.status(201).json({
             success: true,
             message: "Expense created successfully!",
@@ -135,14 +135,14 @@ const memberExpense = async (req, res) => {
     try {
         const userData = req.decoded;
         const userId = userData.userId;
-     
+
         // Find the group where the member is added as a split member
         const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
-        
+
         // Filter expenses for the member
         const memberExpenses = group.expenses.filter(expense => {
             return expense.split_members.some(member => member.userId.toString() === userId);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EqualSplitComponent } from '../equal-split/equal-split.component';
 import { AutoFocus } from 'primeng/autofocus';
@@ -9,7 +9,9 @@ import {ExpensesService} from '../../../services/expenses.service';
   templateUrl: './add-expense.component.html',
   styleUrl: './add-expense.component.scss',
 })
-export class AddExpenseComponent {
+
+
+export class AddExpenseComponent implements OnInit {
   splitType!: string;
   description: string = '';
   price: number = 0;
@@ -25,6 +27,8 @@ export class AddExpenseComponent {
 
   onCancel(): void {
     this.dialogRef.close();
+
+
   }
 
   onSave(): void {
