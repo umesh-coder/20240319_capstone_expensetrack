@@ -121,6 +121,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { MessageService } from 'primeng/api';
 import { ActivityService } from './services/activity.service';
 import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
+import { SuggestionsComponent } from './suggestions/suggestions.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { GroupDashboardComponent } from './component/splitwise/group-dashboard/g
     UnequalSplitComponent,
     ActivityComponent,
     GroupDashboardComponent,
+    SuggestionsComponent,
   ],
   imports: [
     CommonModule,

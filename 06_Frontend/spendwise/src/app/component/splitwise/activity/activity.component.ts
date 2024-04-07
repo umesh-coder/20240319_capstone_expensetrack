@@ -13,7 +13,7 @@ export class ActivityComponent implements OnInit {
   groups: any[] = [];
   expenses: any[] = [];
   userid: any;
-  groupname:any
+  groupname: any;
   customers!: Customer[];
 
   representatives!: Representative[];
@@ -25,8 +25,8 @@ export class ActivityComponent implements OnInit {
   activityValues: number[] = [0, 100];
   groupID: any;
   userIDD: any;
-  groupdata:any;
-  status:any;
+  groupdata: any;
+  status: any;
 
   constructor(
     private customerService: ActivityService,
@@ -40,10 +40,14 @@ export class ActivityComponent implements OnInit {
 
     this.customerService.getAllGroupsByEmail(this.groupID).subscribe(
       (data) => {
-        this.groupname = data.group.name
-        this.groupdata = data.group
+        this.groupname = data.group.name;
+        this.groupdata = data.group;
         this.expenses = data.group.expenses;
-        this.status = data.group.expenses.split_members;
+        for (const st of this.expenses) {
+          for (const member of st.split_members) {
+            console.log(member.status);
+          }
+        }
       },
       (error) => {
         console.error('Error fetching groups:', error);
