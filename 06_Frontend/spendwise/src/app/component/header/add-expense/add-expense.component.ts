@@ -46,6 +46,7 @@ export class AddExpenseComponent implements OnInit {
     this.businessData.onGetAllCategory().subscribe((res: any) => {
       this.keywords = res.data;
     })
+    
     this.expenseForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z ]*$')]),
       amount: new FormControl('', Validators.required),

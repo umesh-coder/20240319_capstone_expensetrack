@@ -284,7 +284,6 @@ module.exports = {
   * }
   */
 
-
     deleteaccount: async (req, res, next) => {
         try {
            

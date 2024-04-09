@@ -29,8 +29,8 @@ const createExpense = async (req, res) => {
         const userId = userData.userId;
 
         // Extract expense details from the request body
-        const { name, amount, expense_date, expense_category, payment, comment, split_members} = req.body;
-        
+        const { name, amount, expense_date, expense_category, payment, comment, split_members } = req.body;
+
         // Extract groupId from the request query
         const { groupId } = req.query;
 
@@ -46,7 +46,7 @@ const createExpense = async (req, res) => {
         if (!isGroupMember && !isGroupCreator) {
             return res.status(403).json({ error: "Unauthorized access" });
         }
-        
+
         // Create a new expense object
         const newExpense = {
             name,
@@ -57,7 +57,7 @@ const createExpense = async (req, res) => {
             comment,
             userid: userId // Assign the user ID
         };
-        
+
         // Add the status to each split member
         const splitMembersWithStatus = split_members.map(member => ({
             ...member,
@@ -66,13 +66,13 @@ const createExpense = async (req, res) => {
 
         // Add the split members to the new expense object
         newExpense.split_members = splitMembersWithStatus;
-        
+
         // Add the new expense to the group's expenses array
         group.expenses.push(newExpense);
-        
+
         // Save the updated group document to the database
         const updatedGroup = await group.save();
-        
+
         res.status(201).json({
             success: true,
             message: "Expense created successfully!",
@@ -137,14 +137,14 @@ const memberExpense = async (req, res) => {
     try {
         const userData = req.decoded;
         const userId = userData.userId;
-     
+
         // Find the group where the member is added as a split member
         const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
-        
+
         // Filter expenses for the member
         const memberExpenses = group.expenses.filter(expense => {
             return expense.split_members.some(member => member.userId.toString() === userId);
@@ -206,42 +206,69 @@ const updateStatus = async (req, res) => {
     }
 };
 
-const updateExpenseStatus = async (req, res) => {
+const convert = async (req, res) => {
     try {
-        // Extract expense ID and member ID from query parameters
-        const { expenseId, memberId } = req.query;
+        // Extract group ID from query parameters
+        const { groupId } = req.query;
 
-        // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": memberId });
+        // Find the group by ID
+        const group = await groupModel.findById(groupId);
+
         if (!group) {
-            return res.status(404).json({ error: "No expenses found for the member" });
+            return res.status(404).json({ error: "Group not found" });
         }
 
-        // Find the expense in the group's expenses array
-        const expense = group.expenses.find(expense => expense._id.toString() === expenseId);
-        if (!expense) {
-            return res.status(404).json({ error: "Expense not found" });
+        // Extract member emails from the group
+        const memberEmails = group.members;
+
+        // Find corresponding user IDs for each member email
+        const memberIds = [];
+        for (const email of memberEmails) {
+            const user = await UserModel.findOne({ email });
+            if (user) {
+                memberIds.push(user._id);
+            }
         }
 
-        // Find the split member within the expense
-        const splitMember = expense.split_members.find(member => member.member_id.toString() === memberId);
-        if (!splitMember) {
-            return res.status(404).json({ error: "Member not found in expense" });
+        // Check if any member ID is found
+        if (memberIds.length === 0) {
+            return res.status(404).json({ error: "No member IDs found for the given emails" });
         }
 
-        // Toggle the status between "Pending" and "Received"
-        splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
-
-        // Save the updated group document to the database
-        await group.save();
-
-        // Sending response
-        res.status(200).json({ success: true, message: "Expense status updated successfully" });
+        res.status(200).json({
+            success: true,
+            memberIds: memberIds,
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateStatus,updateExpenseStatus}
+
+const getObjectIdByEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await UserModel.findOne({ email }); // Using UserModel instead of User
+        if (!user) return res.status(404).send('User not found');
+        res.send(user._id);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+const getEmailById = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const user = await UserModel.findById(id);
+        if (!user) return res.status(404).send('User not found');
+        res.send(user.email);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById }
 
