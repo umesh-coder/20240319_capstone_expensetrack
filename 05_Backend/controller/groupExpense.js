@@ -260,10 +260,10 @@ const getObjectIdByEmail = async (req, res) => {
 
 const getEmailById = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         const user = await UserModel.findById(id);
         if (!user) return res.status(404).send('User not found');
-        res.send(user.email);
+        res.send(JSON.stringify(user.email));
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');

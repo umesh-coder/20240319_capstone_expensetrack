@@ -9,6 +9,6 @@ router.get("/memberExpense", ensureauth, groupExpense.memberExpense)
 router.put("/updateStatus", ensureauth, groupExpense.updateStatus)
 router.get("/convert", ensureauth, groupExpense.convert)
 router.get("/getid", ensureauth, groupExpense.getObjectIdByEmail)
-router.get("/getemail", ensureauth, groupExpense.getEmailById)
+router.get("/getemail/:id", ensureauth, groupExpense.getEmailById)
 
 module.exports = router

@@ -18,7 +18,7 @@ export class ActivityComponent implements OnInit {
 
   representatives!: Representative[];
 
-  statuses!: any[];
+  statuses!: any;
 
   loading: boolean = true;
 
@@ -27,6 +27,8 @@ export class ActivityComponent implements OnInit {
   userIDD: any;
   groupdata: any;
   status: any;
+
+  useremail!: string[]
 
   constructor(
     private customerService: ActivityService,
@@ -43,9 +45,15 @@ export class ActivityComponent implements OnInit {
         this.groupname = data.group.name;
         this.groupdata = data.group;
         this.expenses = data.group.expenses;
+        for (const exp of this.expenses) {
+          this.customerService.getEmail(exp.userid).subscribe((data) => {
+            this.useremail = data;
+          });
+        }
+
         for (const st of this.expenses) {
           for (const member of st.split_members) {
-            console.log(member.status);
+            this.statuses = member.status;
           }
         }
       },
@@ -53,6 +61,7 @@ export class ActivityComponent implements OnInit {
         console.error('Error fetching groups:', error);
       }
     );
+  }
 
     //demo data
     // this.customerService.getCustomersLarge().then((customers) => {
@@ -84,41 +93,16 @@ export class ActivityComponent implements OnInit {
     //   table.clear();
     // }
 
-    // getSeverity(status: string) {
-    //   switch (status) {
-    //     case 'pending':
-    //       return 'danger';
-
-    //     case 'received':
-    //       return 'success';
-
-    //     case 'new':
-    //       return 'info';
-
-    //     case 'negotiation':
-    //       return 'warning';
-
-    //     case 'renewal':
-    //       return null;
-    //   }
-    // }
-
-    // getSeverity(status: string): "danger" | "success" | "info" | "warning" {
-
-    //   console.log("status:-" + status);
-
-    //   switch (status) {
-    //     case 'error':
-    //       return 'danger';
-    //     case 'success':
-    //       return 'success';
-    //     case 'info':
-    //       return 'info';
-    //     case 'warning':
-    //       return 'warning';
-    //     default:
-    //       return 'success'; // or return undefined; depending on your requirements
-    //   }
-    // }
-  }
+    getSeverity(status: string): "danger" | "success" | "warning" {
+      switch (status) {
+        case 'pending':
+          return 'danger';
+    
+        case 'received':
+          return 'success';
+    
+        default:
+          return 'warning'; // Handle other statuses
+      }
+    }
 }

@@ -56,6 +56,8 @@ export class groupService {
     return this.groupNameSubject.asObservable();
   }
 
+ 
+
   SuggestionsByGemini(data: string): Observable<any> {
     // Construct the request body
     const requestBody = {

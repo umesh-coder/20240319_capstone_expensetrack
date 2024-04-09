@@ -97,11 +97,11 @@
 
     <ng-template pTemplate="emptymessage">
       <tr *ngFor="let exp of expenses">
-        <td>{{ exp.userid }}</td>
+        <td>{{ useremail}}</td>
         <td>{{exp.name}}</td>
         <td>{{ groupdata.groupcreatedat }}</td>
         <td>{{ exp.amount }}</td>
-        <td>{{ exp.split_members }}</td>
+        <p-tag [value]="statuses" [severity]="getSeverity(statuses)"></p-tag>
       </tr>
 
       <!-- <td>
