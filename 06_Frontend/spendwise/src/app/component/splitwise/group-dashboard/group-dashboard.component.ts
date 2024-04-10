@@ -54,6 +54,7 @@ export class GroupDashboardComponent implements OnInit {
     this.userId = sessionStorage.getItem('Id')?.split(' ')[1];
   }
 
+  len:any;
   cards: any = [];
   allexpense: any = 0;
   count: any = 0;
@@ -84,14 +85,25 @@ export class GroupDashboardComponent implements OnInit {
   public getAllExpense(id: any) {
     this.groupData.onGetAllExpense(id).subscribe(
       (res: any) => {
-      
-        console.log("aa gya" + res.data[0].expense_date);
-        this.ELEMENT_DATA = res.data;
+
+        console.log(res.expenses[0].expenses);
+
+        // console.log("aa gya" + res.data[0].expense_date);
+        this.ELEMENT_DATA = res.expenses[0].expenses;
+
         this.dataSource = new MatTableDataSource<ExpenseContent>(
           this.ELEMENT_DATA
         );
         this.count = 0;
-        let len = res.data.length;
+
+        console.log("length of log " + res.expenses[0].expenses.length);
+        
+        console.log("data date" + res.expenses[0].expenses[0].expense_date);
+        
+
+        this.len = res.expenses[0].expenses.length;
+        
+        // let len = 13
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
         }, 5000);
@@ -99,17 +111,17 @@ export class GroupDashboardComponent implements OnInit {
           {
             icon: 'today',
             title: 'First Expense Date',
-            content: len > 0 ? res.data[0].expense_date : '-',
+            content: this.len > 0 ? res.expenses[0].expenses[0].expense_date : '-',
           },
           {
             icon: 'today',
             title: 'Latest Expense Date',
-            content: len > 0 ? res.data[res.data.length - 1].expense_date : '-',
+            content: this.len > 0 ? res.expenses[0].expenses[0].expense_date : '-',
           },
           {
             icon: 'numbers',
             title: 'Number of Expenses',
-            content: len,
+            content: this.len,
           },
           {
             icon: 'monetization_on',
@@ -117,12 +129,12 @@ export class GroupDashboardComponent implements OnInit {
             content: '₹' + this.count,
           },
         ];
-        this.allexpense = len;
+        this.allexpense = this.len;
         this.businessData.expensesLogged = this.allexpense;
 
         this.updateExpene();
-        this.pieChartData(res.data);
-        this.onBarChartEdit(res.data);
+        this.pieChartData(res.expenses[0].expenses);
+        this.onBarChartEdit(res.expenses[0].expenses);
         setTimeout(() => {
           this.isLoading = false;
         }, 4000);
