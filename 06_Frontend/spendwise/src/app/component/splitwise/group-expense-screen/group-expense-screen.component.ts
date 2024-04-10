@@ -6,6 +6,7 @@ import { SettleUpComponent } from '../settle-up/settle-up.component';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { ActivityComponent } from '../activity/activity.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedDataService } from '../shared-data.service';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -25,21 +26,30 @@ export class GroupExpenseScreenComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private dataService: SharedDataService
   ) {
-    console.log(this.groupID);
+    
   }
 
   ngOnInit(): void {
-    
     this.route.queryParams.subscribe((params) => {
       this.groupID = params['id'];
       this.groupName = this.groupID;
     });
+    
+    this.getGroupDetails();
   }
 
-  openactivity()
-  {
+  sendData(): void {
+    console.log("group members  ::::"+this.groupMembers)
+    const dataToSend = this.groupID;
+    const groupMembers = this.groupMembers
+    
+    this.dataService.setData(dataToSend,groupMembers);
+  }
+
+  openactivity() {
     this.router.navigate(['/activity'], {
       queryParams: { id: this.groupID },
     });
@@ -49,7 +59,6 @@ export class GroupExpenseScreenComponent implements OnInit {
     this.router.navigate(['group-dashboard'], {
       queryParams: { id: this.groupID },
     });
-    this.getGroupDetails();
   }
 
   getGroupDetails(): void {
@@ -57,19 +66,21 @@ export class GroupExpenseScreenComponent implements OnInit {
       const tokenParts = this.userID.split(' ');
       this.wordAfterSpace = tokenParts[1]; // Assign value to wordAfterSpace property
     }
-    
 
     this.http
-      .get<any>(`http://localhost:2000/group/groupbyid?groupId=${this.groupID}`, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.token}`,
-        }),
-      })
+      .get<any>(
+        `http://localhost:2000/group/groupbyid?groupId=${this.groupID}`,
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.token}`,
+          }),
+        }
+      )
       .subscribe({
         next: (response) => {
-          console.log("ioaonafnokanoifaonfanoi"+JSON.stringify(response));
-          
+          console.log('ioaonafnokanoifaonfanoi' + JSON.stringify(response));
+
           this.groupName = response.group.name;
           // Initialize amounts to 0
           let amountOwedToYou = 0;
@@ -86,16 +97,14 @@ export class GroupExpenseScreenComponent implements OnInit {
                   amountOwedToYou -= splitMember.shareamount;
                 }
               }
-            }
-            else{
+            } else {
               // Check if the current user is present in the split members
-            for (const splitMember of expense.split_members) {
-              if (splitMember.member_id == this.wordAfterSpace) {
-                amountOwed += splitMember.shareamount;
+              for (const splitMember of expense.split_members) {
+                if (splitMember.member_id == this.wordAfterSpace) {
+                  amountOwed += splitMember.shareamount;
+                }
               }
             }
-            }
-            
           }
 
           // Assign the calculated amounts to component properties
@@ -106,13 +115,14 @@ export class GroupExpenseScreenComponent implements OnInit {
 
           this.groupMembers = response.group.members;
 
-          console.log(response);
+          this.sendData();
         },
         error: (error) => {
           console.error('Error fetching group details:', error);
           // Handle error as needed
         },
       });
+     
   }
 
   onLogout() {

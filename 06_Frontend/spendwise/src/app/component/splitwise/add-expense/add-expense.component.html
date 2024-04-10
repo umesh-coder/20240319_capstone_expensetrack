@@ -16,18 +16,28 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="select-field">
         <mat-label>Split</mat-label>
-        <mat-select formControlName="split_type">
+        <mat-select formControlName="split_type" [(ngModel)]="split_type">
           <mat-option value="equally">Equally</mat-option>
           <mat-option value="unequally">Unequally</mat-option>
         </mat-select>
       </mat-form-field>
-      <div *ngIf="splitType === 'equally'">
-        <button mat-raised-button color="primary" style="padding: 10px;" (click)="openEquallySplitDialog()">
+      <div *ngIf="split_type === 'equally'">
+        <button
+          mat-raised-button
+          color="primary"
+          style="padding: 10px"
+          (click)="openEquallySplitDialog()"
+        >
           Select Participants
         </button>
       </div>
-      <div *ngIf="splitType === 'unequally'">
-        <button mat-raised-button color="primary" style="padding: 10px;" (click)="openUnEquallySplitDialog()">
+      <div *ngIf="split_type === 'unequally'">
+        <button
+          mat-raised-button
+          color="primary"
+          style="padding: 10px"
+          (click)="openUnEquallySplitDialog()"
+        >
           Select Participants
         </button>
       </div>
@@ -35,7 +45,9 @@
     <mat-form-field appearance="outline" class="category-field">
       <mat-label>Expense Category</mat-label>
       <mat-select formControlName="expense_category">
-        <mat-option *ngFor="let item of keywords" [value]="item">{{ item }}</mat-option>
+        <mat-option *ngFor="let item of keywords" [value]="item">{{
+          item
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
     <h2>(RS {{ calculateExpensePerPerson() }} / Person)</h2>
@@ -46,16 +58,27 @@
 
     <mat-form-field appearance="outline" style="width: 100%">
       <mat-label>Choose a Expense date</mat-label>
-      <input matInput [max]="maxDate" [matDatepicker]="picker" formControlName="expense_date"
-        (dateChange)="addEvent($event)" />
-      <mat-hint *ngIf="
-                        expenseForm.get('expense_date')?.errors &&
-                        expenseForm.get('expense_date')?.hasError('required') &&
-                        expenseForm.get('expense_date')?.touched
-                      " style="color: red">
+      <input
+        matInput
+        [max]="maxDate"
+        [matDatepicker]="picker"
+        formControlName="expense_date"
+        (dateChange)="addEvent($event)"
+      />
+      <mat-hint
+        *ngIf="
+          expenseForm.get('expense_date')?.errors &&
+          expenseForm.get('expense_date')?.hasError('required') &&
+          expenseForm.get('expense_date')?.touched
+        "
+        style="color: red"
+      >
         Expense Date is required
       </mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>

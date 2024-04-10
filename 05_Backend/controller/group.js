@@ -110,7 +110,8 @@ const addMemberToGroup = async (req, res) => {
 const getGroupById = async (req, res) => {
   try {
     const userData = req.decoded;
-    const userId = userData.email;
+    const userId = userData.userId;
+    const useremail = userData.email
     const { groupId } = req.query;
 
     if (!userId) {

@@ -128,14 +128,13 @@ import { SuggestionsComponent } from './suggestions/suggestions.component';
     AppComponent,
     PageNotFoundComponent,
     CreateGroupDialogComponent,
-    
     SettleUpComponent,
-    AddExpenseComponent,
     EqualSplitComponent,
     UnequalSplitComponent,
     ActivityComponent,
     GroupDashboardComponent,
     SuggestionsComponent,
+    // AddExpenseComponent
   ],
   imports: [
     CommonModule,

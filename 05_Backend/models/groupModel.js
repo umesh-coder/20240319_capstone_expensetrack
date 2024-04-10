@@ -20,7 +20,7 @@ const createexpense = mongoose.Schema({
   name: { type: String, required: true },
   amount: { type: Number, required: true },
   expense_date: { type: String, required: true },
-  expense_category: { type: String, required: true },
+  expense_category: [{ type: String }],
   payment: { type: String, required: true },
   comment: { type: String, required: false },
   userid: {
@@ -31,11 +31,12 @@ const createexpense = mongoose.Schema({
   split_members: [
     {
       member_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "groupschema",
-        required: true,
+        type :String
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "groupschema",
+        // required: true,
       },
-      shareamount: { type: Number, required: true },
+      shareamount: { type: Number },
       status: { type: String },
     },
   ],
