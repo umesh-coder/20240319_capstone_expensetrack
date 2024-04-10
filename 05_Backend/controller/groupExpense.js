@@ -42,8 +42,9 @@ const createExpense = async (req, res) => {
 
         // Check if the user is a member of the group or the creator of the group
         const isGroupMember = group.members.includes(userId);
+        console.log("Check group mem "+isGroupMember)
         const isGroupCreator = group.groupcreatedby.toString() === userId;
-        if (!isGroupMember && !isGroupCreator) {
+        if (isGroupMember ) {
             return res.status(403).json({ error: "Unauthorized access" });
         }
 
