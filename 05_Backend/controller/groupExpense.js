@@ -96,8 +96,7 @@ const createExpense = async (req, res) => {
 const getExpenses = async (req, res) => {
     try {
         userId = req.decoded.userId;
-        
-
+    
         console.log(userId)
         // Extract user ID and group ID from query parameters
         const { groupId } = req.query;
@@ -109,7 +108,8 @@ const getExpenses = async (req, res) => {
         }
 
         // Filter the group's expenses to find those created by the specified user
-        const userExpenses = group.expenses.filter(expense => expense.userid.toString() === this.userId);
+        const userExpenses = await groupModel.find({_id:groupId});
+        console.log(userExpenses)
 
         // Return the user's expenses in the group
         res.status(200).json({
