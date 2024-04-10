@@ -7,11 +7,16 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './equal-split.component.scss'
 })
 export class EqualSplitComponent {
+
+
    participants: { name: string, amount: number, selected: boolean }[] = [
     { name: 'User 1', amount: 0, selected: false },
     { name: 'User 2', amount: 0, selected: false },
     // Add more participants as needed
   ];
+
+
+  
 
   constructor(public dialogRef: MatDialogRef<EqualSplitComponent>) {}
 
@@ -20,6 +25,8 @@ export class EqualSplitComponent {
   }
 
   onSave(): void {
+    console.log(this.participants);
+    
     // Implement save logic here
     this.dialogRef.close();
   }
