@@ -13,6 +13,7 @@ import { ShowChartComponent } from '../../home/show-chart/show-chart.component';
 import { ActivatedRoute } from '@angular/router';
 
 import { groupDashboardService } from '../../../services/groupo-dashboard.service';
+import { SharedDataService } from '../shared-data.service';
 
 @Component({
   selector: 'app-group-dashboard',
@@ -48,6 +49,7 @@ export class GroupDashboardComponent implements OnInit {
     public authServ: AuthService,
     public _snackBar: MatSnackBar,
     private router: ActivatedRoute,
+    private dataService: SharedDataService,
 
     public groupData: groupDashboardService
   ) {
@@ -58,6 +60,7 @@ export class GroupDashboardComponent implements OnInit {
   cards: any = [];
   allexpense: any = 0;
   count: any = 0;
+  GName :any = this.dataService.GName;
   ngOnInit(): void {
     this.isLoading = true;
     this.isDelete = false;

@@ -35,7 +35,6 @@ export class GroupExpenseScreenComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.groupID = params['id'];
-      this.groupName = this.groupID;
     });
     
     this.getGroupDetails();
@@ -45,8 +44,9 @@ export class GroupExpenseScreenComponent implements OnInit {
     console.log("group members  ::::"+this.groupMembers)
     const dataToSend = this.groupID;
     const groupMembers = this.groupMembers
+    const groupName = this.groupName
     
-    this.dataService.setData(dataToSend,groupMembers);
+    this.dataService.setData(dataToSend,groupMembers,groupName);
   }
 
   openactivity() {
