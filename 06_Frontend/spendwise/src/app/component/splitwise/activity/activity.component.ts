@@ -21,7 +21,7 @@ export class ActivityComponent implements OnInit {
   expenseId : any[] = [];
   representatives!: Representative[];
 
-  statuses!: any;
+  statuses: string[] = [];
 
   loading: boolean = true;
 
@@ -45,6 +45,8 @@ export class ActivityComponent implements OnInit {
       this.groupID = params['id'];
     });
 
+    
+
 
     this.customerService.getAllGroupsByEmail(this.groupID).subscribe(
       (data) => {
@@ -57,13 +59,19 @@ export class ActivityComponent implements OnInit {
           });
           this.expenseId = exp._id;
           
+          
         }
 
         for (const st of this.expenses) {
+          console.log(st);
+          
           for (const member of st.split_members) {
             this.statuses = member.status;
+            
           }
         }
+        console.log(this.statuses);
+        
       },
       (error) => {
         console.error('Error fetching groups:', error);
@@ -79,6 +87,7 @@ export class ActivityComponent implements OnInit {
       // You might need to filter expenses based on group ID or other criteria
       this.updateActivity(expense);
     });
+    
   }
 
     //demo data
@@ -111,6 +120,7 @@ export class ActivityComponent implements OnInit {
     //   table.clear();
     // }
 
+    
     getSeverity(status: string): "danger" | "success" | "warning" {
       switch (status) {
         case 'pending':

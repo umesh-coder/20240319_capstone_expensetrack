@@ -22,7 +22,23 @@ export class SettleUpComponent {
   onSave(): void {
     // Make the API call to update expense status
     const expenseId = this.expenseId; // Replace 'your_expense_id' with the actual expense ID
-    this.updateExpenseStatus(expenseId).subscribe({
+    console.log("now the expense "+expenseId);
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}` // Replace 'your_token_here' with the actual JWT token
+    });
+    this.http.put<any>(
+      `http://localhost:2000/groupExpense/updateStatus?expenseId=${expenseId}`,
+      null,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        }),
+      }
+
+    ).subscribe({
       next: (response: any) => {
         console.log('Expense status updated successfully:', response);
         // Close the dialog
@@ -33,20 +49,27 @@ export class SettleUpComponent {
         // Handle error as needed
       }
     });
+    console.log(this.token);
+    
     this.dialogRef.close();
   }
 
-  updateExpenseStatus(expenseId: string) {
-    // Construct request headers with authorization token
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}` // Replace 'your_token_here' with the actual JWT token
-    });
+  // updateExpenseStatus(expenseId: string) {
+  //   // Construct request headers with authorization token
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Bearer ${this.token}` // Replace 'your_token_here' with the actual JWT token
+  //   });
 
-    // Make the API call
-    return this.http.post<any>(
-      `http://localhost:2000/groupExpense/updateStatus?expenseId=${expenseId}`,
-      { headers }
-    );
-  }
+  //   // Make the API call
+  //   console.log(headers);
+    
+  //   return this.http.put<any>(
+  //     `http://localhost:2000/groupExpense/updateStatus?expenseId=${expenseId}`,
+  //     {
+  //       headers
+  //     }
+
+  //   );
+  // }
 }

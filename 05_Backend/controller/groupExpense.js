@@ -1,7 +1,7 @@
 //interal dependencies
 const UserModel = require('../models/userModel');
 const groupModel = require('../models/groupModel')
-
+const expenses = require("../models/createExpense")
 /*
 {
     "name": "Groceries",
@@ -42,8 +42,9 @@ const createExpense = async (req, res) => {
 
         // Check if the user is a member of the group or the creator of the group
         const isGroupMember = group.members.includes(userId);
+        console.log("Check group mem " + isGroupMember)
         const isGroupCreator = group.groupcreatedby.toString() === userId;
-        if (!isGroupMember && !isGroupCreator) {
+        if (isGroupMember) {
             return res.status(403).json({ error: "Unauthorized access" });
         }
 
@@ -96,7 +97,7 @@ const createExpense = async (req, res) => {
 const getExpenses = async (req, res) => {
     try {
         userId = req.decoded.userId;
-    
+
         console.log(userId)
         // Extract user ID and group ID from query parameters
         const { groupId } = req.query;
@@ -108,7 +109,7 @@ const getExpenses = async (req, res) => {
         }
 
         // Filter the group's expenses to find those created by the specified user
-        const userExpenses = await groupModel.find({_id:groupId});
+        const userExpenses = await groupModel.find({ _id: groupId });
         console.log(userExpenses)
 
         // Return the user's expenses in the group
@@ -139,7 +140,8 @@ const memberExpense = async (req, res) => {
         const userId = userData.userId;
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
+        console.log(expenses)
+        const group = await groupModel.findOne({ "expenses.split_members.member_id": userId });
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
@@ -173,29 +175,61 @@ const updateStatus = async (req, res) => {
         const userId = userData.userId;
         console.log("adanslfnasklfnaslknflkasnflkasnflkasnflknasfnasl  "+userId);
         // Extract expense IDfrom query parameters
+        console.log("yeh hai user id:-" + userId);
         const { expenseId } = req.query;
-        console.log(expenseId);
+
+        // console.log("yeh hai expense id:-" + expenseId);
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expense.split_members.member_id": "65fc2334d0f9863c01408585" });
+
+        // Find the group where the member is added as a split member
+        const group = await groupModel.findOne({ "expenses._id": expenseId });
+        
+
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
+        // console.log(group+"yo");
+        let expenseToUpdate = false;
+        // Iterate over members to find the matching expense
+        group.expenses.forEach(members => {
+            // console.log(members);
+            members.split_members.forEach(member => {
+                // console.log("this tie  "+member.member_id)
+                // console.log("hello "+member.member_id.toString());
+                // console.log("user id "+ userId.toString());
+                if (member.member_id.toString() == userId.toString()) {
+                    expenseToUpdate = true
+                    console.log("in if");
+                }
+                // } else {
+                //     return res.status(404).json({ error: "Memeber not found" });
+                // }
+            })
+        })
 
-        // Find the expense in the group's expenses array
-        const expense = group.expenses.find(expense => expense._id.toString() === expenseId);
-        if (!expense) {
+        if (!expenseToUpdate) {
             return res.status(404).json({ error: "Expense not found" });
         }
 
-        // Find the split member within the expense
-        const splitMember = expense.split_members.find(member => member.userId.toString() === userId);
-        if (!splitMember) {
-            return res.status(404).json({ error: "Member not found in expense" });
-        }
+        group.expenses.forEach(members => {
+            // console.log(members);
+            members.split_members.forEach(member => {
+                console.log(member.member_id)
+                if (member.member_id.toString() === userId.toString()) {
+                    expenseToUpdate = true
+                    console.log(member.status);
+                    if (member.status === "Pending") {
+                        member.status = "Recieved"
+                    }
+
+                }
+            })
+        })
+
 
         // Toggle the status between "Pending" and "Received"
-        splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
+        // splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
 
         // Save the updated group document to the database
         await group.save();

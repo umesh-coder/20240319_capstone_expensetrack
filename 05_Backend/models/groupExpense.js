@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const createGroup = mongoose.Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
