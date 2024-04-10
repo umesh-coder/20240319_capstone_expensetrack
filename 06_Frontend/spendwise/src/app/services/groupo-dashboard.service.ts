@@ -8,10 +8,6 @@ import { environment } from '../../enviroments/environment.development';
 export class groupDashboardService {
 
   userIDD = localStorage.getItem('Id')?.split("  ")[1];
-  
-
-
-
   isLogging: boolean = false;
   isChecking: boolean = false;
   hashmap: any = {};
@@ -49,10 +45,7 @@ export class groupDashboardService {
       'Authorization': `Bearer ${token}`
     });
 
-    console.log("signup local token:-" + token);
-
-
-    return this.http.get('http://localhost:2000/grouop/getExpenses/' + this.userid+this.userIDD,  { headers });
+    return this.http.get(`http://localhost:2000/groupExpense/getExpenses?groupId=${this.userid}`  , { headers });
   }
 
   onCreateExpense(values: any, date: any) {

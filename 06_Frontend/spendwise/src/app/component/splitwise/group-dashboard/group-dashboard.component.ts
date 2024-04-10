@@ -61,11 +61,11 @@ export class GroupDashboardComponent implements OnInit {
     this.isLoading = true;
     this.isDelete = false;
     this.userId = sessionStorage.getItem('Id')?.split(' ')[1];
-    this.getAllExpense(this.groupID);
 
     this.router.queryParams.subscribe((params) => {
       this.groupID = params['id'];
     });
+    this.getAllExpense(this.groupID);
   }
   onHome() {
     this.route.navigate(['home']);
@@ -84,7 +84,8 @@ export class GroupDashboardComponent implements OnInit {
   public getAllExpense(id: any) {
     this.groupData.onGetAllExpense(id).subscribe(
       (res: any) => {
-        // console.log("aa gya" + res.data[0].expense_date);
+      
+        console.log("aa gya" + res.data[0].expense_date);
         this.ELEMENT_DATA = res.data;
         this.dataSource = new MatTableDataSource<ExpenseContent>(
           this.ELEMENT_DATA
