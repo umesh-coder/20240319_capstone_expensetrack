@@ -172,7 +172,7 @@ const memberExpense = async (req, res) => {
 const updateStatus = async (req, res) => {
     try {
         const userData = req.decoded;
-        const userId = userData.userId;
+        const userId = userData.email;
         console.log("adanslfnasklfnaslknflkasnflkasnflkasnflknasfnasl  "+userId);
         // Extract expense IDfrom query parameters
         console.log("yeh hai user id:-" + userId);

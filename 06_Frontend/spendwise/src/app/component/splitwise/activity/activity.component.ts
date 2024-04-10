@@ -21,7 +21,7 @@ export class ActivityComponent implements OnInit {
   expenseId : any[] = [];
   representatives!: Representative[];
 
-  statuses: string[] = [];
+  statuses: any;
 
   loading: boolean = true;
 

@@ -94,7 +94,7 @@ export class AddExpenseComponent implements OnInit {
     this.expenseservice.createExpense(groupId, expenseData).subscribe(
       (response) => {
         console.log('Expense created successfully:', response);
-        this.websocketService.emit('expenseCreated', expenseData);
+        // this.websocketService.emit('expenseCreated', expenseData);
       },
       (error) => {
         console.error('Error creating expense:', error);

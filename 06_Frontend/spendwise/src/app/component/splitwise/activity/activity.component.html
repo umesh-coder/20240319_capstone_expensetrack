@@ -101,9 +101,9 @@
         <td>{{exp.name}}</td>
         <td>{{ groupdata.groupcreatedat }}</td>
         <td>{{ exp.amount }}</td>
-        <p-tag [value]="status" [severity]="getSeverity(status)"></p-tag>
+        <p-tag [value]="statuses" [severity]="getSeverity(statuses)"></p-tag>
         <!-- Conditionally show the Settle Up button -->
-      <td *ngIf="status === 'Pending'">
+      <td *ngIf="statuses === 'Pending'">
         <button (click)="openSettleUpDialog(exp._id)" mat-raised-button color="primary">Settle Up</button>
       </td>
       </tr>

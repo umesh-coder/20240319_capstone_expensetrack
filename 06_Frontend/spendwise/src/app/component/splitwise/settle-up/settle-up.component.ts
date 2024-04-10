@@ -24,10 +24,6 @@ export class SettleUpComponent {
     const expenseId = this.expenseId; // Replace 'your_expense_id' with the actual expense ID
     console.log("now the expense "+expenseId);
     
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}` // Replace 'your_token_here' with the actual JWT token
-    });
     this.http.put<any>(
       `http://localhost:2000/groupExpense/updateStatus?expenseId=${expenseId}`,
       null,
