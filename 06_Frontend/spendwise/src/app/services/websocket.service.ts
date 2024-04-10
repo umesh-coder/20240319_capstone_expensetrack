@@ -32,4 +32,9 @@ export class WebsocketService {
       });
     });
   }
+
+  // Emit WebSocket events
+  emit(eventName: string, eventData: any): void {
+    this.socket?.emit(eventName, eventData);
+  }
 }

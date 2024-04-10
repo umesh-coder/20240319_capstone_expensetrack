@@ -17,12 +17,5 @@ export class AppComponent implements OnInit {
     if (localToken) {
       this.authService.authAfterReferesh(true, localToken);
     }
-    // if(!sessionStorage.getItem('LEAD_ID') && ){
-    //   // console.log('jf',sessionStorage.getItem('LEAD_ID'));
-    //   this.dialog.open(AlertBoxComponent, {
-    //     data:{type:'expire'}
-    //   });
-    //   return;
-    // }
   }
 }

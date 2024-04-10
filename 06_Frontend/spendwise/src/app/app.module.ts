@@ -121,19 +121,20 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { MessageService } from 'primeng/api';
 import { ActivityService } from './services/activity.service';
 import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
+import { SuggestionsComponent } from './suggestions/suggestions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     CreateGroupDialogComponent,
-    
     SettleUpComponent,
-    AddExpenseComponent,
     EqualSplitComponent,
     UnequalSplitComponent,
     ActivityComponent,
     GroupDashboardComponent,
+    SuggestionsComponent,
+    // AddExpenseComponent
   ],
   imports: [
     CommonModule,

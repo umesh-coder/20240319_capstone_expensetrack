@@ -5,6 +5,7 @@ import { AddExpenseComponent } from './component/header/add-expense/add-expense.
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { ActivityComponent } from './component/splitwise/activity/activity.component';
 import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
+import { SuggestionsComponent } from './suggestions/suggestions.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,11 @@ const routes: Routes = [
   {
     path:'group-dashboard',
     component:GroupDashboardComponent
+  },
+
+  {
+    path:'suggestions',
+    component:SuggestionsComponent
   },
 
   { path: '**', component: PageNotFoundComponent },

@@ -25,17 +25,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ProfileComponent } from './profile/profile.component';
 
-
 import { NgChartsModule } from 'ng2-charts';
-
 
 import { WelcomeLoaderComponent } from './welcome-loader/welcome-loader.component';
 import { FooterComponent } from './footer/footer.component';
 import { AlertBoxComponent } from './alert-box/alert-box.component';
-
+import { AddExpenseComponent } from '../component/splitwise/add-expense/add-expense.component';
 
 @NgModule({
-  declarations: [LoaderComponent, ProfileComponent, WelcomeLoaderComponent, FooterComponent, AlertBoxComponent],
+  declarations: [
+    LoaderComponent,
+    ProfileComponent,
+    WelcomeLoaderComponent,
+    FooterComponent,
+    AlertBoxComponent,
+    AddExpenseComponent,
+  ],
   imports: [
     CommonModule,
     MatSidenavModule,
@@ -61,8 +66,6 @@ import { AlertBoxComponent } from './alert-box/alert-box.component';
     ReactiveFormsModule,
     MatProgressBarModule,
     NgChartsModule,
-
-
   ],
   exports: [
     LoaderComponent,
@@ -93,6 +96,4 @@ import { AlertBoxComponent } from './alert-box/alert-box.component';
     NgChartsModule,
   ],
 })
-export class SharedModule { }
-
-
+export class SharedModule {}

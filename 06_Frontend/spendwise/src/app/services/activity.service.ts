@@ -145,5 +145,18 @@ export class ActivityService {
 
     
     return this.http.get(`http://localhost:2000/group/groupbyid?groupId=${email}`, { headers });
+  
   }
+
+  getEmail(userId: any): Observable<any> {
+    const token = localStorage.getItem('LEAD_ID') || sessionStorage.getItem('LEAD_ID');
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+      
+    return this.http.get(`http://localhost:2000/groupExpense/getemail/${userId}`, { headers });
+  }
+  
 };
