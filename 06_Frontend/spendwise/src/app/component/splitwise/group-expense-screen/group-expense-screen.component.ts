@@ -136,11 +136,6 @@ export class GroupExpenseScreenComponent implements OnInit {
   amountOwed: Number = 1000;
   amountOwedToYou: Number = 20;
 
-  openSettleUpDialog(): void {
-    this.dialog.open(SettleUpComponent, {
-      width: '400px',
-    });
-  }
   openAddExpenseDialog(): void {
     this.dialog.open(AddExpenseComponent, {
       width: '400px',

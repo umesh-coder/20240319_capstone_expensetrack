@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Table } from 'primeng/table';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivityService } from '../../../services/activity.service';
 import { Customer, Representative } from '../domain/activity';
 import { ActivatedRoute } from '@angular/router';
 import { WebsocketService } from '../../../services/websocket.service';
+import { SettleUpComponent } from '../settle-up/settle-up.component';
 
 @Component({
   selector: 'app-activity',
@@ -16,7 +18,7 @@ export class ActivityComponent implements OnInit {
   userid: any;
   groupname: any;
   customers!: Customer[];
-
+  expenseId : any[] = [];
   representatives!: Representative[];
 
   statuses!: any;
@@ -34,13 +36,15 @@ export class ActivityComponent implements OnInit {
   constructor(
     private customerService: ActivityService,
     private route: ActivatedRoute,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.groupID = params['id'];
     });
+
 
     this.customerService.getAllGroupsByEmail(this.groupID).subscribe(
       (data) => {
@@ -51,6 +55,8 @@ export class ActivityComponent implements OnInit {
           this.customerService.getEmail(exp.userid).subscribe((data) => {
             this.useremail = data;
           });
+          this.expenseId = exp._id;
+          
         }
 
         for (const st of this.expenses) {
@@ -130,6 +136,13 @@ export class ActivityComponent implements OnInit {
         console.error('Error fetching groups:', error);
       }
     );
+  }
+
+  openSettleUpDialog(expenseId: any): void {
+    const dialogRef = this.dialog.open(SettleUpComponent, {
+      width: '400px',
+    });
+    dialogRef.componentInstance.expenseId = expenseId; // Pass expenseId to the SettleUpComponent
   }
 
   updateActivity(expense: any) {

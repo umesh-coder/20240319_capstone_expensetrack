@@ -171,11 +171,13 @@ const updateStatus = async (req, res) => {
     try {
         const userData = req.decoded;
         const userId = userData.userId;
+        console.log("adanslfnasklfnaslknflkasnflkasnflkasnflknasfnasl  "+userId);
         // Extract expense IDfrom query parameters
         const { expenseId } = req.query;
+        console.log(expenseId);
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": userId });
+        const group = await groupModel.findOne({ "expense.split_members.member_id": "65fc2334d0f9863c01408585" });
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
