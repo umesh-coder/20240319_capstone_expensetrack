@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 4000);
+    
     const token = sessionStorage.getItem('LEAD_ID');
     this.authService.authAfterReferesh(true, token);
   }

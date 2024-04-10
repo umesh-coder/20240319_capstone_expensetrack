@@ -1,87 +1,131 @@
 <div class="card">
+  <p-panel header="History">
+    <ul>
+      <li>
+        <b style="font-size: 20px">{{ groupname }} </b>
+      </li>
+    </ul>
+  </p-panel>
 
-    <p-panel header="History">
+  <!-- [loading]="loading" -->
 
-        <b style="font-size: 20px;"> User Name </b>
+  <p-table
+    #dt1
+    [value]="groups"
+    dataKey="id"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="[
+      'name',
+      'country.name',
+      'representative.name',
+      'status'
+    ]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 15rem">
+          <div class="flex align-items-center">
+            Names
+            <p-columnFilter
+              type="text"
+              field="name"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th style="min-width: 15rem">
+          <div class="flex align-items-center">
+            Expense
+            <p-columnFilter
+              type="text"
+              field="country.name"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
 
-    </p-panel>
-
-    <p-table #dt1 [value]="customers" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">
-
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="min-width:15rem">
-                    <div class="flex align-items-center">
-                        Name
-                        <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
-                    </div>
-                </th>
-                <th style="min-width:15rem">
-                    <div class="flex align-items-center">
-                        Expense
-                        <p-columnFilter type="text" field="country.name" display="menu"></p-columnFilter>
-                    </div>
-                </th>
-
-                <th style="min-width:10rem">
-                    <div class="flex align-items-center">
-                        Date
-                        <p-columnFilter type="date" field="date" display="menu"></p-columnFilter>
-                    </div>
-                </th>
-                <th style="min-width:10rem">
-                    <div class="flex align-items-center">
-                        Balance
-                        <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
-                    </div>
-                </th>
-                <th style="min-width:10rem">
-                    <div class="flex align-items-center">
-                        Status
-                        <p-columnFilter field="status" matchMode="equals" display="menu">
-                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
-                                    placeholder="Any">
-                                    <ng-template let-option pTemplate="item">
+        <th style="min-width: 10rem">
+          <div class="flex align-items-center">
+            Date
+            <p-columnFilter
+              type="date"
+              field="date"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex align-items-center">
+            Balance
+            <p-columnFilter
+              type="numeric"
+              field="balance"
+              display="menu"
+              currency="USD"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th style="min-width: 10rem">
+          <div class="flex align-items-center">
+            Status
+            <p-columnFilter field="status" matchMode="equals" display="menu">
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <p-dropdown
+                  [ngModel]="value"
+                  [options]="statuses"
+                  (onChange)="filter($event.value)"
+                  placeholder="Any"
+                >
+                  <!-- <ng-template let-option pTemplate="item">
                                         <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                                    </ng-template>
-                                </p-dropdown>
-                            </ng-template>
-                        </p-columnFilter>
-                    </div>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr>
-                <td>
-                    {{ customer.name }}
-                </td>
-                <td>
+                                    </ng-template> -->
+                </p-dropdown>
+              </ng-template>
+            </p-columnFilter>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr *ngFor="let exp of expenses">
+        <td>{{ exp.userid }}</td>
+        <td>{{exp.name}}</td>
+        <td>{{ groupdata.groupcreatedat }}</td>
+        <td>{{ exp.amount }}</td>
+        <td>{{ exp.split_members.status }}</td>
+      </tr>
+
+      <!-- <td>
                     <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
                         [class]="'flag flag-' + customer.country.code" style="width: 20px" />
                     <span class="ml-1 vertical-align-middle">{{ customer.country.name }}</span>
-                </td>
+                </td> -->
 
-                <td>
+      <!-- <td>
                     {{ customer.date | date: 'MM/dd/yyyy' }}
-                </td>
-                <td>
+                </td> -->
+      <!-- <td>
                     {{ customer.balance | currency: 'USD':'symbol' }}
-                </td>
-                <td>
+                </td> -->
+      <!-- <td>
                     <p-tag [value]="customer.status" [severity]="getSeverity(customer.status)"></p-tag>
-                </td>
+                </td> -->
 
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="7">No customers found.</td>
-            </tr>
-        </ng-template>
-    </p-table>
+      <!-- </tr> -->
+    </ng-template>
+    <!-- <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">No customers found.</td>
+      </tr>
+    </ng-template> -->
+  </p-table>
 </div>

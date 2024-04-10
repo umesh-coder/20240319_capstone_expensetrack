@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AddExpenseComponent } from './component/header/add-expense/add-expense.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { ActivityComponent } from './component/splitwise/activity/activity.component';
+import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
   {
     path: 'activity',
     component: ActivityComponent
+  },
+
+  {
+    path:'group-dashboard',
+    component:GroupDashboardComponent
   },
 
   { path: '**', component: PageNotFoundComponent },

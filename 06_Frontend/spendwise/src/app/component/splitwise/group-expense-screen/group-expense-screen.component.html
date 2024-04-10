@@ -14,8 +14,8 @@
       <mat-divider></mat-divider>
     </div>
     <ul class="menu-items">
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><button routerLink="/activity">Activity</button></li>
+      <li><button (click)="openGroupDashboard()">Dashboard</button></li>
+      <li><button routerLink="/activity" (click)="openactivity()">Activity</button></li>
     </ul>
     <div class="content">
       <h3>Members</h3>

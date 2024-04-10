@@ -5,7 +5,7 @@ import { AlertBoxComponent } from '../../../shared/alert-box/alert-box.component
 import { SettleUpComponent } from '../settle-up/settle-up.component';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { ActivityComponent } from '../activity/activity.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -21,7 +21,7 @@ export class GroupExpenseScreenComponent implements OnInit {
 
   showDialog: boolean = false;
 
-  constructor(public dialog: MatDialog, private http: HttpClient,private route:ActivatedRoute) {
+  constructor(public dialog: MatDialog, private http: HttpClient,private route:ActivatedRoute,private router: Router) {
     console.log(this.groupMembers);
   }
 
@@ -94,6 +94,19 @@ export class GroupExpenseScreenComponent implements OnInit {
           // Handle error as needed
         },
       });
+  }
+
+  openactivity()
+  {
+    this.router.navigate(['/activity'], {
+      queryParams: { id: this.groupID },
+    });
+  }
+
+  openGroupDashboard() {
+    this.router.navigate(['group-dashboard'], {
+      queryParams: { id: this.groupID },
+    });
   }
 
   onLogout() {

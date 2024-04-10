@@ -120,6 +120,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { MessageService } from 'primeng/api';
 import { ActivityService } from './services/activity.service';
+import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { ActivityService } from './services/activity.service';
     EqualSplitComponent,
     UnequalSplitComponent,
     ActivityComponent,
+    GroupDashboardComponent,
   ],
   imports: [
     CommonModule,

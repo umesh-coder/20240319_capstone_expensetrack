@@ -14,7 +14,6 @@ const groupModel = require('../models/groupModel')
       {"member_id": "60f6de8066b1c12288a86328", "shareamount": 40,"status": "Pending",},
       {"member_id": "60f6de8066b1c12288a8632a", "shareamount": 40,"status": "Pending",}
     ],
-    "userid": "60f6de8066b1c12288a86328" 
   }
   */
 
@@ -86,7 +85,7 @@ const createExpense = async (req, res) => {
 };
 
 
-//http://localhost:2000/groupExpense/getExpenses/?groupId=66081d87da5e17aaa41f0abc&userId=60f6de8066b1c12288a86328
+//http://localhost:2000/groupExpense/getExpenses/?groupId=66081d87da5e17aaa41f0abc
 //user will get expenses of group that he has created
 /**
  * Get all expenses created by a specific user within a group.
@@ -96,8 +95,12 @@ const createExpense = async (req, res) => {
  */
 const getExpenses = async (req, res) => {
     try {
+        userId = req.decoded.userId;
+        
+
+        console.log(userId)
         // Extract user ID and group ID from query parameters
-        const { userId, groupId } = req.query;
+        const { groupId } = req.query;
 
         // Find the group by its ID
         const group = await groupModel.findById(groupId);
@@ -106,7 +109,7 @@ const getExpenses = async (req, res) => {
         }
 
         // Filter the group's expenses to find those created by the specified user
-        const userExpenses = group.expenses.filter(expense => expense.userid.toString() === userId);
+        const userExpenses = group.expenses.filter(expense => expense.userid.toString() === this.userId);
 
         // Return the user's expenses in the group
         res.status(200).json({
@@ -120,7 +123,7 @@ const getExpenses = async (req, res) => {
     }
 };
 
-//http://localhost:2000/groupExpense/memberExpense?member_id=60f6de8066b1c12288a86329
+//http://localhost:2000/groupExpense/memberExpense
 //member will get expenses of group of which he is part of 
 /**
  * Controller function to handle the GET request for retrieving expenses for a member.
@@ -132,19 +135,19 @@ const getExpenses = async (req, res) => {
  */
 const memberExpense = async (req, res) => {
     try {
-        // Extract member_id from request query
-        const { member_id } = req.query;
-
+        const userData = req.decoded;
+        const userId = userData.userId;
+     
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": member_id });
+        const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
-
+        
         // Filter expenses for the member
         const memberExpenses = group.expenses.filter(expense => {
-            return expense.split_members.some(member => member.member_id.toString() === member_id);
+            return expense.split_members.some(member => member.userId.toString() === userId);
         });
 
         res.status(200).json({ memberExpenses });
@@ -154,7 +157,8 @@ const memberExpense = async (req, res) => {
     }
 };
 
-//http://localhost:2000/groupExpense/updateExpenseStatus?memberId=60f6de8066b1c12288a86328&expenseId=66094e555ce8957ccfcc96fb
+
+//http://localhost:2000/groupExpense/updateStatus?expenseId=66094e555ce8957ccfcc96fb
 //member can update  his status
 /**
  * Update the status of an expense for a specific member.
@@ -163,6 +167,45 @@ const memberExpense = async (req, res) => {
  * @param {object} res - The response object.
  * @returns {object} JSON response indicating success or failure.
  */
+const updateStatus = async (req, res) => {
+    try {
+        const userData = req.decoded;
+        const userId = userData.userId;
+        // Extract expense IDfrom query parameters
+        const { expenseId } = req.query;
+
+        // Find the group where the member is added as a split member
+        const group = await groupModel.findOne({ "expenses.split_members.member_id": userId });
+        if (!group) {
+            return res.status(404).json({ error: "No expenses found for the member" });
+        }
+
+        // Find the expense in the group's expenses array
+        const expense = group.expenses.find(expense => expense._id.toString() === expenseId);
+        if (!expense) {
+            return res.status(404).json({ error: "Expense not found" });
+        }
+
+        // Find the split member within the expense
+        const splitMember = expense.split_members.find(member => member.userId.toString() === userId);
+        if (!splitMember) {
+            return res.status(404).json({ error: "Member not found in expense" });
+        }
+
+        // Toggle the status between "Pending" and "Received"
+        splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
+
+        // Save the updated group document to the database
+        await group.save();
+
+        // Sending response
+        res.status(200).json({ success: true, message: "Expense status updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 const updateExpenseStatus = async (req, res) => {
     try {
         // Extract expense ID and member ID from query parameters
@@ -200,5 +243,5 @@ const updateExpenseStatus = async (req, res) => {
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateExpenseStatus}
+module.exports = {createExpense,getExpenses,memberExpense,updateStatus,updateExpenseStatus}
 
