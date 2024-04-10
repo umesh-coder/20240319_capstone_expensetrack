@@ -127,7 +127,7 @@ const getGroupById = async (req, res) => {
 
     // Check if the specified user is a member of the group
     const isMember = group.members.some(
-      (member) => member.toString() === userId
+      (member) => member.toString() === useremail
     );
 
     if (!isMember) {

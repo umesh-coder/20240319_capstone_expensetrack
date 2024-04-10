@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "mongoose-unique-validator": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6"
   }
 }
