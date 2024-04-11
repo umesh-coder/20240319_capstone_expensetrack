@@ -42,8 +42,9 @@ const createExpense = async (req, res) => {
 
         // Check if the user is a member of the group or the creator of the group
         const isGroupMember = group.members.includes(userId);
+        console.log("Check group mem "+isGroupMember)
         const isGroupCreator = group.groupcreatedby.toString() === userId;
-        if (!isGroupMember && !isGroupCreator) {
+        if (isGroupMember ) {
             return res.status(403).json({ error: "Unauthorized access" });
         }
 
@@ -158,97 +159,59 @@ const memberExpense = async (req, res) => {
 };
 
 
-//http://localhost:2000/groupExpense/updateStatus?expenseId=66094e555ce8957ccfcc96fb
-//member can update  his status
-/**
- * Update the status of an expense for a specific member.
- * @const updateExpenseStatus
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {object} JSON response indicating success or failure.
- */
 const updateStatus = async (req, res) => {
     try {
         const userData = req.decoded;
         const userId = userData.userId;
-        // Extract expense IDfrom query parameters
+        // Extract expense ID from query parameters
         const { expenseId } = req.query;
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses.split_members.member_id": userId });
+        const group = await groupModel.findOne({ "expenses.split_members.userId": userId });
         if (!group) {
+            return res.status(404).json({ error: "Group not found or user is not a member of any group" });
+        }
+
+        // Check if group has expenses
+        if (!group.expenses || group.expenses.length === 0) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
 
         // Find the expense in the group's expenses array
-        const expense = group.expenses.find(expense => expense._id.toString() === expenseId);
+        const expense = group.expenses.find(expense => {
+            // Check if expense contains the userId in split_members array
+            return expense.split_members.some(member => member.userId.toString() === userId);
+        });
+
         if (!expense) {
-            return res.status(404).json({ error: "Expense not found" });
+            return res.status(404).json({ error: "Expense not found or user is not a member of the group" });
         }
 
         // Find the split member within the expense
-        const splitMember = expense.split_members.find(member => member.userId.toString() === userId);
-        if (!splitMember) {
-            return res.status(404).json({ error: "Member not found in expense" });
+        const splitMemberIndex = expense.split_members.findIndex(member => member.userId.toString() === userId);
+        if (splitMemberIndex === -1) {
+            return res.status(404).json({ error: "Expense not found or user is not a member of the group" });
         }
 
-        // Toggle the status between "Pending" and "Received"
-        splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
+        // Check if the split member's status is "Pending"
+        if (expense.split_members[splitMemberIndex].status === "Pending") {
+            // Update the status to "Received"
+            expense.split_members[splitMemberIndex].status = "Received";
 
-        // Save the updated group document to the database
-        await group.save();
+            // Save the updated group document to the database
+            await group.save();
 
-        // Sending response
-        res.status(200).json({ success: true, message: "Expense status updated successfully" });
+            // Sending response
+            return res.status(200).json({ success: true, message: "Expense status updated successfully" });
+        } else {
+            // If the status is not "Pending", send an error response
+            return res.status(400).json({ error: "Expense status is already received" });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
-
-/**
- * @function getMembersByGroupId
- * @param {*} req - The request object containing the group ID.
- * @param {*} res - The response object used to send the response back to the client.
- * @description This function retrieves all members of a group based on the provided group ID.
- */
-const getMembers= async (req, res) => {
-    try {
-      // Extract the group ID from the request parameters
-      const { groupId } = req.query;
-  
-      // Find the group by ID
-      const group = await groupModel.findById(groupId);
-  
-      if (!group) {
-        return res.status(404).json({ error: "Group not found" });
-      }
-  
-      // Extract the list of members from the group
-      const members = group.members;
-  
-      res.status(200).json({
-        success: true,
-        members: members,
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
-  
-// Function to generate a random ID
-// Function to generate a random ObjectId-like ID
-function generateRandomId() {
-    const characters = '0123456789abcdef';
-    const length = 24; // Length of ObjectId
-    let id = '';
-    for (let i = 0; i < length; i++) {
-        id += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return id;
-}
 
 const convert = async (req, res) => {
     try {
@@ -301,6 +264,7 @@ const getObjectIdByEmail = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
 const getEmailById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -313,5 +277,4 @@ const getEmailById = async (req, res) => {
     }
 };
 
-module.exports = {createExpense,getExpenses,memberExpense,updateStatus,getMembers,convert,getObjectIdByEmail,getEmailById}
-
+module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById }
