@@ -1,45 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { Table } from 'primeng/table';
 import { ActivityService } from '../../../services/activity.service';
-import { Customer, Representative } from '../domain/activity'
-
+import { Customer, Representative } from '../domain/activity';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
-  styleUrl: './activity.component.scss'
+  styleUrl: './activity.component.scss',
 })
 export class ActivityComponent implements OnInit {
-
   groups: any[] = [];
-
+  expenses: any[] = [];
+  userid: any;
+  groupname: any;
   customers!: Customer[];
 
   representatives!: Representative[];
 
-  statuses!: any[];
+  statuses!: any;
 
   loading: boolean = true;
 
   activityValues: number[] = [0, 100];
+  groupID: any;
+  userIDD: any;
+  groupdata: any;
+  status: any;
 
-  constructor(private customerService: ActivityService) { }
+  useremail!: string[]
 
+  constructor(
+    private customerService: ActivityService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    
-    
-    this.customerService.getAllGroupsByEmail('umesh@dj.com').subscribe(
-      data => {
-        console.log(data.groups);
-        
-        this.groups = data.groups;
+    this.route.queryParams.subscribe((params) => {
+      this.groupID = params['id'];
+    });
+
+    this.customerService.getAllGroupsByEmail(this.groupID).subscribe(
+      (data) => {
+        this.groupname = data.group.name;
+        this.groupdata = data.group;
+        this.expenses = data.group.expenses;
+        for (const exp of this.expenses) {
+          this.customerService.getEmail(exp.userid).subscribe((data) => {
+            this.useremail = data;
+          });
+        }
+
+        for (const st of this.expenses) {
+          for (const member of st.split_members) {
+            this.statuses = member.status;
+          }
+        }
       },
-      error => {
+      (error) => {
         console.error('Error fetching groups:', error);
       }
     );
-    
+  }
 
     //demo data
     // this.customerService.getCustomersLarge().then((customers) => {
@@ -62,55 +84,25 @@ export class ActivityComponent implements OnInit {
     //   { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
     // ];
 
-  //   this.statuses = [
-   
-  //   ];
-  // }
+    //   this.statuses = [
 
-  // clear(table: Table) {
-  //   table.clear();
-  // }
+    //   ];
+    // }
 
+    // clear(table: Table) {
+    //   table.clear();
+    // }
 
-  // getSeverity(status: string) {
-  //   switch (status) {
-  //     case 'unqualified':
-  //       return 'danger';
-
-  //     case 'qualified':
-  //       return 'success';
-
-  //     case 'new':
-  //       return 'info';
-
-  //     case 'negotiation':
-  //       return 'warning';
-
-  //     case 'renewal':
-  //       return null;
-  //   }
-  // }
-
-  // getSeverity(status: string): "danger" | "success" | "info" | "warning" {
-
-  //   console.log("status:-" + status);
-
-
-  //   switch (status) {
-  //     case 'error':
-  //       return 'danger';
-  //     case 'success':
-  //       return 'success';
-  //     case 'info':
-  //       return 'info';
-  //     case 'warning':
-  //       return 'warning';
-  //     default:
-  //       return 'success'; // or return undefined; depending on your requirements
-  //   }
-  // }
-
-
+    getSeverity(status: string): "danger" | "success" | "warning" {
+      switch (status) {
+        case 'pending':
+          return 'danger';
+    
+        case 'received':
+          return 'success';
+    
+        default:
+          return 'warning'; // Handle other statuses
+      }
     }
 }
-

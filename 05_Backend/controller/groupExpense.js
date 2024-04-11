@@ -95,8 +95,9 @@ const createExpense = async (req, res) => {
  */
 const getExpenses = async (req, res) => {
     try {
-        const userData = req.decoded;
-        const userId = userData.userId;
+        userId = req.decoded.userId;
+    
+        console.log(userId)
         // Extract user ID and group ID from query parameters
         const { groupId } = req.query;
 
@@ -107,7 +108,8 @@ const getExpenses = async (req, res) => {
         }
 
         // Filter the group's expenses to find those created by the specified user
-        const userExpenses = group.expenses.filter(expense => expense.userid.toString() === userId);
+        const userExpenses = await groupModel.find({_id:groupId});
+        console.log(userExpenses)
 
         // Return the user's expenses in the group
         res.status(200).json({
@@ -301,10 +303,10 @@ const getObjectIdByEmail = async (req, res) => {
 };
 const getEmailById = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         const user = await UserModel.findById(id);
         if (!user) return res.status(404).send('User not found');
-        res.send(user.email);
+        res.send(JSON.stringify(user.email));
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');

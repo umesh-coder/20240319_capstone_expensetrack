@@ -10,17 +10,23 @@
 <div class="container">
   <div class="sidebar">
     <div class="sidebar-header">
-      <h3>Menu</h3>
+      <h3 style="font-family: Helvetica;font-weight: bold;">Menu</h3>
       <mat-divider></mat-divider>
     </div>
     <ul class="menu-items">
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><button routerLink="/activity">Activity</button></li>
+      <li><button (click)="openGroupDashboard()" mat-raised-button color="primary">Dashboard</button></li>
+      <li><button routerLink="/activity" (click)="openactivity()" mat-raised-button color="primary">Activity</button></li>
     </ul>
     <div class="content">
-      <h3>Members</h3>
-      <li *ngFor="let member of groupMembers">{{ member }}</li>
-    </div>
+      <h3 class="title">Members</h3>
+      <mat-card class="member-card">
+        <mat-card-content>
+          <ul class="member-list">
+            <li *ngFor="let member of groupMembers">{{ member }}</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>    
   </div>
 </div>
 
@@ -41,3 +47,4 @@
     </div>
   </div>
 </div>
+

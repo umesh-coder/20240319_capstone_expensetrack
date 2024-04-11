@@ -44,10 +44,13 @@
 
 .sidebar {
   position: fixed;
+  display: flex;
   left: 0;
-  width: 200px;
+  width: 305px;
   background-color: #f0f0f0;
   padding: 20px;
+  flex-direction: column;
+  height: 100%;
 }
 
 .sidebar-header h3 {
@@ -71,7 +74,8 @@
 
 .content {
   flex: 1;
-  padding: 20px;
+  padding: 10px;
+  flex-wrap: wrap;
 }
 
 .group-details {
@@ -98,12 +102,50 @@
 .group-container {
   display: flex;
   position: relative;
-  margin-left: 200px;
-  margin-top: 40px;
-  width: 80%;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 20px;
+  width: 79%;
   height: 50%;
 }
 
 p {
   margin-right: 15px;
+}
+
+.content {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.title {
+  font-weight: bold;
+  color: #333; /* Adjust color as needed */
+  margin-bottom: 0;
+}
+
+.member-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.member-list li {
+  margin-bottom: 5px; /* Adjust spacing between members */
+  font-size: 14px; /* Adjust font size as needed */
+  color: white; /* Adjust color as needed */
+}
+
+.member-list li::before {
+  // content: "\2022"; /* Use a bullet character */
+  // color: black; /* Adjust color of bullet */
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.member-card {
+  background-color: #673AB7; /* Change to the desired background color */
+  margin-top: 10px; /* Adjust margin as needed */
+  width: auto; /* Adjust width as needed */
+  border-radius: 8px; /* Adjust border radius as needed */
 }

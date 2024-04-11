@@ -13,6 +13,7 @@ import { ViewSingleComponent } from './view-single/view-single.component';
 import { ShowChartComponent } from './show-chart/show-chart.component';
 import {MatListModule} from '@angular/material/list';
 import { GroupExpenseScreenComponent } from '../splitwise/group-expense-screen/group-expense-screen.component';
+import { AddExpenseComponent } from '../header/add-expense/add-expense.component'; 
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     Confirm,
     ViewSingleComponent,
     ShowChartComponent,
-    GroupExpenseScreenComponent
+    GroupExpenseScreenComponent,
     // CreateGroupDialogComponent
   ],
 
