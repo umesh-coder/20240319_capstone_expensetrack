@@ -8,6 +8,7 @@ import { ActivityComponent } from '../activity/activity.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
 import { AuthService } from '../../../auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -148,4 +149,55 @@ export class GroupExpenseScreenComponent implements OnInit {
   }
 
   openActivity(): void { }
+
+
+  deleteGroup(): void {
+    if (!this.groupID) {
+      console.error('No group ID provided to delete.');
+      return;
+    }
+
+    this.http.delete<any>(
+      `http://localhost:2000/group/deletegroup?groupId=${this.groupID}`,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        }),
+      }
+    )
+      .subscribe({
+        next: (response) => {
+          console.log('Group deleted successfully:', response);
+
+          Swal.fire({
+            title: "Group deleted successfully",
+            icon: "success",
+            showConfirmButton: false,
+          });
+
+          
+          document.location.reload()
+
+          // Handle success as needed, such as navigating away
+          // or updating UI to reflect the deletion
+        },
+        error: (error) => {
+          console.error('Error deleting group:', error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error deleting group",
+            showConfirmButton: false,
+          });
+
+          document.location.reload()
+          // Handle error as needed
+        },
+      });
+
+    
+  }
+
+
 }

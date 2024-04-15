@@ -100,6 +100,7 @@ export class AddExpenseComponent implements OnInit {
           icon: "success",
           showConfirmButton: false,
         });
+        document.location.reload()
         // this.websocketService.emit('expenseCreated', expenseData);
       },
       (error) => {
@@ -110,6 +111,7 @@ export class AddExpenseComponent implements OnInit {
           showConfirmButton: false,
         });
         console.error('Error creating expense:', error);
+        document.location.reload()
       }
     );
 

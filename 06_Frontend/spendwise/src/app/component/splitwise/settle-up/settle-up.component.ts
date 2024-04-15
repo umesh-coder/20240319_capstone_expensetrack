@@ -1,6 +1,7 @@
 import { Component,Input  } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-settle-up',
@@ -37,12 +38,27 @@ export class SettleUpComponent {
     ).subscribe({
       next: (response: any) => {
         console.log('Expense status updated successfully:', response);
+        Swal.fire({
+          title: "Settle Up Successfully",
+          icon: "success",
+          showConfirmButton: false,
+        });
         // Close the dialog
         this.dialogRef.close();
+        document.location.reload()
       },
       error: (error: any) => {
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "NOT Settle Yet",
+          showConfirmButton: false,
+        });
+
         console.error('Error updating expense status:', error);
         // Handle error as needed
+        document.location.reload()
       }
     });
     console.log(this.token);
@@ -50,22 +66,5 @@ export class SettleUpComponent {
     this.dialogRef.close();
   }
 
-  // updateExpenseStatus(expenseId: string) {
-  //   // Construct request headers with authorization token
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${this.token}` // Replace 'your_token_here' with the actual JWT token
-  //   });
-
-  //   // Make the API call
-  //   console.log(headers);
-    
-  //   return this.http.put<any>(
-  //     `http://localhost:2000/groupExpense/updateStatus?expenseId=${expenseId}`,
-  //     {
-  //       headers
-  //     }
-
-  //   );
-  // }
+ 
 }

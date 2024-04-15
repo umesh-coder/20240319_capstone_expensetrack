@@ -1,7 +1,8 @@
 //interal dependencies
 const UserModel = require('../models/userModel');
 const groupModel = require('../models/groupModel')
-const expenses = require("../models/createExpense")
+const expenses = require("../models/createExpense");
+const { date } = require('joi');
 /*
 {
     "name": "Groceries",
@@ -122,7 +123,7 @@ const getExpenses = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-};
+}
 
 //http://localhost:2000/groupExpense/memberExpense
 //member will get expenses of group of which he is part of 
@@ -173,52 +174,57 @@ const updateStatus = async (req, res) => {
     try {
         const userData = req.decoded;
         const userId = userData.email;
-        console.log("adanslfnasklfnaslknflkasnflkasnflkasnflknasfnasl  "+userId);
+        console.log("adanslfnasklfnaslknflkasnflkasnflkasnflknasfnasl  " + userId);
         // Extract expense IDfrom query parameters
         console.log("yeh hai user id:-" + userId);
-        const { expenseId } = req.query;
+        // const expenseId = "661ba36f473d7cc9d9a29c8e";
+
+        const {expenseId} = req.query
 
         // console.log("yeh hai expense id:-" + expenseId);
 
         // Find the group where the member is added as a split member
 
         // Find the group where the member is added as a split member
-        const group = await groupModel.findOne({ "expenses._id": expenseId });
-        
+
+        console.log("member id:=" + expenseId);
+
+
+        const group = await groupModel.findOne({ "expenses.split_members._id": expenseId });
+
+
+        console.log("data:- " + group);
 
         if (!group) {
             return res.status(404).json({ error: "No expenses found for the member" });
         }
-        // console.log(group+"yo");
+
         let expenseToUpdate = false;
-        // Iterate over members to find the matching expense
+        // // Iterate over members to find the matching expense
         group.expenses.forEach(members => {
             // console.log(members);
             members.split_members.forEach(member => {
-                // console.log("this tie  "+member.member_id)
+                console.log("this tie  " + member._id)
                 // console.log("hello "+member.member_id.toString());
                 // console.log("user id "+ userId.toString());
-                if (member.member_id.toString() == userId.toString()) {
+                if (member._id == expenseId) {
                     expenseToUpdate = true
-                    console.log("in if");
+                    // console.log("in if");    
                 }
-                // } else {
+                //  else {
                 //     return res.status(404).json({ error: "Memeber not found" });
                 // }
             })
         })
 
-        if (!expenseToUpdate) {
-            return res.status(404).json({ error: "Expense not found" });
-        }
 
         group.expenses.forEach(members => {
             // console.log(members);
             members.split_members.forEach(member => {
-                console.log(member.member_id)
-                if (member.member_id.toString() === userId.toString()) {
+                // console.log(member.member_id)
+                if (member._id == expenseId) {
                     expenseToUpdate = true
-                    console.log(member.status);
+                    // console.log(member.status);
                     if (member.status === "Pending") {
                         member.status = "Recieved"
                     }
@@ -228,8 +234,7 @@ const updateStatus = async (req, res) => {
         })
 
 
-        // Toggle the status between "Pending" and "Received"
-        // splitMember.status = splitMember.status === "Pending" ? "Received" : "Pending";
+        
 
         // Save the updated group document to the database
         await group.save();
@@ -306,5 +311,86 @@ const getEmailById = async (req, res) => {
     }
 };
 
-module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById }
+
+/**
+ * Delete a group by its ID.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {object} JSON response indicating success or failure.
+ */
+const deleteGroupById = async (req, res) => {
+    try {
+        // Extract group ID from request parameters
+        const { groupId } = req.params;
+
+        // Find the group by its ID and remove it
+        const deletedGroup = await groupModel.findByIdAndDelete(groupId);
+
+        // Check if the group exists
+        if (!deletedGroup) {
+            return res.status(404).json({ error: "Group not found" });
+        }
+
+        // Optionally, you can perform additional cleanup tasks here,
+        // such as removing associated expenses or updating other related documents.
+
+        res.status(200).json({
+            success: true,
+            message: "Group deleted successfully",
+            deletedGroup: deletedGroup,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+/**
+ * Get the status of an expense by its ID.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {object} JSON response containing the status of the expense.
+ */
+const getStatusById = async (req, res) => {
+    try {
+        // Extract expense ID from query parameters
+        const { expenseId } = req.query;
+
+        // Find the group containing the expense
+        const group = await groupModel.findOne({ "expenses._id": expenseId });
+
+        if (!group) {
+            return res.status(404).json({ error: "Expense not found" });
+        }
+
+        let expenseStatus = null;
+
+        // Iterate over expenses to find the matching one
+        group.expenses.forEach(expense => {
+            if (expense._id.toString() === expenseId) {
+                // Find the status of the expense
+                expense.split_members.forEach(member => {
+                    if (member._id.toString() === req.decoded.userId.toString()) {
+                        expenseStatus = member.status;
+                    }
+                });
+            }
+        });
+
+        // Check if the status is found
+        if (expenseStatus === null) {
+            return res.status(404).json({ error: "Status not found for the expense" });
+        }
+
+        res.status(200).json({ success: true, status: expenseStatus });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById, deleteGroupById, getStatusById };
+
+
+
 

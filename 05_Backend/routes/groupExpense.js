@@ -10,5 +10,7 @@ router.put("/updateStatus", ensureauth, groupExpense.updateStatus)
 router.get("/convert", ensureauth, groupExpense.convert)
 router.get("/getid", ensureauth, groupExpense.getObjectIdByEmail)
 router.get("/getemail/:id", ensureauth, groupExpense.getEmailById)
+router.delete("/deletegoup/:id",ensureauth,groupExpense.deleteGroupById)
+
 
 module.exports = router

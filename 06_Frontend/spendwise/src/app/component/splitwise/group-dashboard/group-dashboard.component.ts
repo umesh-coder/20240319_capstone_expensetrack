@@ -21,6 +21,12 @@ import { SharedDataService } from '../shared-data.service';
   styleUrl: './group-dashboard.component.scss',
 })
 export class GroupDashboardComponent implements OnInit {
+onAdd() {
+throw new Error('Method not implemented.');
+}
+onOpen(_t143: any) {
+throw new Error('Method not implemented.');
+}
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   groupID: string = '';
@@ -54,6 +60,7 @@ export class GroupDashboardComponent implements OnInit {
     public groupData: groupDashboardService
   ) {
     this.userId = sessionStorage.getItem('Id')?.split(' ')[1];
+    
   }
 
   len:any;
@@ -62,6 +69,9 @@ export class GroupDashboardComponent implements OnInit {
   count: any = 0;
   GName :any = this.dataService.GName;
   ngOnInit(): void {
+
+   
+
     this.isLoading = true;
     this.isDelete = false;
     this.userId = sessionStorage.getItem('Id')?.split(' ')[1];
@@ -86,6 +96,7 @@ export class GroupDashboardComponent implements OnInit {
   }
 
   public getAllExpense(id: any) {
+    
     this.groupData.onGetAllExpense(id).subscribe(
       (res: any) => {
 
@@ -218,4 +229,6 @@ export class GroupDashboardComponent implements OnInit {
       height: '450px',
     });
   }
+
+  
 }

@@ -1,6 +1,6 @@
 <div class="bg">
   <mat-toolbar style="border-bottom: 1px solid black; position: relative;">
-    <span routerLink="/dashboard" >Spend Wise</span>
+    <span routerLink="/dashboard">Spend Wise</span>
     <span class="example-spacer"></span>
 
     <button mat-raised-button color="accent" (click)="onLogout()">
@@ -19,6 +19,9 @@
       <ul class="menu-items">
         <li><button (click)="openGroupDashboard()" mat-raised-button color="primary">Dashboard</button></li>
         <li><button routerLink="/activity" (click)="openactivity()" mat-raised-button color="primary">Activity</button>
+        </li>
+        <li><button routerLink="/dashboard" (click)="deleteGroup()" mat-raised-button color="danger" style="background-color: red; color: white;">Delete
+            Group</button>
         </li>
       </ul>
       <div class="content">

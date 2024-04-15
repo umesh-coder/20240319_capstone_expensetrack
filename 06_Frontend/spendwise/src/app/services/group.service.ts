@@ -24,19 +24,6 @@ export class groupService {
     });
   }
 
-  //   showAllGroups(data: any): Observable<any> {
-  //     // Retrieve the token from local storage
-  //     const token = sessionStorage.getItem('LEAD_ID');
-
-  //     // Set the token in the request headers
-  //     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  //     console.log('Token : == ' + token);
-
-  //     // Send the HTTP request with the token in the headers
-  //     return this.http.get<any>(`${this.baseUrl}/`, data, {
-  //       headers,
-  //     });
-  //   }
 
   getAllGroupsByUserId(): Observable<any> {
     const token = sessionStorage.getItem('LEAD_ID');

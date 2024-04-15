@@ -9,122 +9,75 @@
 
   <!-- [loading]="loading" -->
 
-  <p-table
-    #dt1
-    [value]="groups"
-    dataKey="id"
-    [rows]="10"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [paginator]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="[
+  <p-table #dt1 [value]="groups" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [globalFilterFields]="[
       'name',
       'country.name',
       'representative.name',
       'status'
-    ]"
-  >
+    ]">
     <ng-template pTemplate="header">
       <tr>
         <th style="min-width: 15rem">
           <div class="flex align-items-center">
-            Names
-            <p-columnFilter
-              type="text"
-              field="name"
-              display="menu"
-            ></p-columnFilter>
+            Your Email
+           
           </div>
         </th>
         <th style="min-width: 15rem">
           <div class="flex align-items-center">
-            Expense
-            <p-columnFilter
-              type="text"
-              field="country.name"
-              display="menu"
-            ></p-columnFilter>
+            Balance
+           
           </div>
         </th>
 
         <th style="min-width: 10rem">
           <div class="flex align-items-center">
-            Date
-            <p-columnFilter
-              type="date"
-              field="date"
-              display="menu"
-            ></p-columnFilter>
-          </div>
-        </th>
-        <th style="min-width: 10rem">
-          <div class="flex align-items-center">
-            Balance
-            <p-columnFilter
-              type="numeric"
-              field="balance"
-              display="menu"
-              currency="USD"
-            ></p-columnFilter>
+            Pay
+           
           </div>
         </th>
         <th style="min-width: 10rem">
           <div class="flex align-items-center">
             Status
-            <p-columnFilter field="status" matchMode="equals" display="menu">
-              <ng-template
-                pTemplate="filter"
-                let-value
-                let-filter="filterCallback"
-              >
-                <p-dropdown
-                  [ngModel]="value"
-                  [options]="statuses"
-                  (onChange)="filter($event.value)"
-                  placeholder="Any"
-                >
-                  <!-- <ng-template let-option pTemplate="item">
-                                        <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                                    </ng-template> -->
-                </p-dropdown>
-              </ng-template>
-            </p-columnFilter>
+           
           </div>
         </th>
+       
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-      <tr *ngFor="let exp of expenses">
-        <td>{{ useremail}}</td>
-        <td>{{exp.name}}</td>
-        <td>{{ groupdata.groupcreatedat }}</td>
-        <td>{{ exp.amount }}</td>
-        <p-tag [value]="statuses" [severity]="getSeverity(statuses)"></p-tag>
-        <!-- Conditionally show the Settle Up button -->
-      <td *ngIf="statuses === 'Pending'">
-        <button (click)="openSettleUpDialog(exp._id)" mat-raised-button color="primary">Settle Up</button>
-      </td>
+    
+      <tr  *ngFor="let members of member" >
+
+        <td *ngIf="members.member_id==useremail">{{ members.member_id }}</td>
+
+        <td *ngIf="members.member_id==useremail">{{members.shareamount}}</td>
+
+    
+        <td>
+
+          <div *ngIf="members.member_id==useremail && members.status === 'Pending'">
+            <button mat-raised-button color="primary" (click)="openSettleUpDialog(members._id)">Settle Up</button>
+          </div>
+
+          <div *ngIf="members.member_id==useremail && members.status === 'Recieved'">
+            <button mat-raised-button color="accent" >PAID</button>
+          </div>
+        
+        </td>
+
+        <td *ngIf="members.member_id==useremail">
+
+          <p-tag [value]="members.status"  [severity]="getSeverity(members.status)"></p-tag>
+
+        </td>
+
+
       </tr>
 
-      <!-- <td>
-                    <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
-                        [class]="'flag flag-' + customer.country.code" style="width: 20px" />
-                    <span class="ml-1 vertical-align-middle">{{ customer.country.name }}</span>
-                </td> -->
-
-      <!-- <td>
-                    {{ customer.date | date: 'MM/dd/yyyy' }}
-                </td> -->
-      <!-- <td>
-                    {{ customer.balance | currency: 'USD':'symbol' }}
-                </td> -->
-      <!-- <td>
-                    <p-tag [value]="customer.status" [severity]="getSeverity(customer.status)"></p-tag>
-                </td> -->
-
-      <!-- </tr> -->
     </ng-template>
     <!-- <ng-template pTemplate="emptymessage">
       <tr>

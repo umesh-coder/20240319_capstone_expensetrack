@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
     this.app_version = sessionStorage.getItem('Version');
     console.log(this.groups);
     this.fetchGroups();
+    
   }
 
   onGroupClick(groupId: string): void {
@@ -58,6 +59,7 @@ export class HomeComponent implements OnInit {
 
   refreshGroups(): void {
     this.fetchGroups();
+    
   }
 
   onAdd() {

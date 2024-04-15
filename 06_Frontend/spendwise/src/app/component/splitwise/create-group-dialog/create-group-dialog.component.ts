@@ -47,6 +47,8 @@ export class CreateGroupDialogComponent {
         });
         console.log('Group created successfully:', response);
 
+        document.location.reload()
+
         // Handle success, if needed
       },
       error: (error) => {

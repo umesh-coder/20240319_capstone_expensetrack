@@ -44,7 +44,7 @@ export class BusinessDataService {
       'Authorization': `Bearer ${token}`
     });
 
-    console.log("signup local token:-" + token);
+    // console.log("signup local token:-" + token);
 
 
     return this.http.get('http://localhost:2000/expense/getallexpense/' + this.userid, { headers });
@@ -68,10 +68,10 @@ export class BusinessDataService {
       userid: id,
     }
 
-    console.log("expense user id:" + id);
+    // console.log("expense user id:" + id);
 
 
-    console.log("expense body:-" + body.expense_category);
+    // console.log("expense body:-" + body.expense_category);
 
     return this.http.post('http://localhost:2000/expense/createexpense', body, { headers });
   }
@@ -99,7 +99,7 @@ export class BusinessDataService {
       userid: id,
     }
 
-    console.log("inside import CSV");
+    // console.log("inside import CSV");
 
     return this.http.post('http://localhost:2000/expense/createexpense', body, { headers });
   }
@@ -112,7 +112,7 @@ export class BusinessDataService {
     }
 
 
-    console.log("yes=" + data);
+    // console.log("yes=" + data);
 
 
 
