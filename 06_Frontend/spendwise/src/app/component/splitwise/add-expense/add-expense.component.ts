@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { BusinessDataService } from '../../../services/business-data.service';
 import { SharedDataService } from '../shared-data.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-expense',
@@ -94,9 +95,20 @@ export class AddExpenseComponent implements OnInit {
     this.expenseservice.createExpense(groupId, expenseData).subscribe(
       (response) => {
         console.log('Expense created successfully:', response);
+        Swal.fire({
+          title: "Expend Added Sucessfully",
+          icon: "success",
+          showConfirmButton: false,
+        });
         // this.websocketService.emit('expenseCreated', expenseData);
       },
       (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Enter Expense Details",
+          showConfirmButton: false,
+        });
         console.error('Error creating expense:', error);
       }
     );
