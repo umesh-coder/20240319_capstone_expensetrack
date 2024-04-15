@@ -7,6 +7,7 @@ import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { ActivityComponent } from '../activity/activity.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-group-expense-screen',
@@ -27,26 +28,30 @@ export class GroupExpenseScreenComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private dataService: SharedDataService
+    private dataService: SharedDataService,
+    public authService: AuthService
   ) {
-    
+
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.groupID = params['id'];
     });
-    
+
     this.getGroupDetails();
+
+    const token = sessionStorage.getItem('LEAD_ID');
+    this.authService.authAfterReferesh(true, token);
   }
 
   sendData(): void {
-    console.log("group members  ::::"+this.groupMembers)
+    // console.log("group members  ::::" + this.groupMembers)
     const dataToSend = this.groupID;
     const groupMembers = this.groupMembers
     const groupName = this.groupName
-    
-    this.dataService.setData(dataToSend,groupMembers,groupName);
+
+    this.dataService.setData(dataToSend, groupMembers, groupName);
   }
 
   openactivity() {
@@ -122,7 +127,7 @@ export class GroupExpenseScreenComponent implements OnInit {
           // Handle error as needed
         },
       });
-     
+
   }
 
   onLogout() {
@@ -142,5 +147,5 @@ export class GroupExpenseScreenComponent implements OnInit {
     });
   }
 
-  openActivity(): void {}
+  openActivity(): void { }
 }

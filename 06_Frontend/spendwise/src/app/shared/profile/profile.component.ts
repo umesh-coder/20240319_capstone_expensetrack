@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
       let lastLogin = (res.data.lastlogindate).toString().split('T')[0];
       this.lines = [
         { content: 'User Since', text: firstDate },
-        { content: 'Expense Logged', text: res.data.expenselogged },
+        // { content: 'Expense Logged', text: res.data.expenselogged },
         { content: 'Last Login', text: lastLogin },
       ];
       this.name = res.data.name;

@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 import { ActivityComponent } from './component/splitwise/activity/activity.component';
 import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
 import { SuggestionsComponent } from './suggestions/suggestions.component';
+import { WelcomeComponent } from './component/welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -29,26 +30,31 @@ const routes: Routes = [
 
   {
     path: 'dashboard',
+    title: 'Group Expense | SpendWise',
     loadChildren: () =>
       import('./component/home/home.module').then((m) => m.HomeModule),
   },
 
   {
     path: 'activity',
-    component: ActivityComponent
+    title: 'Group Expense Activity | SpendWise',
+    component: ActivityComponent,
+    canActivate: [AuthGuard],
   },
 
   {
-    path:'group-dashboard',
-    component:GroupDashboardComponent
+    path: 'group-dashboard',
+    title: 'Group Expense Dashboard | SpendWise',
+    component: GroupDashboardComponent,
+    canActivate: [AuthGuard],
   },
 
   {
-    path:'suggestions',
-    component:SuggestionsComponent
+    path: 'suggestions',
+    component: SuggestionsComponent
   },
 
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: WelcomeComponent },
 ];
 
 @NgModule({
