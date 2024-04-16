@@ -20,7 +20,7 @@ SpendWise is a powerful expense tracker developed by Umesh Shelare using the MEA
 - **AngularJS**: Frontend framework for building dynamic and interactive user interfaces.
 - **Node.js**: Server-side JavaScript runtime for developing scalable network applications.
 - **Bootstrap**: Frontend framework for responsive and mobile-first web development.
-- **Chart.js**: JavaScript library for creating interactive charts and graphs.
+- **NG-Chart**: Angular library for creating interactive charts and graphs.
 - **JWT**: Authentication middleware for Node.js ensuring secure authentication.
 
 ## Getting Started
