@@ -1,7 +1,37 @@
-<div *ngIf="isLoading">
+<!-- <div *ngIf="isLoading">
     <app-loader></app-loader>
+</div> -->
+
+<div *ngIf="isLoading" style="padding: 15px;">
+
+    <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+      'border-radius': '5px',
+      height: '150px',
+      
+      'animation-duration': '2s'
+
+    }"></ngx-skeleton-loader>
+
+    <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+          'border-radius': '5px',
+          height: '400px',
+          
+          'animation-duration': '2s'
+    
+        }"></ngx-skeleton-loader>
+
+        <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+              'border-radius': '5px',
+              height: '250px',
+              
+              'animation-duration': '2s'
+        
+            }"></ngx-skeleton-loader>
+
+
 </div>
-<div class="main" *ngIf="!isLoading" >
+
+<div class="main" *ngIf="!isLoading">
     <div class="row row-col-4">
         <div class="col-lg-3 col-xs-3 col-md-12 col-sm-6" *ngFor="let card of cards">
             <mat-card class="matContnet">
@@ -16,6 +46,8 @@
             </mat-card>
         </div>
     </div>
+
+
     <div class="row row-col-2">
         <div class="col-sm-6 col-xs-12">
             <mat-card>
@@ -51,7 +83,7 @@
                 <mat-card-title style="padding: 10px 20px;">Detail Summary</mat-card-title>
                 <mat-card-subtitle style="padding: 10px 20px;">Click on row to Edit/Delete Expense</mat-card-subtitle>
                 <mat-card-content class="tableContent">
-                    <!-- <app-tableview></app-tableview> -->
+
                     <div style="margin: 0px 8px; margin-bottom: 20px;">
                         <div class="mat-elevation-z8">
                             <div class="table-container">

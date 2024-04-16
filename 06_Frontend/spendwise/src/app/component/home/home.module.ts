@@ -14,6 +14,7 @@ import { ShowChartComponent } from './show-chart/show-chart.component';
 import { MatListModule } from '@angular/material/list';
 import { GroupExpenseScreenComponent } from '../splitwise/group-expense-screen/group-expense-screen.component';
 import { AddExpenseComponent } from '../header/add-expense/add-expense.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const routes: Routes = [
   {
@@ -40,6 +41,6 @@ const routes: Routes = [
     // CreateGroupDialogComponent
   ],
 
-  imports: [CommonModule, SharedModule, RouterModule.forChild(routes), MatListModule],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes), MatListModule, NgxSkeletonLoaderModule],
 })
 export class HomeModule { }

@@ -179,7 +179,7 @@ const updateStatus = async (req, res) => {
         console.log("yeh hai user id:-" + userId);
         // const expenseId = "661ba36f473d7cc9d9a29c8e";
 
-        const {expenseId} = req.query
+        const { expenseId } = req.query
 
         // console.log("yeh hai expense id:-" + expenseId);
 
@@ -234,7 +234,7 @@ const updateStatus = async (req, res) => {
         })
 
 
-        
+
 
         // Save the updated group document to the database
         await group.save();
@@ -345,51 +345,9 @@ const deleteGroupById = async (req, res) => {
     }
 };
 
-/**
- * Get the status of an expense by its ID.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {object} JSON response containing the status of the expense.
- */
-const getStatusById = async (req, res) => {
-    try {
-        // Extract expense ID from query parameters
-        const { expenseId } = req.query;
 
-        // Find the group containing the expense
-        const group = await groupModel.findOne({ "expenses._id": expenseId });
 
-        if (!group) {
-            return res.status(404).json({ error: "Expense not found" });
-        }
-
-        let expenseStatus = null;
-
-        // Iterate over expenses to find the matching one
-        group.expenses.forEach(expense => {
-            if (expense._id.toString() === expenseId) {
-                // Find the status of the expense
-                expense.split_members.forEach(member => {
-                    if (member._id.toString() === req.decoded.userId.toString()) {
-                        expenseStatus = member.status;
-                    }
-                });
-            }
-        });
-
-        // Check if the status is found
-        if (expenseStatus === null) {
-            return res.status(404).json({ error: "Status not found for the expense" });
-        }
-
-        res.status(200).json({ success: true, status: expenseStatus });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-};
-
-module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById, deleteGroupById, getStatusById };
+module.exports = { createExpense, getExpenses, memberExpense, updateStatus, convert, getObjectIdByEmail, getEmailById, deleteGroupById };
 
 
 

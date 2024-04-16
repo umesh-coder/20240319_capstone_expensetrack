@@ -6,8 +6,37 @@
   </mat-toolbar>
 </div>
 
-<div *ngIf="isLoading">
+<!-- <div *ngIf="isLoading">
   <app-loader></app-loader>
+</div> -->
+
+<div *ngIf="isLoading" style="padding: 15px;">
+
+  <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+      'border-radius': '5px',
+      height: '150px',
+      
+      'animation-duration': '2s'
+
+    }"></ngx-skeleton-loader>
+
+  <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+          'border-radius': '5px',
+          height: '400px',
+          
+          'animation-duration': '2s'
+    
+        }"></ngx-skeleton-loader>
+
+  <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+              'border-radius': '5px',
+              height: '250px',
+              
+              'animation-duration': '2s'
+        
+            }"></ngx-skeleton-loader>
+
+
 </div>
 
 <div class="main" *ngIf="!isLoading">

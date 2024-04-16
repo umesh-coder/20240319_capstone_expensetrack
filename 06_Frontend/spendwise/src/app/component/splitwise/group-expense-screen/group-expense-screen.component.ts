@@ -24,6 +24,8 @@ export class GroupExpenseScreenComponent implements OnInit {
 
   showDialog: boolean = false;
 
+  createdbyid: string='';
+  auid:any='';
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -47,7 +49,8 @@ export class GroupExpenseScreenComponent implements OnInit {
   }
 
   sendData(): void {
-    // console.log("group members  ::::" + this.groupMembers)
+  
+
     const dataToSend = this.groupID;
     const groupMembers = this.groupMembers
     const groupName = this.groupName
@@ -73,6 +76,8 @@ export class GroupExpenseScreenComponent implements OnInit {
       this.wordAfterSpace = tokenParts[1]; // Assign value to wordAfterSpace property
     }
 
+
+
     this.http
       .get<any>(
         `http://localhost:2000/group/groupbyid?groupId=${this.groupID}`,
@@ -88,9 +93,22 @@ export class GroupExpenseScreenComponent implements OnInit {
           console.log('ioaonafnokanoifaonfanoi' + JSON.stringify(response));
 
           this.groupName = response.group.name;
+          this.createdbyid = response.group.groupcreatedby
           // Initialize amounts to 0
           let amountOwedToYou = 0;
           let amountOwed = 0;
+
+          
+          console.log("cretd by "+this.createdbyid);
+          
+          
+
+          this.auid=this.userID?.split(' ')[1]
+
+          const aauid=this.auid[1]
+
+          console.log("creted by id" + this.auid);
+         
 
           // Iterate over expenses
           for (const expense of response.group.expenses) {
@@ -169,18 +187,28 @@ export class GroupExpenseScreenComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('Group deleted successfully:', response);
-
           Swal.fire({
-            title: "Group deleted successfully",
-            icon: "success",
-            showConfirmButton: false,
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+            }
+            document.location.reload()
           });
-
           
-          document.location.reload()
+        
 
-          // Handle success as needed, such as navigating away
-          // or updating UI to reflect the deletion
+  
         },
         error: (error) => {
           console.error('Error deleting group:', error);

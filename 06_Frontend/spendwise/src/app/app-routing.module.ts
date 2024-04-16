@@ -46,7 +46,7 @@ const routes: Routes = [
     path: 'group-dashboard',
     title: 'Group Expense Dashboard | SpendWise',
     component: GroupDashboardComponent,
-    canActivate: [AuthGuard],
+    
   },
 
   {

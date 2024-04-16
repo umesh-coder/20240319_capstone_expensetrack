@@ -122,6 +122,7 @@ import { MessageService } from 'primeng/api';
 import { ActivityService } from './services/activity.service';
 import { GroupDashboardComponent } from './component/splitwise/group-dashboard/group-dashboard.component';
 import { SuggestionsComponent } from './suggestions/suggestions.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -244,6 +245,7 @@ import { SuggestionsComponent } from './suggestions/suggestions.component';
     CardModule,
     RippleModule,
     StyleClassModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     HttpClientModule,

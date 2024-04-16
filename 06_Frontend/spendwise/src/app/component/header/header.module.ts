@@ -10,7 +10,7 @@ import { ImportComponent } from './import/import.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 const routes: Routes = [
   {
     path: '',
@@ -34,6 +34,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forChild(routes),
+    NgxSkeletonLoaderModule
   ],
 })
 export class HeaderModule { }

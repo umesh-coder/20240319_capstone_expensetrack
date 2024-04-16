@@ -32,15 +32,45 @@
             </button>
             <span>Spend Wise</span>
             <span class="example-spacer"></span>
-       
+
             <button mat-raised-button color="accent" (click)="onLogout()">
                 <mat-icon>logout</mat-icon>Logout
             </button>
         </mat-toolbar>
     </div>
-    <div *ngIf="isLoading">
+    <!-- <div *ngIf="isLoading">
         <app-loader></app-loader>
+    </div> -->
+
+    <div *ngIf="isLoading" style="margin-top: 45px;">
+    
+        <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+          'border-radius': '5px',
+          height: '300px',
+          
+          'animation-duration': '2s'
+    
+        }"></ngx-skeleton-loader>
+    
+        <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+              'border-radius': '5px',
+              height: '400px',
+              
+              'animation-duration': '2s'
+        
+            }"></ngx-skeleton-loader>
+    
+        <ngx-skeleton-loader count="1" appearance="line" animation="animation" [theme]="{
+                  'border-radius': '5px',
+                  height: '250px',
+                  
+                  'animation-duration': '2s'
+            
+                }"></ngx-skeleton-loader>
+    
+    
     </div>
+
     <div *ngIf="!isLoading">
         <app-dashboard></app-dashboard>
     </div>
