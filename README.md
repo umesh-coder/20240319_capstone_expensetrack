@@ -27,11 +27,12 @@ SpendWise is a powerful expense tracker developed by Umesh Shelare using the MEA
 
 To begin using SpendWise, follow these steps:
 
-1. Clone the repository to your local machine.
-2. Install dependencies using `npm install`.
-3. Set up MongoDB and configure the connection settings in `config/db.js`.
-4. Run the server using `npm run start`.
-5. Access the application in your browser at `http://localhost:2000`.
+1. Clone the repository to your local machine Branch(main).
+2. For **BACKEND** Open Folder 05_Backend then Do `npm install`
+3. To Run Backend Use 'npm run start"
+4. For **FRONTEND** Open Folder 06_Frontend/spendwise then do `npm install --force` Because of NPM WebSocket.
+5. To Run Frontend Use 'npm run start".
+6. Access the application in your browser at `http://localhost:2000`.
 
 ## Contributors
 
