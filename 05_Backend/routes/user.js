@@ -4,7 +4,6 @@ const routes = express.Router();
 
 //internal dependencies
 const { signup, login, deleteaccount } = require("../controller/user")
-// const { createexpense } = require("../controller/expense")
 const { ensureauth } = require("../middleware/middleware")
 const { validateSignup, validateLogin } = require('../utils/validator'); // Adjust the path as necessary
 

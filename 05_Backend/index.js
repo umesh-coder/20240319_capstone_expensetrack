@@ -34,7 +34,7 @@ const group = require("./routes/group");
 
 
 
-const groupExpense=require("./routes/groupExpense");
+const groupExpense = require("./routes/groupExpense");
 
 // Internal dependencies
 /**
@@ -93,7 +93,7 @@ app.use("/group", group)
 /**
  * GroupExpense management routes.
  */
- app.use("/groupExpense",groupExpense)
+app.use("/groupExpense", groupExpense)
 
 // Catch all unhandled routes
 /**
@@ -120,14 +120,6 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send({ error: "Something broke!" });
 });
-
-// Start the server after the database connection is successful
-/**
- * Starts the server and listens on the specified port after the database connection is successful.
- * Handles errors that occur when the server starts listening.
- */
-
-
 
 
 // Start the server after the database connection is successful

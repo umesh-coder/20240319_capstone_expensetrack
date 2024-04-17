@@ -32,9 +32,6 @@ const createexpense = mongoose.Schema({
     {
       member_id: {
         type :String
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: "groupschema",
-        // required: true,
       },
       shareamount: { type: Number },
       status: { type: String },
