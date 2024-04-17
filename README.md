@@ -38,6 +38,10 @@ To begin using SpendWise, follow these steps:
 
 - Umesh Shelare: Full Stack Developer
 
+## Deployed
+
+https://spontaneous-meerkat-09c8de.netlify.app/
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
